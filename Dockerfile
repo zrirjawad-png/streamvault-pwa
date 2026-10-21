@@ -1,5 +1,5 @@
-# Dockerfile for Render.com Free Web Service
-# Installs Node.js 20, Python 3, ffmpeg, and latest yt-dlp for YouTube, Instagram, TikTok & Facebook
+# Production Dockerfile for StreamVault Video Proxy (Render.com / Railway / Docker)
+# Includes Node.js 20, Python 3, ffmpeg (for audio/video muxing), and the latest yt-dlp binary
 FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
