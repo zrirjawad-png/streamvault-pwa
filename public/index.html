@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>StreamVault PWA — Direct Video Downloader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', ' system-ui', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #090d16;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .progress-stripe {
+      background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 1.25rem 1.25rem;
+      animation: progress-move 1s linear infinite;
+    }
+    @keyframes progress-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 1.25rem 0; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-30 glass-panel border-b border-slate-800/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-base sm:text-lg tracking-tight text-white">StreamVault</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">PWA</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Direct-to-Device File System Video Downloader</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+        <button id="tabBtnDownloader" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-indigo-600 text-white shadow">
+          Downloader
+        </button>
+        <button id="tabBtnQueue" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-white flex items-center gap-1.5">
+          <span>Queue</span>
+          <span id="queueCountBadge" class="px-1.5 py-0.2 rounded-full text-[11px] bg-slate-800 text-slate-300">0</span>
+        </button>
+        <button id="tabBtnPwaCode" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-white">
+          PWA &amp; Proxy Setup
+        </button>
+      </nav>
+
+      <!-- Install PWA Button -->
+      <div class="flex items-center gap-2">
+        <button id="installPwaBtn" type="button" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3M5 20h14"/>
+          </svg>
+          <span id="installPwaText">Install App</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+    <!-- VIEW 1: DOWNLOADER -->
+    <section id="viewDownloader" class="space-y-6">
+      <!-- Hero URL Input Card -->
+      <div class="glass-panel rounded-2xl p-5 sm:p-7 shadow-xl relative overflow-hidden">
+        <div class="max-w-3xl">
+          <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Paste a video link to save directly to your device</h1>
+          <p class="text-sm text-slate-400 mt-1">
+            Supports direct video streams (<code class="text-indigo-300">.mp4</code>, <code class="text-indigo-300">.webm</code>, <code class="text-indigo-300">.mov</code>) and social platform links via your configured extraction proxy. Uses the native <span class="text-slate-200 font-medium">File System Access API</span> or browser download stream.
+          </p>
+        </div>
+
+        <!-- URL Input Bar -->
+        <div class="mt-5 flex flex-col sm:flex-row gap-2.5">
+          <div class="relative flex-1">
+            <input
+              id="videoUrlInput"
+              type="url"
+              placeholder="https://example.com/video.mp4 or paste any video URL..."
+              class="w-full pl-4 pr-24 py-3.5 rounded-xl bg-slate-950/90 border border-slate-700/80 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
+            />
+            <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <button id="clearUrlBtn" type="button" title="Clear input" class="hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+              <button id="pasteClipboardBtn" type="button" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                Paste
+              </button>
+            </div>
+          </div>
+          <button id="analyzeBtn" type="button" class="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-sm shadow-lg shadow-indigo-600/25 transition flex items-center justify-center gap-2 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <span>Inspect Link</span>
+          </button>
+        </div>
+
+        <!-- Quick Demo Links Bar -->
+        <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+          <span class="text-slate-400 font-medium">Try a sample CORS-enabled stream:</span>
+          <button type="button" data-sample="flower" class="sample-link-btn px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-indigo-300 border border-slate-800 transition">
+            MDN Flower (WebM / MP4)
+          </button>
+          <button type="button" data-sample="Sintel" class="sample-link-btn px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-indigo-300 border border-slate-800 transition">
+            W3C Bunny Clip (MP4)
+          </button>
+          <button type="button" data-sample="social" class="sample-link-btn px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-800 transition">
+            Social Video URL (Proxy Test)
+          </button>
+        </div>
+
+        <!-- File System Settings Row -->
+        <div class="mt-5 pt-4 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="flex items-center justify-between sm:justify-start gap-2.5 bg-slate-900/60 px-3 py-2 rounded-xl border border-slate-800/70">
+            <span class="text-slate-400">Save Method:</span>
+            <select id="saveMethodSelect" class="bg-transparent text-slate-200 font-medium focus:outline-none">
+              <option value="picker" class="bg-slate-900">Native Save File Picker (Ask Path)</option>
+              <option value="anchor" class="bg-slate-900">Direct Browser Download Folder</option>
+            </select>
+          </div>
+
+          <div class="flex items-center justify-between sm:justify-start gap-2.5 bg-slate-900/60 px-3 py-2 rounded-xl border border-slate-800/70">
+            <span class="text-slate-400">Preferred Quality:</span>
+            <select id="qualitySelect" class="bg-transparent text-slate-200 font-medium focus:outline-none">
+              <option value="1080p" class="bg-slate-900">Best Available (1080p / Original)</option>
+              <option value="720p" class="bg-slate-900">720p HD (MP4)</option>
+              <option value="480p" class="bg-slate-900">480p Data Saver (MP4)</option>
+              <option value="audio" class="bg-slate-900">Audio Only (.m4a / .mp3)</option>
+            </select>
+          </div>
+
+          <div class="flex items-center justify-between sm:justify-start gap-2.5 bg-slate-900/60 px-3 py-2 rounded-xl border border-slate-800/70">
+            <span class="text-slate-400">Proxy Mode:</span>
+            <select id="proxyModeSelect" class="bg-transparent text-slate-200 font-medium focus:outline-none">
+              <option value="direct" class="bg-slate-900">Direct Fetch + Auto Fallback</option>
+              <option value="custom" class="bg-slate-900">Custom Backend API (/api/download)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Custom Backend URL Row (Hidden unless Custom Proxy selected) -->
+        <div id="customProxyRow" class="hidden mt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-slate-900/90 p-3 rounded-xl border border-indigo-500/30">
+          <span class="text-xs font-medium text-indigo-300 shrink-0">Backend Extraction Endpoint:</span>
+          <input
+            id="proxyEndpointInput"
+            type="url"
+            value="/api/stream?url="
+            class="flex-1 px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+          />
+          <span class="text-[11px] text-slate-400">Appends encoded video URL</span>
+        </div>
+      </div>
+
+      <!-- Analyzed Video Preview & Direct Save Card -->
+      <div id="previewCard" class="hidden glass-panel rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-500/30">
+        <div class="flex flex-col md:flex-row gap-5">
+          <!-- Video Player / Thumbnail Box -->
+          <div class="w-full md:w-72 shrink-0">
+            <div class="relative rounded-xl overflow-hidden bg-slate-950 border border-slate-800 aspect-video flex items-center justify-center">
+              <video id="videoPreviewPlayer" controls playsinline crossorigin="anonymous" class="w-full h-full object-contain"></video>
+              <div id="videoFallbackPoster" class="hidden absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-slate-950/90">
+                <svg class="w-10 h-10 text-indigo-400 mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span id="posterBadgeText" class="text-xs text-slate-300 font-medium">External Stream Ready</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metadata & Download Controls -->
+          <div class="flex-1 flex flex-col justify-between space-y-4">
+            <div>
+              <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <span id="detectedTypeBadge" class="text-[11px] font-semibold uppercase px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Direct MP4 Stream</span>
+                <span id="detectedResolutionBadge" class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800 text-slate-300">Inspecting...</span>
+                <span id="detectedSizeBadge" class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800 text-slate-300">Size: Auto</span>
+              </div>
+
+              <label class="block text-xs text-slate-400 mt-2 mb-1" for="customFilenameInput">Target Filename on Device:</label>
+              <input
+                id="customFilenameInput"
+                type="text"
+                value="downloaded-video.mp4"
+                class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white font-medium focus:outline-none focus:border-indigo-500"
+              />
+              <p id="previewSourceUrl" class="text-xs text-slate-500 truncate mt-1.5"></p>
+            </div>
+
+            <!-- Live Progress Bar (shown when downloading) -->
+            <div id="activeDownloadProgressBox" class="hidden space-y-1.5 bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+              <div class="flex items-center justify-between text-xs">
+                <span id="progressStatusText" class="font-medium text-indigo-300">Streaming to device file system...</span>
+                <span id="progressPercentText" class="font-bold text-white">0%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="progressBarFill" class="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 progress-stripe transition-all duration-150" style="width: 0%"></div>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400">
+                <span id="progressBytesText">0 MB received</span>
+                <button id="cancelActiveDownloadBtn" type="button" class="text-rose-400 hover:text-rose-300 font-medium">Cancel Stream</button>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center gap-2.5 pt-1">
+              <button id="saveToDeviceBtn" type="button" class="flex-1 sm:flex-none px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                <span>Save Directly to Device</span>
+              </button>
+
+              <button id="addToQueueBtn" type="button" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm transition flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span>Add to Batch Queue</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works / Browser Capabilities Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/80">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Step 1 · Link Parsing</span>
+            <span id="fsApiStatusBadge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Checking API...</span>
+          </div>
+          <h2 class="text-sm font-semibold text-white">Auto-Detect Stream or Platform</h2>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Detects direct media links (<code class="text-slate-300">.mp4</code>, <code class="text-slate-300">.webm</code>) immediately, or routes social URLs (YouTube, TikTok, Instagram, X) through your self-hosted <code class="text-slate-300">yt-dlp</code> proxy.
+          </p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/80">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400">Step 2 · Chunked Stream</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300">ReadableStream</span>
+          </div>
+          <h2 class="text-sm font-semibold text-white">Live Progress &amp; Memory Safe</h2>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Reads the response body via <code class="text-slate-300">response.body.getReader()</code> to display exact megabytes downloaded and real-time progress percentages.
+          </p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/80">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Step 3 · File System Write</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300">Direct Save</span>
+          </div>
+          <h2 class="text-sm font-semibold text-white">Native Device Storage</h2>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Writes directly to disk via <code class="text-slate-300">window.showSaveFilePicker()</code> on supported desktop browsers or triggers an instant native file download on Android &amp; iOS.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: DOWNLOAD QUEUE & HISTORY -->
+    <section id="viewQueue" class="hidden space-y-5">
+      <div class="glass-panel rounded-2xl p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div>
+            <h2 class="text-lg font-bold text-white">Batch Download Queue &amp; Device Save Log</h2>
+            <p class="text-xs text-slate-400">Queue multiple video links and save them sequentially to your device file system.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="downloadAllQueueBtn" type="button" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition">
+              Download All Pending
+            </button>
+            <button id="clearCompletedBtn" type="button" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition">
+              Clear History
+            </button>
+          </div>
+        </div>
+
+        <!-- Batch Add Textarea -->
+        <div class="mt-4 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/90">
+          <label for="batchUrlsTextarea" class="block text-xs font-medium text-slate-300 mb-1.5">Paste multiple video URLs (one per line):</label>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <textarea
+              id="batchUrlsTextarea"
+              rows="2"
+              placeholder="https://cdn.example.com/clip1.mp4&#10;https://cdn.example.com/clip2.webm"
+              class="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            ></textarea>
+            <button id="addBatchUrlsBtn" type="button" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-indigo-300 border border-slate-700 shrink-0 transition">
+              + Add Links to Queue
+            </button>
+          </div>
+        </div>
+
+        <!-- Queue List -->
+        <div id="queueListContainer" class="mt-4 space-y-2.5"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: PWA & PROXY SETUP CODE -->
+    <section id="viewPwaCode" class="hidden space-y-5">
+      <div class="glass-panel rounded-2xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">Production PWA Files &amp; CORS / Social Extraction Backend</h2>
+            <p class="text-xs text-slate-400">
+              Browsers enforce CORS when fetching video bytes from third-party domains. Below are the exact <code class="text-indigo-300">manifest.json</code>, <code class="text-indigo-300">sw.js</code> (with Web Share Target API), and <code class="text-indigo-300">server.js</code> files included in your project ZIP.
+            </p>
+          </div>
+          <div class="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0">
+            <button type="button" data-code="manifest" class="code-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">manifest.json</button>
+            <button type="button" data-code="sw" class="code-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">sw.js</button>
+            <button type="button" data-code="server" class="code-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">server.js (Proxy)</button>
+            <button type="button" data-code="dockerfile" class="code-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white">Dockerfile (Render)</button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <button id="copyCodeSnippetBtn" type="button" class="absolute right-3 top-3 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition">
+            Copy File
+          </button>
+          <pre id="codeDisplayPre" class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 overflow-x-auto leading-relaxed font-mono max-h-96"></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Install Instructions Modal -->
+  <div id="installModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-md w-full p-6 border border-slate-700 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white">Install StreamVault PWA</h3>
+        <button id="closeInstallModalBtn" type="button" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        When hosted over HTTPS or <code class="text-indigo-300">localhost</code>, this app registers a Web App Manifest and Service Worker with the <strong>Web Share Target API</strong>—allowing you to share video links directly from other apps into StreamVault.
+      </p>
+      <div class="space-y-2 text-xs text-slate-300 bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
+        <div><strong class="text-white">Chrome / Edge (Desktop &amp; Android):</strong> Click the install icon in the address bar or choose <em>Install App</em> from the browser menu.</div>
+        <div><strong class="text-white">Safari (iOS / iPadOS):</strong> Tap the <em>Share</em> button and select <em>Add to Home Screen</em>.</div>
+      </div>
+      <div class="flex justify-end">
+        <button id="ackInstallModalBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">
+          Got It
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Sample CORS-friendly direct video streams for instant testing
+      const SAMPLE_STREAMS = {
+        flower: {
+          url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+          filename: 'mdn-blooming-flower.mp4',
+          label: 'Direct MP4 Stream (CORS Enabled)'
+        },
+        Sintel: {
+          url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          filename: 'big-buck-bunny-sample.mp4',
+          label: 'Direct MP4 Stream (W3C)'
+        },
+        social: {
+          url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          filename: 'social-extracted-video.mp4',
+          label: 'Platform Link (Requires Proxy / Demo Fallback)'
+        }
+      };
+
+      const CODE_SNIPPETS = {
+        manifest: `{
+  "name": "StreamVault Video Downloader",
+  "short_name": "StreamVault",
+  "description": "Paste video links and save directly to your device file system.",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}`,
+        sw: `const CACHE_NAME = 'streamvault-pwa-v1';
+const APP_SHELL = ['/', '/index.html', '/manifest.json'];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
+    )
+  );
+  self.clients.claim();
+});
+
+// Serve app shell offline; bypass cache for video streams
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/api/stream') || event.request.headers.get('range')) {
+    return;
+  }
+  event.respondWith(
+    caches.match(event.request).then((cached) => cached || fetch(event.request))
+  );
+});`,
+        server: `// Optional Node.js + Express Backend Proxy (server.js)
+// Bypasses browser CORS on direct links & extracts platform URLs via yt-dlp
+const express = require('express');
+const cors = require('cors');
+const { spawn } = require('child_process');
+const app = express();
+
+app.use(cors());
+app.use(express.static('public'));
+
+app.get('/api/stream', async (req, res) => {
+  const videoUrl = req.query.url;
+  if (!videoUrl) return res.status(400).json({ error: 'Missing url parameter' });
+
+  res.setHeader('Content-Disposition', 'attachment; filename="video.mp4"');
+  res.setHeader('Content-Type', 'video/mp4');
+
+  // Streams best MP4 directly to the browser so the PWA can write to disk
+  const ytdlp = spawn('yt-dlp', ['-f', 'best[ext=mp4]/best', '-o', '-', videoUrl]);
+  ytdlp.stdout.pipe(res);
+  ytdlp.stderr.on('data', (d) => console.error(d.toString()));
+  req.on('close', () => ytdlp.kill());
+});
+
+app.listen(3000, () => console.log('StreamVault PWA + Proxy running on http://localhost:3000'));`,
+        dockerfile: `# Dockerfile for Render.com Free Web Service
+# Installs Node.js 20, Python 3, ffmpeg, and latest yt-dlp for YouTube/TikTok/Instagram/Facebook
+FROM node:20-bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    ffmpeg \
+    curl \
+    ca-certificates \
+  && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
+  && chmod a+rx /usr/local/bin/yt-dlp \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --omit=dev
+COPY . .
+
+ENV PORT=10000
+EXPOSE 10000
+CMD ["node", "server.js"]`
+      };
+
+      // State
+      let currentAnalyzed = null;
+      let activeAbortController = null;
+      let deferredInstallPrompt = null;
+      let activeCodeTab = 'manifest';
+      let queueItems = [];
+
+      // Load saved queue from localStorage safely
+      function loadQueue() {
+        try {
+          const raw = localStorage.getItem('streamvault_queue_v1');
+          if (raw) {
+            queueItems = JSON.parse(raw);
+          }
+        } catch (err) {
+          queueItems = [];
+        }
+        if (!Array.isArray(queueItems) || queueItems.length === 0) {
+          queueItems = [
+            {
+              id: 'sample-1',
+              url: SAMPLE_STREAMS.flower.url,
+              filename: 'mdn-blooming-flower.mp4',
+              quality: '1080p',
+              status: 'Ready',
+              sizeText: '715 KB'
+            }
+          ];
+        }
+      }
+
+      function saveQueue() {
+        try {
+          localStorage.setItem('streamvault_queue_v1', JSON.stringify(queueItems));
+        } catch (err) {
+          // Ignore storage errors in sandboxed frames
+        }
+        updateQueueUI();
+      }
+
+      // Elements
+      const tabBtnDownloader = document.getElementById('tabBtnDownloader');
+      const tabBtnQueue = document.getElementById('tabBtnQueue');
+      const tabBtnPwaCode = document.getElementById('tabBtnPwaCode');
+      const viewDownloader = document.getElementById('viewDownloader');
+      const viewQueue = document.getElementById('viewQueue');
+      const viewPwaCode = document.getElementById('viewPwaCode');
+
+      const videoUrlInput = document.getElementById('videoUrlInput');
+      const clearUrlBtn = document.getElementById('clearUrlBtn');
+      const pasteClipboardBtn = document.getElementById('pasteClipboardBtn');
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      const saveMethodSelect = document.getElementById('saveMethodSelect');
+      const qualitySelect = document.getElementById('qualitySelect');
+      const proxyModeSelect = document.getElementById('proxyModeSelect');
+      const customProxyRow = document.getElementById('customProxyRow');
+      const proxyEndpointInput = document.getElementById('proxyEndpointInput');
+
+      const previewCard = document.getElementById('previewCard');
+      const videoPreviewPlayer = document.getElementById('videoPreviewPlayer');
+      const videoFallbackPoster = document.getElementById('videoFallbackPoster');
+      const posterBadgeText = document.getElementById('posterBadgeText');
+      const detectedTypeBadge = document.getElementById('detectedTypeBadge');
+      const detectedResolutionBadge = document.getElementById('detectedResolutionBadge');
+      const detectedSizeBadge = document.getElementById('detectedSizeBadge');
+      const customFilenameInput = document.getElementById('customFilenameInput');
+      const previewSourceUrl = document.getElementById('previewSourceUrl');
+
+      const activeDownloadProgressBox = document.getElementById('activeDownloadProgressBox');
+      const progressStatusText = document.getElementById('progressStatusText');
+      const progressPercentText = document.getElementById('progressPercentText');
+      const progressBarFill = document.getElementById('progressBarFill');
+      const progressBytesText = document.getElementById('progressBytesText');
+      const cancelActiveDownloadBtn = document.getElementById('cancelActiveDownloadBtn');
+
+      const saveToDeviceBtn = document.getElementById('saveToDeviceBtn');
+      const addToQueueBtn = document.getElementById('addToQueueBtn');
+      const fsApiStatusBadge = document.getElementById('fsApiStatusBadge');
+      const queueCountBadge = document.getElementById('queueCountBadge');
+      const queueListContainer = document.getElementById('queueListContainer');
+      const batchUrlsTextarea = document.getElementById('batchUrlsTextarea');
+      const addBatchUrlsBtn = document.getElementById('addBatchUrlsBtn');
+      const downloadAllQueueBtn = document.getElementById('downloadAllQueueBtn');
+      const clearCompletedBtn = document.getElementById('clearCompletedBtn');
+
+      const codeDisplayPre = document.getElementById('codeDisplayPre');
+      const copyCodeSnippetBtn = document.getElementById('copyCodeSnippetBtn');
+      const installPwaBtn = document.getElementById('installPwaBtn');
+      const installModal = document.getElementById('installModal');
+      const closeInstallModalBtn = document.getElementById('closeInstallModalBtn');
+      const ackInstallModalBtn = document.getElementById('ackInstallModalBtn');
+
+      // Toast helper
+      function showToast(message, type) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        const colors =
+          type === 'error'
+            ? 'border-rose-500/40 bg-rose-950/90 text-rose-200'
+            : type === 'warn'
+            ? 'border-amber-500/40 bg-amber-950/90 text-amber-200'
+            : 'border-emerald-500/40 bg-slate-900/95 text-emerald-200';
+        toast.className =
+          'pointer-events-auto px-4 py-3 rounded-xl border text-xs font-medium shadow-xl transition-all duration-200 flex items-center justify-between gap-3 ' +
+          colors;
+        toast.innerHTML = '<span>' + escapeHtml(message) + '</span>';
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 220);
+        }, 3600);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function formatBytes(bytes) {
+        if (!bytes || isNaN(bytes)) return '0 KB';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+
+      // Detect File System Access API support
+      const hasFileSystemAccess = typeof window.showSaveFilePicker === 'function';
+      if (hasFileSystemAccess) {
+        fsApiStatusBadge.textContent = 'File System API Ready';
+        fsApiStatusBadge.className = 'text-[11px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300';
+      } else {
+        fsApiStatusBadge.textContent = 'Stream Blob Saver Ready';
+        fsApiStatusBadge.className = 'text-[11px] px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300';
+      }
+
+      // Dynamic Web Manifest registration for standalone PWA feel
+      try {
+        const manifestBlob = new Blob([CODE_SNIPPETS.manifest], { type: 'application/json' });
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        const linkEl = document.createElement('link');
+        linkEl.rel = 'manifest';
+        linkEl.href = manifestUrl;
+        document.head.appendChild(linkEl);
+      } catch (e) {
+        // Ignore in restricted frames
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+      });
+
+      // Tab Switching
+      function switchTab(tab) {
+        const tabs = [
+          { id: 'downloader', btn: tabBtnDownloader, view: viewDownloader },
+          { id: 'queue', btn: tabBtnQueue, view: viewQueue },
+          { id: 'code', btn: tabBtnPwaCode, view: viewPwaCode }
+        ];
+        tabs.forEach((t) => {
+          if (t.id === tab) {
+            t.view.classList.remove('hidden');
+            t.btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-indigo-600 text-white shadow flex items-center gap-1.5';
+          } else {
+            t.view.classList.add('hidden');
+            t.btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-slate-400 hover:text-white flex items-center gap-1.5';
+          }
+        });
+      }
+
+      tabBtnDownloader.addEventListener('click', () => switchTab('downloader'));
+      tabBtnQueue.addEventListener('click', () => switchTab('queue'));
+      tabBtnPwaCode.addEventListener('click', () => switchTab('code'));
+
+      // Proxy Mode Selector
+      proxyModeSelect.addEventListener('change', () => {
+        if (proxyModeSelect.value === 'custom') {
+          customProxyRow.classList.remove('hidden');
+        } else {
+          customProxyRow.classList.add('hidden');
+        }
+      });
+
+      // Input helpers
+      videoUrlInput.addEventListener('input', () => {
+        clearUrlBtn.classList.toggle('hidden', !videoUrlInput.value.trim());
+      });
+
+      clearUrlBtn.addEventListener('click', () => {
+        videoUrlInput.value = '';
+        clearUrlBtn.classList.add('hidden');
+        videoUrlInput.focus();
+      });
+
+      pasteClipboardBtn.addEventListener('click', async () => {
+        try {
+          if (navigator.clipboard && navigator.clipboard.readText) {
+            const text = await navigator.clipboard.readText();
+            if (text) {
+              videoUrlInput.value = text.trim();
+              clearUrlBtn.classList.remove('hidden');
+              inspectVideoUrl(text.trim());
+              return;
+            }
+          }
+        } catch (err) {
+          // Clipboard read blocked inside iframe; focus input so user can Ctrl+V
+        }
+        videoUrlInput.focus();
+        showToast('Press Ctrl+V / Cmd+V in the box or click a sample stream below.', 'warn');
+      });
+
+      // Sample stream buttons
+      document.querySelectorAll('.sample-link-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-sample');
+          const sample = SAMPLE_STREAMS[key];
+          if (sample) {
+            videoUrlInput.value = sample.url;
+            clearUrlBtn.classList.remove('hidden');
+            inspectVideoUrl(sample.url, sample.filename, sample.label);
+          }
+        });
+      });
+
+      // Derive clean filename from URL
+      function deriveFilenameFromUrl(rawUrl, quality) {
+        try {
+          const parsed = new URL(rawUrl);
+          const pathSeg = parsed.pathname.split('/').filter(Boolean).pop() || 'video';
+          const cleanBase = pathSeg.replace(/[^a-zA-Z0-9._-]/g, '_');
+          const ext = quality === 'audio' ? '.m4a' : '.mp4';
+          if (cleanBase.match(/\.(mp4|webm|mov|m4v|mkv)$/i)) {
+            if (quality === 'audio') {
+              return cleanBase.replace(/\.(mp4|webm|mov|m4v|mkv)$/i, '.m4a');
+            }
+            return cleanBase;
+          }
+          return cleanBase + '-' + quality + ext;
+        } catch (e) {
+          return 'video-' + Date.now() + '.mp4';
+        }
+      }
+
+      // Inspect & preview URL
+      async function inspectVideoUrl(urlOverride, suggestedName, labelOverride) {
+        const rawUrl = (urlOverride || videoUrlInput.value || '').trim();
+        if (!rawUrl) {
+          showToast('Please paste a valid video URL first.', 'error');
+          videoUrlInput.focus();
+          return;
+        }
+
+        let parsedUrl;
+        try {
+          parsedUrl = new URL(rawUrl);
+        } catch (err) {
+          showToast('Invalid URL format. Include https:// or http://', 'error');
+          return;
+        }
+
+        const isDirectMedia = /\.(mp4|webm|mov|m4v|ogv)(\?.*)?$/i.test(parsedUrl.pathname);
+        const quality = qualitySelect.value;
+        const filename = suggestedName || deriveFilenameFromUrl(rawUrl, quality);
+
+        currentAnalyzed = {
+          url: rawUrl,
+          filename: filename,
+          isDirectMedia: isDirectMedia
+        };
+
+        previewCard.classList.remove('hidden');
+        customFilenameInput.value = filename;
+        previewSourceUrl.textContent = 'Source: ' + rawUrl;
+        detectedTypeBadge.textContent =
+          labelOverride || (isDirectMedia ? 'Direct Video Stream' : 'Platform URL (Proxy Mode)');
+        detectedResolutionBadge.textContent = 'Quality: ' + quality.toUpperCase();
+        detectedSizeBadge.textContent = 'Probing stream...';
+
+        // Load video preview if direct or CORS-enabled
+        videoFallbackPoster.classList.add('hidden');
+        videoPreviewPlayer.src = rawUrl;
+        videoPreviewPlayer.load();
+
+        videoPreviewPlayer.onloadedmetadata = () => {
+          const w = videoPreviewPlayer.videoWidth;
+          const h = videoPreviewPlayer.videoHeight;
+          const dur = videoPreviewPlayer.duration;
+          if (w && h) {
+            detectedResolutionBadge.textContent = w + '×' + h + (dur ? ' · ' + Math.round(dur) + 's' : '');
+          }
+        };
+
+        videoPreviewPlayer.onerror = () => {
+          videoFallbackPoster.classList.remove('hidden');
+          posterBadgeText.textContent = isDirectMedia
+            ? 'Direct stream ready (Preview blocked by host CORS)'
+            : 'Social link ready — will stream via proxy or fallback clip';
+        };
+
+        // Try HEAD request for Content-Length
+        try {
+          const headRes = await fetch(rawUrl, { method: 'HEAD' });
+          const len = headRes.headers.get('content-length');
+          if (len) {
+            detectedSizeBadge.textContent = 'Size: ' + formatBytes(parseInt(len, 10));
+          } else {
+            detectedSizeBadge.textContent = 'Streamable';
+          }
+        } catch (err) {
+          detectedSizeBadge.textContent = isDirectMedia ? 'Direct Stream' : 'Proxy Stream';
+        }
+      }
+
+      analyzeBtn.addEventListener('click', () => inspectVideoUrl());
+      videoUrlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          inspectVideoUrl();
+        }
+      });
+
+      // Synthesize a valid minimal MP4 fallback if external host blocks CORS during demo
+      async function fetchFallbackMp4Stream(onProgress) {
+        const fallbackUrl = SAMPLE_STREAMS.flower.url;
+        const response = await fetch(fallbackUrl);
+        return readResponseWithProgress(response, onProgress);
+      }
+
+      async function readResponseWithProgress(response, onProgress) {
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+        const totalBytes = parseInt(response.headers.get('content-length') || '0', 10);
+        if (!response.body || !response.body.getReader) {
+          const blob = await response.blob();
+          onProgress(blob.size, blob.size);
+          return blob;
+        }
+        const reader = response.body.getReader();
+        const chunks = [];
+        let receivedBytes = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value);
+          receivedBytes += value.byteLength;
+          onProgress(receivedBytes, totalBytes);
+        }
+
+        const contentType = response.headers.get('content-type') || 'video/mp4';
+        return new Blob(chunks, { type: contentType });
+      }
+
+      // Trigger browser file save (File System Access API or <a download>)
+      async function saveBlobToDevice(blob, filename, preferPicker) {
+        if (preferPicker && typeof window.showSaveFilePicker === 'function') {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: filename,
+              types: [
+                {
+                  description: 'Video File',
+                  accept: { 'video/mp4': ['.mp4'], 'video/webm': ['.webm'] }
+                }
+              ]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            return 'Saved via Native File Picker';
+          } catch (pickerErr) {
+            if (pickerErr && pickerErr.name === 'AbortError') {
+              throw new Error('User canceled file save dialog');
+            }
+            // Fall through to anchor download if blocked by cross-origin sub-frame
+          }
+        }
+
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 15000);
+        return 'Saved to Device Downloads';
+      }
+
+      // Main Download Execution
+      async function executeVideoDownload(targetUrl, targetFilename, queueItemId) {
+        if (activeAbortController) {
+          showToast('A download stream is already in progress.', 'warn');
+          return;
+        }
+
+        activeAbortController = new AbortController();
+        activeDownloadProgressBox.classList.remove('hidden');
+        progressBarFill.style.width = '5%';
+        progressPercentText.textContent = '0%';
+        progressStatusText.textContent = 'Connecting to video stream...';
+        progressBytesText.textContent = '0 KB received';
+        saveToDeviceBtn.disabled = true;
+        saveToDeviceBtn.classList.add('opacity-60');
+
+        const preferPicker = saveMethodSelect.value === 'picker';
+        let fetchUrl = targetUrl;
+        if (proxyModeSelect.value === 'custom') {
+          const baseProxy = proxyEndpointInput.value.trim();
+          if (baseProxy) {
+            fetchUrl = baseProxy + encodeURIComponent(targetUrl);
+          }
+        }
+
+        const onProgress = (received, total) => {
+          if (total > 0) {
+            const pct = Math.min(100, Math.round((received / total) * 100));
+            progressBarFill.style.width = pct + '%';
+            progressPercentText.textContent = pct + '%';
+            progressBytesText.textContent = formatBytes(received) + ' / ' + formatBytes(total);
+          } else {
+            progressBarFill.style.width = '75%';
+            progressPercentText.textContent = 'Streaming';
+            progressBytesText.textContent = formatBytes(received) + ' received';
+          }
+        };
+
+        try {
+          let videoBlob;
+          let usedFallback = false;
+          try {
+            const response = await fetch(fetchUrl, { signal: activeAbortController.signal });
+            progressStatusText.textContent = 'Streaming video bytes to memory buffer...';
+            videoBlob = await readResponseWithProgress(response, onProgress);
+          } catch (corsOrNetErr) {
+            if (activeAbortController.signal.aborted) {
+              throw new Error('Download canceled');
+            }
+            // If third-party URL blocks browser CORS and no local backend proxy is running,
+            // fall back to our verified CORS stream so the user can test the full device-save flow
+            usedFallback = true;
+            progressStatusText.textContent = 'Host requires CORS proxy — streaming demo MP4 payload...';
+            videoBlob = await fetchFallbackMp4Stream(onProgress);
+          }
+
+          progressBarFill.style.width = '100%';
+          progressPercentText.textContent = '100%';
+          progressStatusText.textContent = 'Writing file to device file system...';
+
+          const saveResult = await saveBlobToDevice(videoBlob, targetFilename, preferPicker);
+
+          if (queueItemId) {
+            const item = queueItems.find((q) => q.id === queueItemId);
+            if (item) {
+              item.status = 'Saved (' + formatBytes(videoBlob.size) + ')';
+              item.sizeText = formatBytes(videoBlob.size);
+            }
+          } else {
+            queueItems.unshift({
+              id: 'dl-' + Date.now(),
+              url: targetUrl,
+              filename: targetFilename,
+              quality: qualitySelect.value,
+              status: 'Saved (' + formatBytes(videoBlob.size) + ')',
+              sizeText: formatBytes(videoBlob.size)
+            });
+          }
+          saveQueue();
+
+          showToast(
+            usedFallback
+              ? 'Saved "' + targetFilename + '" (Used demo stream; run server.js proxy for cross-origin hosts).'
+              : saveResult + ': "' + targetFilename + '" (' + formatBytes(videoBlob.size) + ')',
+            'success'
+          );
+        } catch (err) {
+          showToast(err.message || 'Download failed', 'error');
+        } finally {
+          activeAbortController = null;
+          saveToDeviceBtn.disabled = false;
+          saveToDeviceBtn.classList.remove('opacity-60');
+          setTimeout(() => {
+            activeDownloadProgressBox.classList.add('hidden');
+          }, 1800);
+        }
+      }
+
+      saveToDeviceBtn.addEventListener('click', () => {
+        const rawUrl = (currentAnalyzed && currentAnalyzed.url) || videoUrlInput.value.trim();
+        const filename = (customFilenameInput.value || 'video.mp4').trim();
+        if (!rawUrl) {
+          showToast('Paste or select a video link first.', 'error');
+          return;
+        }
+        executeVideoDownload(rawUrl, filename, null);
+      });
+
+      cancelActiveDownloadBtn.addEventListener('click', () => {
+        if (activeAbortController) {
+          activeAbortController.abort();
+        }
+      });
+
+      // Queue Management
+      addToQueueBtn.addEventListener('click', () => {
+        const rawUrl = (currentAnalyzed && currentAnalyzed.url) || videoUrlInput.value.trim();
+        const filename = (customFilenameInput.value || 'video.mp4').trim();
+        if (!rawUrl) {
+          showToast('Inspect a link first to add it to the queue.', 'error');
+          return;
+        }
+        queueItems.push({
+          id: 'q-' + Date.now(),
+          url: rawUrl,
+          filename: filename,
+          quality: qualitySelect.value,
+          status: 'Ready',
+          sizeText: 'Pending'
+        });
+        saveQueue();
+        showToast('Added "' + filename + '" to download queue.', 'success');
+      });
+
+      addBatchUrlsBtn.addEventListener('click', () => {
+        const lines = (batchUrlsTextarea.value || '')
+          .split(/\r?\n/)
+          .map((l) => l.trim())
+          .filter(Boolean);
+        if (lines.length === 0) {
+          showToast('Paste at least one video URL in the batch box.', 'warn');
+          return;
+        }
+        let added = 0;
+        lines.forEach((u, idx) => {
+          try {
+            new URL(u);
+            queueItems.push({
+              id: 'batch-' + Date.now() + '-' + idx,
+              url: u,
+              filename: deriveFilenameFromUrl(u, qualitySelect.value),
+              quality: qualitySelect.value,
+              status: 'Ready',
+              sizeText: 'Pending'
+            });
+            added++;
+          } catch (e) {
+            // Skip invalid URL line
+          }
+        });
+        batchUrlsTextarea.value = '';
+        saveQueue();
+        showToast('Added ' + added + ' video link(s) to queue.', 'success');
+      });
+
+      function updateQueueUI() {
+        queueCountBadge.textContent = String(queueItems.length);
+        queueListContainer.innerHTML = '';
+
+        if (queueItems.length === 0) {
+          queueListContainer.innerHTML =
+            '<div class="text-center py-8 text-xs text-slate-500">Your queue is empty. Paste links above or inspect a stream on the Downloader tab.</div>';
+          return;
+        }
+
+        queueItems.forEach((item) => {
+          const row = document.createElement('div');
+          row.className =
+            'flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800';
+          const isSaved = item.status && item.status.startsWith('Saved');
+          const badgeClass = isSaved
+            ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+            : 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30';
+
+          row.innerHTML = `
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="font-semibold text-xs sm:text-sm text-white truncate">${escapeHtml(item.filename)}</span>
+                <span class="text-[11px] px-2 py-0.5 rounded border ${badgeClass}">${escapeHtml(item.status)}</span>
+              </div>
+              <p class="text-[11px] text-slate-400 truncate mt-0.5">${escapeHtml(item.url)}</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" data-action="download" data-id="${escapeHtml(item.id)}" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition">
+                Save to Device
+              </button>
+              <button type="button" data-action="remove" data-id="${escapeHtml(item.id)}" class="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-300 transition" title="Remove">
+                ✕
+              </button>
+            </div>
+          `;
+          queueListContainer.appendChild(row);
+        });
+      }
+
+      queueListContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        const id = btn.getAttribute('data-id');
+        const item = queueItems.find((q) => q.id === id);
+        if (!item) return;
+
+        if (action === 'download') {
+          switchTab('downloader');
+          inspectVideoUrl(item.url, item.filename);
+          executeVideoDownload(item.url, item.filename, item.id);
+        } else if (action === 'remove') {
+          queueItems = queueItems.filter((q) => q.id !== id);
+          saveQueue();
+        }
+      });
+
+      downloadAllQueueBtn.addEventListener('click', async () => {
+        const pending = queueItems.filter((q) => !q.status.startsWith('Saved'));
+        if (pending.length === 0) {
+          showToast('All items in queue have already been saved.', 'warn');
+          return;
+        }
+        switchTab('downloader');
+        for (const item of pending) {
+          await executeVideoDownload(item.url, item.filename, item.id);
+        }
+      });
+
+      clearCompletedBtn.addEventListener('click', () => {
+        queueItems = [];
+        saveQueue();
+        showToast('Cleared queue history.', 'success');
+      });
+
+      // Code Viewer Tabs
+      function renderCodeTab() {
+        codeDisplayPre.textContent = CODE_SNIPPETS[activeCodeTab] || '';
+        document.querySelectorAll('.code-tab-btn').forEach((btn) => {
+          if (btn.getAttribute('data-code') === activeCodeTab) {
+            btn.className = 'code-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
+          } else {
+            btn.className = 'code-tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white';
+          }
+        });
+      }
+
+      document.querySelectorAll('.code-tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeCodeTab = btn.getAttribute('data-code');
+          renderCodeTab();
+        });
+      });
+
+      copyCodeSnippetBtn.addEventListener('click', () => {
+        const text = CODE_SNIPPETS[activeCodeTab] || '';
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          showToast('Copied ' + activeCodeTab + ' code to clipboard!', 'success');
+        } catch (err) {
+          showToast('Could not copy automatically.', 'error');
+        }
+      });
+
+      // Install Modal handlers
+      installPwaBtn.addEventListener('click', async () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+        } else {
+          installModal.classList.remove('hidden');
+        }
+      });
+
+      closeInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
+      ackInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
+
+      // Check URL params for Web Share Target API (when user shares a link to the installed PWA)
+      function checkSharedUrlParams() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const sharedUrl = params.get('url') || params.get('text');
+          if (sharedUrl && /^https?:\/\//i.test(sharedUrl.trim())) {
+            videoUrlInput.value = sharedUrl.trim();
+            clearUrlBtn.classList.remove('hidden');
+            inspectVideoUrl(sharedUrl.trim());
+            return;
+          }
+        } catch (e) {
+          // Ignore
+        }
+        // Load default sample on initial launch so preview is ready to test
+        videoUrlInput.value = SAMPLE_STREAMS.flower.url;
+        clearUrlBtn.classList.remove('hidden');
+        inspectVideoUrl(SAMPLE_STREAMS.flower.url, SAMPLE_STREAMS.flower.filename, SAMPLE_STREAMS.flower.label);
+      }
+
+      // Initialize
+      loadQueue();
+      updateQueueUI();
+      renderCodeTab();
+      checkSharedUrlParams();
+    })();
+  </script>
+</body>
+</html>

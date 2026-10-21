@@ -1,0 +1,13 @@
+{
+  "name": "streamvault-video-downloader-pwa",
+  "version": "1.0.0",
+  "description": "PWA Video Downloader with direct File System Access API saving and optional yt-dlp streaming proxy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
