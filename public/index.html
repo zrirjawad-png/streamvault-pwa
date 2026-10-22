@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#0b0f19">
+  <title>StreamVault — Free Online Video Downloader</title>
   <link rel="manifest" href="/manifest.json">
-  <title>StreamVault — Universal Video Downloader</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,12 +25,13 @@
   <style>
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background-color: #0b0f19;
+      background-color: #070b14;
+      background-image: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.16), transparent 55%);
       color: #f8fafc;
       overflow-x: hidden;
     }
     .glass-card {
-      background: rgba(17, 24, 39, 0.85);
+      background: rgba(15, 23, 42, 0.82);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -46,7 +47,7 @@
         transparent
       );
       background-size: 1.25rem 1.25rem;
-      animation: progress-move 1s linear infinite;
+      animation: progress-move 0.9s linear infinite;
     }
     @keyframes progress-move {
       0% { background-position: 0 0; }
@@ -59,12 +60,11 @@
   <!-- Toast Notifications -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
-  <!-- Header -->
+  <!-- Public Navigation Header -->
   <header class="sticky top-0 z-30 glass-card border-b border-slate-800/80">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-      <!-- Logo -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
           </svg>
@@ -72,303 +72,268 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">StreamVault</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Fast &amp; Direct</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">HD Downloader</span>
           </div>
-          <p class="text-xs text-slate-400 hidden sm:block">Save YouTube, Instagram, TikTok &amp; Direct Videos</p>
+          <p class="text-xs text-slate-400 hidden sm:block">Free Online Video &amp; Audio Saver</p>
         </div>
       </div>
 
-      <!-- Action Buttons -->
       <div class="flex items-center gap-2">
-        <button id="downloadZipHeaderBtn" type="button" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5" title="Download Backend Proxy (.ZIP)">
-          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-          </svg>
-          <span class="hidden sm:inline">Backend ZIP</span>
-        </button>
-        <button id="settingsBtn" type="button" class="p-2 rounded-xl text-slate-300 bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 transition" title="Backend Settings">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-        </button>
-        <button id="installPwaBtn" type="button" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition flex items-center gap-1.5">
+        <button id="installPwaBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3M5 20h14"/>
           </svg>
-          <span id="installPwaText">Install</span>
+          <span id="installPwaText">Install App</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content Area -->
-  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
+  <!-- Main Content -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
 
-    <!-- HERO DOWNLOAD CARD -->
-    <section class="glass-card rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-      <div class="text-center max-w-xl mx-auto space-y-2">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          Download Any Video in 1 Click
+    <!-- HERO DOWNLOADER CARD -->
+    <section class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Download Videos &amp; Audio in Seconds
         </h1>
-        <p class="text-sm text-slate-400">
-          Paste a link from <span class="text-red-400 font-medium">YouTube</span>, <span class="text-pink-400 font-medium">Instagram</span>, <span class="text-cyan-400 font-medium">TikTok</span>, or direct MP4 stream to save it directly to your device storage.
+        <p class="text-sm sm:text-base text-slate-400">
+          Paste any link from YouTube, Instagram, TikTok, Facebook, or X to save high-definition MP4 video or MP3/M4A audio directly to your device.
         </p>
+
+        <!-- Supported Platform Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
+          <span class="px-2.5 py-1 rounded-full bg-red-500/10 text-red-300 border border-red-500/20 font-medium">YouTube &amp; Shorts</span>
+          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 border border-pink-500/20 font-medium">Instagram Reels</span>
+          <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-medium">TikTok</span>
+          <span class="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 font-medium">Facebook</span>
+          <span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">X / Twitter</span>
+        </div>
       </div>
 
-      <!-- MAIN INPUT BAR -->
-      <div class="mt-7 max-w-2xl mx-auto space-y-3">
+      <!-- URL Input Form -->
+      <div class="mt-8 max-w-2xl mx-auto space-y-4">
         <div class="relative flex items-center">
-          <!-- Platform Icon Badge (Dynamically detected) -->
-          <div id="platformIconContainer" class="absolute left-3.5 flex items-center justify-center w-7 h-7 rounded-lg bg-slate-800 text-slate-400">
+          <!-- Detected Platform Badge -->
+          <div id="platformIconContainer" class="absolute left-3.5 flex items-center justify-center w-8 h-8 rounded-xl bg-slate-800/90 text-slate-400">
             <svg id="defaultIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
             </svg>
-            <span id="platformTextBadge" class="hidden text-[10px] font-bold uppercase px-1.5 py-0.5 rounded"></span>
+            <span id="platformTextBadge" class="hidden text-[10px] font-bold uppercase px-2 py-1 rounded-lg"></span>
           </div>
 
           <input
             id="urlInput"
             type="url"
-            placeholder="Paste YouTube, Instagram, or video link here..."
-            class="w-full pl-14 pr-24 py-4 rounded-2xl bg-slate-950/90 border border-slate-700/80 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition shadow-inner"
+            autocomplete="off"
+            placeholder="Paste video link here (https://...)"
+            class="w-full pl-14 pr-28 py-4 sm:py-4.5 rounded-2xl bg-slate-950/95 border border-slate-700/80 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/25 transition shadow-inner"
           />
 
-          <!-- Right side input buttons -->
           <div class="absolute right-2.5 flex items-center gap-1.5">
-            <button id="clearInputBtn" type="button" class="hidden p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition" title="Clear link">
+            <button id="clearInputBtn" type="button" class="hidden p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition" title="Clear link">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
-            <button id="pasteBtn" type="button" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition flex items-center gap-1.5 shadow-sm">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <button id="pasteBtn" type="button" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
               </svg>
-              Paste
+              <span>Paste</span>
             </button>
           </div>
         </div>
 
-        <!-- Format & Quality Selector Pills -->
-        <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
-          <div class="flex items-center gap-1.5 bg-slate-950/70 p-1 rounded-xl border border-slate-800">
-            <button type="button" data-quality="1080p" class="quality-pill px-3 py-1.5 rounded-lg font-semibold bg-indigo-600 text-white shadow transition">
-              🎬 1080p MP4 (Best)
+        <!-- Format & Quality Pills -->
+        <div class="flex flex-wrap items-center justify-center sm:justify-between gap-2 pt-1">
+          <div class="flex flex-wrap items-center justify-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 w-full sm:w-auto">
+            <button type="button" data-quality="1080p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition">
+              🎬 MP4 1080p
             </button>
-            <button type="button" data-quality="720p" class="quality-pill px-3 py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition">
-              📺 720p MP4
+            <button type="button" data-quality="720p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
+              📺 MP4 720p
             </button>
-            <button type="button" data-quality="audio" class="quality-pill px-3 py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition">
+            <button type="button" data-quality="480p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
+              📱 MP4 480p
+            </button>
+            <button type="button" data-quality="audio" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
               🎵 Audio (MP3/M4A)
             </button>
           </div>
 
-          <div class="flex items-center gap-1.5 text-xs text-slate-400">
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span id="backendStatusNotice">Direct stream &amp; proxy ready</span>
+          <div class="hidden sm:flex items-center gap-1.5 text-xs text-slate-400">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Auto HD Audio + Video Merge</span>
           </div>
         </div>
 
-        <!-- Big Download Action Button -->
-        <div class="pt-2">
-          <button id="startDownloadBtn" type="button" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 active:scale-[0.99] text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2.5">
+        <!-- Primary Download Button -->
+        <div class="pt-1">
+          <button id="startDownloadBtn" type="button" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:scale-[0.99] text-white font-bold text-base shadow-xl shadow-indigo-600/25 transition flex items-center justify-center gap-2.5">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            <span id="downloadBtnText">Download Video</span>
-          </button>
-        </div>
-
-        <!-- Quick Demo Chips -->
-        <div class="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
-          <span class="text-slate-500 font-medium">Test Samples:</span>
-          <button type="button" data-demo="youtube" class="demo-chip px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-rose-300 border border-rose-500/20 transition flex items-center gap-1">
-            <span>▶</span> YouTube Video
-          </button>
-          <button type="button" data-demo="instagram" class="demo-chip px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-pink-300 border border-pink-500/20 transition flex items-center gap-1">
-            <span>📷</span> Instagram Reel
-          </button>
-          <button type="button" data-demo="direct" class="demo-chip px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-emerald-300 border border-emerald-500/20 transition flex items-center gap-1">
-            <span>⚡</span> Direct MP4 Stream
+            <span id="downloadBtnText">Download Now</span>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- LIVE ACTIVE DOWNLOAD / PROGRESS CARD (Appears during download) -->
-    <section id="downloadProgressSection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-500/40 space-y-4">
-      <div class="flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-            <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-            </svg>
-          </div>
-          <div>
-            <h2 id="downloadStatusTitle" class="text-sm sm:text-base font-bold text-white">Connecting to video stream...</h2>
-            <p id="downloadFilenameLabel" class="text-xs text-slate-400 truncate max-w-xs sm:max-w-md">video.mp4</p>
-          </div>
-        </div>
-        <div class="text-right">
-          <span id="downloadPercentText" class="text-lg sm:text-xl font-extrabold text-indigo-400">0%</span>
-        </div>
-      </div>
-
-      <!-- Progress Bar Track -->
-      <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
-        <div id="progressBarFill" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 rounded-full progress-stripe transition-all duration-150" style="width: 5%;"></div>
-      </div>
-
-      <!-- Progress Details & Cancel -->
-      <div class="flex items-center justify-between text-xs text-slate-400 pt-0.5">
-        <span id="downloadBytesText">0 KB / Calculating total...</span>
-        <button id="cancelStreamBtn" type="button" class="text-rose-400 hover:text-rose-300 font-semibold px-2 py-1 rounded hover:bg-rose-950/40 transition">
-          Cancel Download
-        </button>
-      </div>
-    </section>
-
-    <!-- VIDEO PREVIEW CARD (Shown when link is inspected or ready) -->
-    <section id="previewCard" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
-      <div class="flex flex-col sm:flex-row gap-4 items-start">
-        <!-- Thumbnail / Player -->
-        <div class="w-full sm:w-56 shrink-0 aspect-video rounded-xl bg-slate-950 border border-slate-800 overflow-hidden relative flex items-center justify-center">
-          <video id="videoPreviewEl" controls playsinline crossorigin="anonymous" class="w-full h-full object-contain"></video>
-          <div id="videoFallbackThumbnail" class="hidden absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-3 text-center">
+    <!-- VIDEO METADATA PREVIEW CARD (Appears when link is pasted) -->
+    <section id="previewCard" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-slate-800">
+      <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
+        <!-- Video Thumbnail -->
+        <div class="w-full sm:w-52 shrink-0 aspect-video rounded-xl bg-slate-950 border border-slate-800 overflow-hidden relative flex items-center justify-center">
+          <img id="previewThumbnailImg" src="" alt="Video Thumbnail" class="hidden w-full h-full object-cover" />
+          <div id="videoFallbackThumbnail" class="flex flex-col items-center justify-center p-3 text-center">
             <svg class="w-8 h-8 text-indigo-400 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <span class="text-xs text-slate-300 font-medium">Stream Ready</span>
+            <span id="previewThumbStatus" class="text-xs text-slate-400 font-medium">Link Ready</span>
           </div>
         </div>
 
-        <!-- Video Info & Custom Filename -->
+        <!-- Video Title & Filename -->
         <div class="flex-1 space-y-2.5 w-full">
           <div class="flex flex-wrap items-center gap-2">
-            <span id="previewPlatformBadge" class="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">YouTube</span>
-            <span id="previewResolutionBadge" class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-800 text-slate-300">1080p MP4</span>
-            <span id="previewSizeBadge" class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-800 text-slate-300">Auto Size</span>
+            <span id="previewPlatformBadge" class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Video</span>
+            <span id="previewResolutionBadge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300">1080p MP4</span>
+            <span id="previewUploaderBadge" class="hidden text-[11px] font-medium px-2.5 py-0.5 rounded-md bg-slate-800/80 text-slate-400"></span>
           </div>
 
+          <h3 id="previewVideoTitle" class="text-sm sm:text-base font-bold text-white line-clamp-2">
+            Checking video details...
+          </h3>
+
           <div>
-            <label for="customFilenameInput" class="block text-xs text-slate-400 mb-1">Save As (Filename on Device):</label>
+            <label for="customFilenameInput" class="block text-xs text-slate-400 mb-1">Save file as:</label>
             <input
               id="customFilenameInput"
               type="text"
-              value="streamvault-video.mp4"
-              class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs sm:text-sm text-white font-medium focus:outline-none focus:border-indigo-500"
+              value="video.mp4"
+              class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-white font-medium focus:outline-none focus:border-indigo-500"
             />
           </div>
-
-          <p id="previewUrlSource" class="text-[11px] text-slate-500 truncate"></p>
         </div>
       </div>
     </section>
 
-    <!-- DOWNLOAD HISTORY / RECENT SAVES -->
-    <section class="glass-card rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+    <!-- ACTIVE EXTRACTION & DOWNLOAD PROGRESS CARD -->
+    <section id="downloadProgressSection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-500/40 space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <div>
+            <h2 id="downloadStatusTitle" class="text-sm sm:text-base font-bold text-white">Extracting HD video &amp; audio...</h2>
+            <p id="downloadBytesText" class="text-xs text-slate-400">Please wait while we merge the highest quality stream (usually 5–15 seconds)...</p>
+          </div>
+        </div>
+        <span id="downloadPercentText" class="text-base sm:text-lg font-extrabold text-indigo-400">Processing</span>
+      </div>
+
+      <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
+        <div id="progressBarFill" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full progress-stripe transition-all duration-300" style="width: 35%;"></div>
+      </div>
+
+      <div class="flex justify-end">
+        <button id="cancelStreamBtn" type="button" class="text-xs text-rose-400 hover:text-rose-300 font-semibold px-2.5 py-1 rounded-lg hover:bg-rose-950/40 transition">
+          Cancel
+        </button>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD READY / DIRECT SAVE BANNER -->
+    <section id="readyDownloadBanner" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-emerald-500/40 bg-emerald-950/15">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Your Video is Ready!</h3>
+            <p id="readyFileDetails" class="text-xs text-emerald-300 font-medium mt-0.5">Download started automatically.</p>
+          </div>
+        </div>
+        <a
+          id="directDownloadLinkBtn"
+          href="#readyDownloadBanner"
+          download
+          class="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm text-center shadow-lg shadow-emerald-500/20 transition"
+        >
+          Save File to Device
+        </a>
+      </div>
+    </section>
+
+    <!-- ERROR MESSAGE BANNER -->
+    <section id="errorBanner" class="hidden glass-card rounded-2xl p-5 border border-rose-500/40 bg-rose-950/20">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-sm font-bold text-rose-200">Could not download this video</h3>
+          <p id="errorBannerText" class="text-xs text-rose-300/90 mt-1 leading-relaxed"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECENT DOWNLOADS SECTION (Shown once user downloads a video) -->
+    <section id="historySection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center gap-2">
-          <h2 class="text-base font-bold text-white">Recent Downloads</h2>
+          <h2 class="text-base font-bold text-white">Your Recent Downloads</h2>
           <span id="historyCountBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">0</span>
         </div>
         <button id="clearHistoryBtn" type="button" class="text-xs text-slate-400 hover:text-rose-300 transition">
           Clear History
         </button>
       </div>
-
       <div id="historyListContainer" class="space-y-2"></div>
     </section>
 
-    <!-- WHY YOUTUBE NEEDS PROXY / HELP BANNER -->
-    <section class="rounded-2xl p-4 bg-slate-900/60 border border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-400">
-      <div class="space-y-0.5">
-        <span class="text-slate-200 font-semibold">Why did YouTube download an empty video before?</span>
-        <p class="text-slate-400 leading-relaxed">
-          YouTube splits video and audio into separate adaptive streams (DASH). Without ffmpeg audio/video muxing on the backend, piped streams output 0 bytes. StreamVault now automatically merges them and protects against 0-byte files.
+    <!-- HOW IT WORKS SECTION FOR PUBLIC VISITORS -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+      <div class="glass-card rounded-2xl p-5 space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold text-sm flex items-center justify-center">1</div>
+        <h3 class="text-sm font-bold text-white">Copy Video Link</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Copy the link to any public video, Short, or Reel from YouTube, Instagram, TikTok, Facebook, or X.
         </p>
       </div>
-      <button id="openBackendModalBtn" type="button" class="px-3.5 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 font-medium shrink-0 transition">
-        Configure Proxy
-      </button>
+      <div class="glass-card rounded-2xl p-5 space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 font-bold text-sm flex items-center justify-center">2</div>
+        <h3 class="text-sm font-bold text-white">Select Quality</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Paste the link above and choose 1080p Full HD, 720p HD, 480p, or M4A/MP3 audio-only format.
+        </p>
+      </div>
+      <div class="glass-card rounded-2xl p-5 space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 font-bold text-sm flex items-center justify-center">3</div>
+        <h3 class="text-sm font-bold text-white">Save Instantly</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Click Download Now. Video and audio tracks are merged automatically and saved straight to your device.
+        </p>
+      </div>
     </section>
 
   </main>
 
-  <!-- BACKEND PROXY SETTINGS MODAL -->
-  <div id="settingsModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-lg w-full p-6 border border-slate-700 shadow-2xl space-y-5">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-          </div>
-          <h3 class="text-base font-bold text-white">Backend &amp; Extraction Proxy</h3>
-        </div>
-        <button id="closeSettingsModalBtn" type="button" class="p-1.5 text-slate-400 hover:text-white rounded-lg">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Backend URL Configuration -->
-      <div class="space-y-2 text-xs">
-        <label for="backendUrlInput" class="block font-semibold text-slate-300">Self-Hosted Extraction API Endpoint:</label>
-        <div class="flex gap-2">
-          <input
-            id="backendUrlInput"
-            type="url"
-            value="/api/stream?url="
-            placeholder="https://your-service.onrender.com/api/stream?url="
-            class="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-200 focus:outline-none focus:border-indigo-500 font-mono text-xs"
-          />
-          <button id="testBackendBtn" type="button" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold shrink-0 transition">
-            Test
-          </button>
-        </div>
-        <p class="text-[11px] text-slate-400">
-          The app appends the video URL and quality parameters. For local testing, use <code class="text-indigo-300">http://localhost:10000/api/stream?url=</code>.
-        </p>
-      </div>
-
-      <!-- Download Backend ZIP -->
-      <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2.5">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-white">Download Ready-to-Deploy Backend</span>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Render &amp; Docker Ready</span>
-        </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Includes the fixed <code class="text-indigo-300">server.js</code> with ffmpeg audio/video muxing, <code class="text-indigo-300">Dockerfile</code>, and <code class="text-indigo-300">package.json</code> for free 1-click deployment on Render.com or Docker.
-        </p>
-        <button id="downloadZipModalBtn" type="button" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow transition flex items-center justify-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-          </svg>
-          <span>Download Backend ZIP (All Files)</span>
-        </button>
-      </div>
-
-      <!-- Quick 1-Click Instructions -->
-      <div class="text-[11px] text-slate-400 space-y-1 bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-        <div class="font-semibold text-slate-300 mb-1">How to deploy for free in 2 minutes:</div>
-        <div>1. Unzip and push to a GitHub repository.</div>
-        <div>2. On <strong class="text-slate-200">Render.com</strong>, create a new Web Service and select Docker.</div>
-        <div>3. Paste your public Render URL into the box above. YouTube &amp; Instagram downloads work automatically!</div>
-      </div>
-
-      <div class="flex justify-end gap-2 pt-2">
-        <button id="saveSettingsBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">
-          Save Settings
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+    <p>StreamVault v3.0 — Fast, Free &amp; Unlimited Video Downloader</p>
+  </footer>
 
   <!-- PWA INSTALL MODAL -->
   <div id="installModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -382,11 +347,11 @@
         </button>
       </div>
       <p class="text-xs text-slate-300 leading-relaxed">
-        StreamVault can be installed directly onto your phone, tablet, or desktop home screen as a Progressive Web App (PWA).
+        Add StreamVault to your phone or computer home screen for instant 1-tap access anytime.
       </p>
       <div class="space-y-2 text-xs text-slate-300 bg-slate-900 p-3.5 rounded-xl border border-slate-800">
-        <div><strong class="text-white">Android / Chrome / Edge:</strong> Tap or click <em>Install App</em> in your browser menu.</div>
-        <div><strong class="text-white">iOS / Safari:</strong> Tap the <em>Share</em> button and choose <em>Add to Home Screen</em>.</div>
+        <div><strong class="text-white">Android / Chrome / Edge:</strong> Tap the browser menu (⋮) and choose <em>Install App</em> or <em>Add to Home Screen</em>.</div>
+        <div><strong class="text-white">iPhone / iPad (Safari):</strong> Tap the <em>Share</em> icon at the bottom and select <em>Add to Home Screen</em>.</div>
       </div>
       <div class="flex justify-end">
         <button id="ackInstallModalBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">
@@ -398,82 +363,61 @@
 
   <script>
     (function () {
-      // Embedded Project ZIP for direct offline download
-      const EMBEDDED_PROJECT_ZIP_B64 = "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";
-
-      // Verified CORS-enabled demo streams for reliable in-browser testing
-      const DEMO_STREAMS = {
-        youtube: {
-          url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-          filename: 'youtube-sample-clip.mp4',
-          label: 'YouTube (Muxed HD Stream)',
-          fallbackUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
-        },
-        instagram: {
-          url: 'https://www.instagram.com/reel/C_demo_reel/',
-          filename: 'instagram-reel-clip.mp4',
-          label: 'Instagram Reel (Progressive MP4)',
-          fallbackUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
-        },
-        direct: {
-          url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
-          filename: 'flower-timelapse.mp4',
-          label: 'Direct MP4 Stream',
-          fallbackUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
-        }
-      };
+      // Automatically clear any old v1/v2 service worker caches so updates take effect immediately
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          if (window.caches) {
+            caches.keys().then((keys) => {
+              keys.forEach((k) => {
+                if (k !== 'streamvault-pwa-v3') caches.delete(k);
+              });
+            }).catch(() => {});
+          }
+          navigator.serviceWorker.register('/sw.js').then((reg) => {
+            reg.update();
+          }).catch(() => {});
+        });
+      }
 
       // State
       let selectedQuality = '1080p';
+      let currentVideoTitle = '';
       let activeAbortController = null;
+      let progressInterval = null;
       let deferredInstallPrompt = null;
       let downloadHistory = [];
-      let backendProxyUrl = '/api/stream?url=';
+      let infoDebounceTimer = null;
 
-      // Load saved settings & history
+      // Determine API base URL (same origin when hosted on Render/Node, or fallback to user's Render instance in preview)
+      function getApiBase() {
+        const host = window.location.hostname;
+        if (!host || host.includes('googleusercontent.com') || host.includes('sandbox') || window.location.protocol === 'file:') {
+          return 'https://streamvault-pwa.onrender.com';
+        }
+        return '';
+      }
+
+      // Load user's real download history
       function loadPersistedData() {
         try {
-          const savedUrl = localStorage.getItem('streamvault_proxy_endpoint');
-          if (savedUrl) {
-            backendProxyUrl = savedUrl;
-            document.getElementById('backendUrlInput').value = savedUrl;
-          }
-          const rawHistory = localStorage.getItem('streamvault_history_v2');
+          const rawHistory = localStorage.getItem('streamvault_history_v3');
           if (rawHistory) {
             downloadHistory = JSON.parse(rawHistory);
           }
         } catch (e) {}
-
-        if (!Array.isArray(downloadHistory) || downloadHistory.length === 0) {
-          downloadHistory = [
-            {
-              id: 'sample-yt',
-              url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-              filename: 'youtube-never-gonna-give-you-up.mp4',
-              size: '4.8 MB',
-              platform: 'YouTube',
-              date: 'Just now'
-            },
-            {
-              id: 'sample-ig',
-              url: 'https://www.instagram.com/reel/C8k9Lp/',
-              filename: 'instagram-travel-reel.mp4',
-              size: '2.1 MB',
-              platform: 'Instagram',
-              date: 'Yesterday'
-            }
-          ];
+        if (!Array.isArray(downloadHistory)) {
+          downloadHistory = [];
         }
       }
 
       function saveHistory() {
         try {
-          localStorage.setItem('streamvault_history_v2', JSON.stringify(downloadHistory));
+          localStorage.setItem('streamvault_history_v3', JSON.stringify(downloadHistory));
         } catch (e) {}
         renderHistory();
       }
 
-      // Elements
+      // DOM Elements
       const urlInput = document.getElementById('urlInput');
       const clearInputBtn = document.getElementById('clearInputBtn');
       const pasteBtn = document.getElementById('pasteBtn');
@@ -484,43 +428,39 @@
       const platformTextBadge = document.getElementById('platformTextBadge');
 
       const previewCard = document.getElementById('previewCard');
-      const videoPreviewEl = document.getElementById('videoPreviewEl');
+      const previewThumbnailImg = document.getElementById('previewThumbnailImg');
       const videoFallbackThumbnail = document.getElementById('videoFallbackThumbnail');
+      const previewThumbStatus = document.getElementById('previewThumbStatus');
       const previewPlatformBadge = document.getElementById('previewPlatformBadge');
       const previewResolutionBadge = document.getElementById('previewResolutionBadge');
-      const previewSizeBadge = document.getElementById('previewSizeBadge');
+      const previewUploaderBadge = document.getElementById('previewUploaderBadge');
+      const previewVideoTitle = document.getElementById('previewVideoTitle');
       const customFilenameInput = document.getElementById('customFilenameInput');
-      const previewUrlSource = document.getElementById('previewUrlSource');
 
       const downloadProgressSection = document.getElementById('downloadProgressSection');
       const downloadStatusTitle = document.getElementById('downloadStatusTitle');
-      const downloadFilenameLabel = document.getElementById('downloadFilenameLabel');
       const downloadPercentText = document.getElementById('downloadPercentText');
       const progressBarFill = document.getElementById('progressBarFill');
       const downloadBytesText = document.getElementById('downloadBytesText');
       const cancelStreamBtn = document.getElementById('cancelStreamBtn');
 
+      const readyDownloadBanner = document.getElementById('readyDownloadBanner');
+      const readyFileDetails = document.getElementById('readyFileDetails');
+      const directDownloadLinkBtn = document.getElementById('directDownloadLinkBtn');
+
+      const errorBanner = document.getElementById('errorBanner');
+      const errorBannerText = document.getElementById('errorBannerText');
+
+      const historySection = document.getElementById('historySection');
       const historyCountBadge = document.getElementById('historyCountBadge');
       const historyListContainer = document.getElementById('historyListContainer');
       const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-
-      const settingsBtn = document.getElementById('settingsBtn');
-      const openBackendModalBtn = document.getElementById('openBackendModalBtn');
-      const settingsModal = document.getElementById('settingsModal');
-      const closeSettingsModalBtn = document.getElementById('closeSettingsModalBtn');
-      const saveSettingsBtn = document.getElementById('saveSettingsBtn');
-      const backendUrlInput = document.getElementById('backendUrlInput');
-      const testBackendBtn = document.getElementById('testBackendBtn');
-
-      const downloadZipHeaderBtn = document.getElementById('downloadZipHeaderBtn');
-      const downloadZipModalBtn = document.getElementById('downloadZipModalBtn');
 
       const installPwaBtn = document.getElementById('installPwaBtn');
       const installModal = document.getElementById('installModal');
       const closeInstallModalBtn = document.getElementById('closeInstallModalBtn');
       const ackInstallModalBtn = document.getElementById('ackInstallModalBtn');
 
-      // Toast notification helper
       function showToast(message, type) {
         const container = document.getElementById('toastContainer');
         const toast = document.createElement('div');
@@ -550,14 +490,13 @@
       }
 
       function formatBytes(bytes) {
-        if (!bytes || isNaN(bytes)) return '0 KB';
+        if (!bytes || isNaN(bytes)) return '';
         if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
         return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
       }
 
-      // Detect video platform from URL
       function detectPlatform(url) {
-        if (!url) return { name: 'direct', label: 'Link', color: 'bg-slate-800 text-slate-300' };
+        if (!url) return { name: 'generic', label: 'Link', color: 'bg-slate-800 text-slate-300' };
         const lower = url.toLowerCase();
         if (lower.includes('youtube.com') || lower.includes('youtu.be')) {
           return { name: 'youtube', label: 'YouTube', color: 'bg-red-600 text-white' };
@@ -568,24 +507,55 @@
         if (lower.includes('tiktok.com')) {
           return { name: 'tiktok', label: 'TikTok', color: 'bg-cyan-500 text-slate-950' };
         }
+        if (lower.includes('facebook.com') || lower.includes('fb.watch')) {
+          return { name: 'facebook', label: 'Facebook', color: 'bg-blue-600 text-white' };
+        }
         if (lower.includes('twitter.com') || lower.includes('x.com')) {
-          return { name: 'twitter', label: 'X / Twitter', color: 'bg-slate-800 text-white' };
+          return { name: 'twitter', label: 'X', color: 'bg-slate-700 text-white' };
         }
         if (/\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(url)) {
-          return { name: 'direct', label: 'MP4 Stream', color: 'bg-emerald-500 text-slate-950' };
+          return { name: 'direct', label: 'MP4', color: 'bg-emerald-500 text-slate-950' };
         }
         return { name: 'generic', label: 'Video', color: 'bg-indigo-600 text-white' };
       }
 
-      // Update input UI based on URL typing
+      function makeCleanFilename(title, url, quality) {
+        const ext = quality === 'audio' ? '.m4a' : '.mp4';
+        if (title && title !== 'Checking video details...' && title !== 'Video Stream Ready') {
+          const cleaned = title
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 80);
+          if (cleaned) return cleaned + ext;
+        }
+        try {
+          const parsed = new URL(url);
+          const platform = detectPlatform(url);
+          if (platform.name === 'youtube') {
+            const vId = parsed.searchParams.get('v') || parsed.pathname.split('/').filter(Boolean).pop() || 'video';
+            return 'youtube-' + vId + ext;
+          }
+          if (platform.name === 'instagram') {
+            const seg = parsed.pathname.split('/').filter(Boolean).pop() || 'reel';
+            return 'instagram-' + seg + ext;
+          }
+          return platform.name + '-video' + ext;
+        } catch (e) {
+          return 'video' + ext;
+        }
+      }
+
       function updatePlatformBadge() {
         const url = urlInput.value.trim();
         clearInputBtn.classList.toggle('hidden', !url);
+        errorBanner.classList.add('hidden');
 
         if (!url) {
           defaultIcon.classList.remove('hidden');
           platformTextBadge.classList.add('hidden');
-          platformIconContainer.className = 'absolute left-3.5 flex items-center justify-center w-7 h-7 rounded-lg bg-slate-800 text-slate-400';
+          platformIconContainer.className = 'absolute left-3.5 flex items-center justify-center w-8 h-8 rounded-xl bg-slate-800/90 text-slate-400';
+          previewCard.classList.add('hidden');
           return;
         }
 
@@ -593,16 +563,25 @@
         defaultIcon.classList.add('hidden');
         platformTextBadge.classList.remove('hidden');
         platformTextBadge.textContent = platform.label;
-        platformTextBadge.className = 'text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ' + platform.color;
-        platformIconContainer.className = 'absolute left-3.5 flex items-center justify-center w-auto h-7';
+        platformTextBadge.className = 'text-[10px] font-bold uppercase px-2 py-1 rounded-lg ' + platform.color;
+        platformIconContainer.className = 'absolute left-3 flex items-center justify-center w-auto h-8';
+
+        if (infoDebounceTimer) clearTimeout(infoDebounceTimer);
+        infoDebounceTimer = setTimeout(() => {
+          if (/^https?:\/\//i.test(url)) {
+            inspectVideoMetadata(url);
+          }
+        }, 300);
       }
 
       urlInput.addEventListener('input', updatePlatformBadge);
 
       clearInputBtn.addEventListener('click', () => {
         urlInput.value = '';
+        currentVideoTitle = '';
         updatePlatformBadge();
-        previewCard.classList.add('hidden');
+        readyDownloadBanner.classList.add('hidden');
+        errorBanner.classList.add('hidden');
         urlInput.focus();
       });
 
@@ -613,13 +592,12 @@
             if (text && text.trim()) {
               urlInput.value = text.trim();
               updatePlatformBadge();
-              inspectAndPrepare(text.trim());
               return;
             }
           }
         } catch (err) {}
         urlInput.focus();
-        showToast('Press Ctrl+V / Cmd+V to paste your video link.', 'warn');
+        showToast('Long-press or press Ctrl+V to paste your link.', 'warn');
       });
 
       // Quality selector pills
@@ -628,314 +606,233 @@
           selectedQuality = btn.getAttribute('data-quality');
           document.querySelectorAll('.quality-pill').forEach((b) => {
             if (b.getAttribute('data-quality') === selectedQuality) {
-              b.className = 'quality-pill px-3 py-1.5 rounded-lg font-semibold bg-indigo-600 text-white shadow transition';
+              b.className = 'quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition';
             } else {
-              b.className = 'quality-pill px-3 py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition';
+              b.className = 'quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition';
             }
           });
-          previewResolutionBadge.textContent = selectedQuality.toUpperCase() + (selectedQuality === 'audio' ? ' (MP3)' : ' MP4');
-          if (customFilenameInput.value) {
-            const ext = selectedQuality === 'audio' ? '.m4a' : '.mp4';
-            customFilenameInput.value = customFilenameInput.value.replace(/\.[a-zA-Z0-9]+$/, ext);
+          previewResolutionBadge.textContent = selectedQuality === 'audio' ? 'Audio M4A/MP3' : selectedQuality.toUpperCase() + ' MP4';
+          if (urlInput.value.trim()) {
+            customFilenameInput.value = makeCleanFilename(currentVideoTitle, urlInput.value.trim(), selectedQuality);
           }
         });
       });
 
-      // Demo sample links
-      document.querySelectorAll('.demo-chip').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const key = btn.getAttribute('data-demo');
-          const sample = DEMO_STREAMS[key];
-          if (sample) {
-            urlInput.value = sample.url;
-            updatePlatformBadge();
-            inspectAndPrepare(sample.url, sample.filename, sample.label);
-          }
-        });
-      });
-
-      // Derive smart filename
-      function deriveFilename(url, quality) {
-        try {
-          const parsed = new URL(url);
-          const platform = detectPlatform(url);
-          const ext = quality === 'audio' ? '.m4a' : '.mp4';
-
-          if (platform.name === 'youtube') {
-            const vId = parsed.searchParams.get('v') || parsed.pathname.split('/').filter(Boolean).pop() || 'clip';
-            return 'youtube-' + vId + ext;
-          }
-          if (platform.name === 'instagram') {
-            const seg = parsed.pathname.split('/').filter(Boolean).pop() || 'reel';
-            return 'instagram-' + seg + ext;
-          }
-          if (platform.name === 'tiktok') {
-            return 'tiktok-video-' + Date.now().toString().slice(-6) + ext;
-          }
-          const base = parsed.pathname.split('/').filter(Boolean).pop() || 'video';
-          const clean = base.replace(/[^a-zA-Z0-9._-]/g, '_');
-          if (/\.(mp4|webm|mov|mkv)$/i.test(clean)) {
-            return quality === 'audio' ? clean.replace(/\.[^.]+$/, '.m4a') : clean;
-          }
-          return clean + ext;
-        } catch (e) {
-          return 'video-' + Date.now() + (quality === 'audio' ? '.m4a' : '.mp4');
-        }
-      }
-
-      // Inspect link and update preview card
-      async function inspectAndPrepare(targetUrl, filenameOverride, labelOverride) {
-        const rawUrl = (targetUrl || urlInput.value || '').trim();
-        if (!rawUrl) return;
-
+      // Fetch real video metadata (uses fast client-side noembed + backend /api/info)
+      async function inspectVideoMetadata(rawUrl) {
         const platform = detectPlatform(rawUrl);
-        const filename = filenameOverride || deriveFilename(rawUrl, selectedQuality);
-
         previewCard.classList.remove('hidden');
-        customFilenameInput.value = filename;
-        previewUrlSource.textContent = 'URL: ' + rawUrl;
-        previewPlatformBadge.textContent = labelOverride || platform.label;
-        previewResolutionBadge.textContent = selectedQuality.toUpperCase() + (selectedQuality === 'audio' ? ' (MP3)' : ' MP4');
-        previewSizeBadge.textContent = 'Probing...';
+        previewPlatformBadge.textContent = platform.label;
+        previewResolutionBadge.textContent = selectedQuality === 'audio' ? 'Audio M4A/MP3' : selectedQuality.toUpperCase() + ' MP4';
+        previewVideoTitle.textContent = 'Fetching video info...';
+        previewUploaderBadge.classList.add('hidden');
+        previewThumbnailImg.classList.add('hidden');
+        videoFallbackThumbnail.classList.remove('hidden');
+        previewThumbStatus.textContent = platform.label + ' Stream';
+        customFilenameInput.value = makeCleanFilename('', rawUrl, selectedQuality);
 
-        // Check if stream can be previewed directly
-        const isDirect = /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(rawUrl);
-        if (isDirect) {
-          videoFallbackThumbnail.classList.add('hidden');
-          videoPreviewEl.src = rawUrl;
-          videoPreviewEl.load();
-          videoPreviewEl.onloadedmetadata = () => {
-            const w = videoPreviewEl.videoWidth;
-            const h = videoPreviewEl.videoHeight;
-            if (w && h) {
-              previewResolutionBadge.textContent = w + '×' + h;
-            }
-          };
-          videoPreviewEl.onerror = () => {
-            videoFallbackThumbnail.classList.remove('hidden');
-          };
-        } else {
-          videoFallbackThumbnail.classList.remove('hidden');
-        }
-
-        // Probe size with HEAD request
+        // 1. Fast client-side oEmbed lookup (works directly from user's browser)
+        let gotClientMeta = false;
         try {
-          const head = await fetch(rawUrl, { method: 'HEAD' });
-          const len = head.headers.get('content-length');
-          if (len) {
-            previewSizeBadge.textContent = formatBytes(parseInt(len, 10));
-          } else {
-            previewSizeBadge.textContent = 'Streamable';
-          }
-        } catch (err) {
-          previewSizeBadge.textContent = 'Proxy Muxed';
-        }
-      }
-
-      // Read response body with live progress and ZERO-BYTE empty file validation
-      async function readStreamWithProgress(response, onProgress) {
-        if (!response.ok) {
-          let errText = 'Server returned HTTP ' + response.status;
-          try {
-            const errJson = await response.json();
-            if (errJson && errJson.error) errText = errJson.error;
-          } catch (e) {}
-          throw new Error(errText);
-        }
-
-        const totalBytes = parseInt(response.headers.get('content-length') || '0', 10);
-        if (!response.body || !response.body.getReader) {
-          const blob = await response.blob();
-          if (blob.size === 0) {
-            throw new Error('Downloaded stream is completely empty (0 bytes).');
-          }
-          onProgress(blob.size, blob.size);
-          return blob;
-        }
-
-        const reader = response.body.getReader();
-        const chunks = [];
-        let received = 0;
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunks.push(value);
-          received += value.byteLength;
-          onProgress(received, totalBytes);
-        }
-
-        // CRITICAL EMPTY FILE GUARD:
-        if (received === 0) {
-          throw new Error(
-            'Downloaded video is empty (0 bytes). YouTube streams require audio/video muxing via the StreamVault backend proxy.'
-          );
-        }
-
-        const contentType = response.headers.get('content-type') || 'video/mp4';
-        return new Blob(chunks, { type: contentType });
-      }
-
-      // Save blob to device file system
-      async function saveToDisk(blob, filename) {
-        // File System Access API
-        if (typeof window.showSaveFilePicker === 'function') {
-          try {
-            const handle = await window.showSaveFilePicker({
-              suggestedName: filename,
-              types: [
-                {
-                  description: 'Video / Audio File',
-                  accept: {
-                    'video/mp4': ['.mp4'],
-                    'audio/mp4': ['.m4a'],
-                    'video/webm': ['.webm']
-                  }
-                }
-              ]
-            });
-            const writable = await handle.createWritable();
-            await writable.write(blob);
-            await writable.close();
-            return 'Saved via File Picker';
-          } catch (err) {
-            if (err && err.name === 'AbortError') {
-              throw new Error('File save canceled by user.');
+          const noembedRes = await fetch('https://noembed.com/embed?url=' + encodeURIComponent(rawUrl));
+          if (noembedRes.ok) {
+            const data = await noembedRes.json();
+            if (data && data.title) {
+              gotClientMeta = true;
+              currentVideoTitle = data.title;
+              previewVideoTitle.textContent = data.title;
+              customFilenameInput.value = makeCleanFilename(data.title, rawUrl, selectedQuality);
+              if (data.thumbnail_url) {
+                previewThumbnailImg.src = data.thumbnail_url;
+                previewThumbnailImg.classList.remove('hidden');
+                videoFallbackThumbnail.classList.add('hidden');
+              }
+              if (data.author_name) {
+                previewUploaderBadge.textContent = data.author_name;
+                previewUploaderBadge.classList.remove('hidden');
+              }
             }
-            // Fall through to browser download anchor
           }
+        } catch (e) {}
+
+        // 2. Backend /api/info lookup for platforms not covered by noembed (like Instagram Reels)
+        if (!gotClientMeta) {
+          try {
+            const apiBase = getApiBase();
+            const infoRes = await fetch(apiBase + '/api/info?url=' + encodeURIComponent(rawUrl));
+            if (infoRes.ok) {
+              const info = await infoRes.json();
+              if (info && info.ok && info.title) {
+                currentVideoTitle = info.title;
+                previewVideoTitle.textContent = info.title;
+                customFilenameInput.value = makeCleanFilename(info.title, rawUrl, selectedQuality);
+                if (info.thumbnail) {
+                  previewThumbnailImg.src = info.thumbnail;
+                  previewThumbnailImg.classList.remove('hidden');
+                  videoFallbackThumbnail.classList.add('hidden');
+                }
+                if (info.uploader) {
+                  previewUploaderBadge.textContent = info.uploader;
+                  previewUploaderBadge.classList.remove('hidden');
+                }
+              }
+            }
+          } catch (e) {}
         }
 
-        const blobUrl = URL.createObjectURL(blob);
+        if (previewVideoTitle.textContent === 'Fetching video info...') {
+          previewVideoTitle.textContent = platform.label + ' Video Ready to Download';
+        }
+      }
+
+      // Trigger native browser download from URL
+      function triggerBrowserSave(downloadUrl, filename) {
         const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = filename;
+        a.href = downloadUrl;
+        if (filename) a.setAttribute('download', filename);
+        a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 15000);
-        return 'Saved to Downloads';
+        setTimeout(() => a.remove(), 3000);
       }
 
-      // Main Download Controller
+      // Main Download Handler
       async function executeDownload() {
         const rawUrl = urlInput.value.trim();
-        if (!rawUrl) {
-          showToast('Please paste a video link first.', 'error');
+        if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
+          showToast('Please paste a valid video link starting with http:// or https://', 'error');
           urlInput.focus();
           return;
         }
 
         if (activeAbortController) {
-          showToast('A download is already running.', 'warn');
+          showToast('A video is currently being processed. Please wait.', 'warn');
           return;
         }
 
-        const filename = (customFilenameInput.value || deriveFilename(rawUrl, selectedQuality)).trim();
         const platform = detectPlatform(rawUrl);
+        const desiredFilename = (customFilenameInput.value || makeCleanFilename(currentVideoTitle, rawUrl, selectedQuality)).trim();
+        const titleWithoutExt = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '');
 
-        // UI active state
-        activeAbortController = new AbortController();
+        // Reset banners & show progress
+        readyDownloadBanner.classList.add('hidden');
+        errorBanner.classList.add('hidden');
         downloadProgressSection.classList.remove('hidden');
-        progressBarFill.style.width = '5%';
-        downloadPercentText.textContent = '0%';
-        downloadStatusTitle.textContent = 'Connecting to video stream...';
-        downloadFilenameLabel.textContent = filename;
-        downloadBytesText.textContent = 'Starting connection...';
+
+        activeAbortController = new AbortController();
         startDownloadBtn.disabled = true;
         startDownloadBtn.classList.add('opacity-60');
-        downloadBtnText.textContent = 'Downloading...';
+        downloadBtnText.textContent = 'Processing Video...';
 
-        const onProgress = (received, total) => {
-          if (total > 0) {
-            const pct = Math.min(100, Math.round((received / total) * 100));
-            progressBarFill.style.width = pct + '%';
-            downloadPercentText.textContent = pct + '%';
-            downloadBytesText.textContent = formatBytes(received) + ' / ' + formatBytes(total);
-          } else {
-            progressBarFill.style.width = '70%';
-            downloadPercentText.textContent = 'Streaming';
-            downloadBytesText.textContent = formatBytes(received) + ' downloaded';
+        // Animated progress steps while backend downloads and merges audio + video
+        let stepPct = 15;
+        progressBarFill.style.width = stepPct + '%';
+        downloadStatusTitle.textContent = 'Extracting ' + platform.label + ' video & audio streams...';
+        downloadBytesText.textContent = 'Connecting to media server and merging HD tracks...';
+        downloadPercentText.textContent = '15%';
+
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(() => {
+          if (stepPct < 88) {
+            stepPct += Math.floor(Math.random() * 6) + 2;
+            if (stepPct > 88) stepPct = 88;
+            progressBarFill.style.width = stepPct + '%';
+            downloadPercentText.textContent = stepPct + '%';
+            if (stepPct > 45 && stepPct <= 70) {
+              downloadStatusTitle.textContent = 'Merging HD video and audio into MP4...';
+            } else if (stepPct > 70) {
+              downloadStatusTitle.textContent = 'Finalizing media file for your device...';
+            }
           }
-        };
-
-        // Formulate request URL
-        let fetchUrl = rawUrl;
-        const isDirect = /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(rawUrl);
-
-        // If not direct media or if proxy configured, route through backend
-        if (!isDirect) {
-          const base = (backendProxyUrl || '/api/stream?url=').trim();
-          const separator = base.includes('?') ? '&' : '?';
-          fetchUrl = base + encodeURIComponent(rawUrl) + separator + 'quality=' + encodeURIComponent(selectedQuality);
-        }
+        }, 1200);
 
         try {
-          let videoBlob;
-          let usedFallback = false;
+          const apiBase = getApiBase();
+          const prepUrl =
+            apiBase +
+            '/api/prepare?url=' +
+            encodeURIComponent(rawUrl) +
+            '&quality=' +
+            encodeURIComponent(selectedQuality) +
+            '&title=' +
+            encodeURIComponent(titleWithoutExt);
 
+          const response = await fetch(prepUrl, { signal: activeAbortController.signal });
+          let data = null;
           try {
-            downloadStatusTitle.textContent = 'Muxing & streaming video bytes...';
-            const response = await fetch(fetchUrl, { signal: activeAbortController.signal });
-            videoBlob = await readStreamWithProgress(response, onProgress);
-          } catch (fetchErr) {
-            if (activeAbortController.signal.aborted) {
-              throw new Error('Download canceled.');
-            }
-
-            // If user is testing without running local server, provide verified sample so they can test the device save
-            console.warn('Backend proxy fetch failed:', fetchErr);
-            usedFallback = true;
-            downloadStatusTitle.textContent = 'Host blocked CORS — fetching verified demo payload...';
-            const fallbackResponse = await fetch(DEMO_STREAMS.direct.url, { signal: activeAbortController.signal });
-            videoBlob = await readStreamWithProgress(fallbackResponse, onProgress);
+            data = await response.json();
+          } catch (jsonErr) {
+            throw new Error('Backend server is still deploying or unreachable (HTTP ' + response.status + '). Please wait 1 minute and try again.');
           }
 
-          // Check for empty blob
-          if (!videoBlob || videoBlob.size === 0) {
-            throw new Error('Received an empty video file (0 bytes). Check that the video URL is public.');
+          if (!response.ok || !data || !data.ok) {
+            throw new Error((data && data.error) || 'Could not extract video stream (HTTP ' + response.status + ').');
           }
 
+          if (!data.size || data.size <= 0) {
+            throw new Error('The extracted video was empty (0 bytes). Please check that the video is public.');
+          }
+
+          // Success! Complete progress bar
+          if (progressInterval) clearInterval(progressInterval);
           progressBarFill.style.width = '100%';
           downloadPercentText.textContent = '100%';
-          downloadStatusTitle.textContent = 'Writing to device storage...';
+          downloadStatusTitle.textContent = 'Starting download...';
 
-          const saveOutcome = await saveToDisk(videoBlob, filename);
+          const fullDownloadUrl = apiBase + data.downloadUrl;
+          const finalFilename = data.filename || desiredFilename;
+          const formattedSize = formatBytes(data.size);
 
-          // Add to download history
+          // Show Ready Banner with direct button and trigger automatic browser download
+          directDownloadLinkBtn.href = fullDownloadUrl;
+          directDownloadLinkBtn.setAttribute('download', finalFilename);
+          readyFileDetails.textContent = finalFilename + (formattedSize ? ' (' + formattedSize + ')' : '');
+          readyDownloadBanner.classList.remove('hidden');
+
+          triggerBrowserSave(fullDownloadUrl, finalFilename);
+
+          // Save to user's local download history
           downloadHistory.unshift({
             id: 'dl-' + Date.now(),
             url: rawUrl,
-            filename: filename,
-            size: formatBytes(videoBlob.size),
-            platform: platform.label,
-            date: 'Just now'
+            filename: finalFilename,
+            size: formattedSize || 'HD',
+            platform: platform.label
           });
-          if (downloadHistory.length > 20) downloadHistory.pop();
+          if (downloadHistory.length > 15) downloadHistory.pop();
           saveHistory();
 
-          if (usedFallback) {
-            showToast(
-              'Saved "' + filename + '" (' + formatBytes(videoBlob.size) + '). Note: Deployed backend proxy required for live YouTube links.',
-              'warn'
-            );
-          } else {
-            showToast(saveOutcome + ': "' + filename + '" (' + formatBytes(videoBlob.size) + ')', 'success');
-          }
+          showToast('Download started: ' + finalFilename, 'success');
         } catch (err) {
-          showToast(err.message || 'Download failed.', 'error');
+          if (activeAbortController && activeAbortController.signal.aborted) {
+            showToast('Download canceled.', 'warn');
+          } else {
+            const msg = err.message || 'Failed to download video.';
+            errorBannerText.textContent = msg;
+            errorBanner.classList.remove('hidden');
+            showToast(msg, 'error');
+          }
         } finally {
+          if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+          }
           activeAbortController = null;
           startDownloadBtn.disabled = false;
           startDownloadBtn.classList.remove('opacity-60');
-          downloadBtnText.textContent = 'Download Video';
-          setTimeout(() => {
-            downloadProgressSection.classList.add('hidden');
-          }, 2500);
+          downloadBtnText.textContent = 'Download Now';
+          downloadProgressSection.classList.add('hidden');
         }
       }
 
       startDownloadBtn.addEventListener('click', executeDownload);
+
+      urlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          executeDownload();
+        }
+      });
 
       cancelStreamBtn.addEventListener('click', () => {
         if (activeAbortController) {
@@ -943,32 +840,33 @@
         }
       });
 
-      // Render Download History
+      // Render user's Recent Downloads
       function renderHistory() {
-        historyCountBadge.textContent = String(downloadHistory.length);
-        historyListContainer.innerHTML = '';
-
-        if (downloadHistory.length === 0) {
-          historyListContainer.innerHTML =
-            '<div class="text-center py-6 text-xs text-slate-500">No recent downloads yet. Paste a link above to get started!</div>';
+        if (!downloadHistory || downloadHistory.length === 0) {
+          historySection.classList.add('hidden');
           return;
         }
+
+        historySection.classList.remove('hidden');
+        historyCountBadge.textContent = String(downloadHistory.length);
+        historyListContainer.innerHTML = '';
 
         downloadHistory.forEach((item) => {
           const row = document.createElement('div');
           row.className =
-            'flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700/80 transition';
+            'flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700 transition';
           row.innerHTML = `
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${escapeHtml(item.platform || 'Video')}</span>
                 <span class="font-semibold text-xs sm:text-sm text-white truncate">${escapeHtml(item.filename)}</span>
                 <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-medium">${escapeHtml(item.size)}</span>
               </div>
               <p class="text-[11px] text-slate-400 truncate mt-0.5">${escapeHtml(item.url)}</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" data-action="redownload" data-url="${escapeHtml(item.url)}" data-file="${escapeHtml(item.filename)}" class="px-2.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 font-semibold text-xs transition">
-                Save
+              <button type="button" data-action="redownload" data-url="${escapeHtml(item.url)}" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 font-semibold text-xs transition">
+                Download Again
               </button>
               <button type="button" data-action="delete" data-id="${escapeHtml(item.id)}" class="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition" title="Remove">
                 ✕
@@ -983,13 +881,10 @@
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
         const action = btn.getAttribute('data-action');
-
         if (action === 'redownload') {
           const u = btn.getAttribute('data-url');
-          const f = btn.getAttribute('data-file');
           urlInput.value = u;
           updatePlatformBadge();
-          inspectAndPrepare(u, f);
           executeDownload();
         } else if (action === 'delete') {
           const id = btn.getAttribute('data-id');
@@ -1001,70 +896,10 @@
       clearHistoryBtn.addEventListener('click', () => {
         downloadHistory = [];
         saveHistory();
-        showToast('Download history cleared.', 'success');
+        showToast('History cleared.', 'success');
       });
 
-      // Project ZIP Downloader function
-      function triggerZipDownload() {
-        try {
-          const binaryStr = atob(EMBEDDED_PROJECT_ZIP_B64);
-          const bytes = new Uint8Array(binaryStr.length);
-          for (let i = 0; i < binaryStr.length; i++) {
-            bytes[i] = binaryStr.charCodeAt(i);
-          }
-          const blob = new Blob([bytes], { type: 'application/zip' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'streamvault_backend_project.zip';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          setTimeout(() => URL.revokeObjectURL(url), 10000);
-          showToast('Downloading streamvault_backend_project.zip!', 'success');
-        } catch (err) {
-          showToast('Download error: ' + err.message, 'error');
-        }
-      }
-
-      downloadZipHeaderBtn.addEventListener('click', triggerZipDownload);
-      downloadZipModalBtn.addEventListener('click', triggerZipDownload);
-
-      // Backend Settings Modal
-      settingsBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
-      openBackendModalBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
-      closeSettingsModalBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
-
-      saveSettingsBtn.addEventListener('click', () => {
-        const val = backendUrlInput.value.trim() || '/api/stream?url=';
-        backendProxyUrl = val;
-        try {
-          localStorage.setItem('streamvault_proxy_endpoint', val);
-        } catch (e) {}
-        settingsModal.classList.add('hidden');
-        showToast('Backend settings saved!', 'success');
-      });
-
-      testBackendBtn.addEventListener('click', async () => {
-        const val = backendUrlInput.value.trim();
-        if (!val) {
-          showToast('Enter a backend URL to test.', 'warn');
-          return;
-        }
-        try {
-          const testBase = val.split('?')[0].replace('/api/stream', '/healthz');
-          const res = await fetch(testBase);
-          if (res.ok) {
-            showToast('Backend is online and responding! (HTTP 200)', 'success');
-          } else {
-            showToast('Backend returned HTTP ' + res.status, 'warn');
-          }
-        } catch (e) {
-          showToast('Could not reach backend. Check URL or CORS settings.', 'error');
-        }
-      });
-
-      // Install App Modal
+      // PWA Install Prompt
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredInstallPrompt = e;
@@ -1083,37 +918,21 @@
       closeInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
       ackInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
 
-      // Check URL parameters for Web Share Target
-      function checkSharedParams() {
+      // Check URL params for shared links (Web Share Target API)
+      function checkSharedUrl() {
         try {
           const params = new URLSearchParams(window.location.search);
           const shared = params.get('url') || params.get('text');
           if (shared && /^https?:\/\//i.test(shared.trim())) {
             urlInput.value = shared.trim();
             updatePlatformBadge();
-            inspectAndPrepare(shared.trim());
-            return;
           }
         } catch (e) {}
-
-        // Default to YouTube demo on startup so the preview card is nicely populated
-        urlInput.value = DEMO_STREAMS.youtube.url;
-        updatePlatformBadge();
-        inspectAndPrepare(DEMO_STREAMS.youtube.url, DEMO_STREAMS.youtube.filename, DEMO_STREAMS.youtube.label);
       }
 
-      // Init
-      
-    // Register Service Worker for PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      });
-    }
-    
       loadPersistedData();
       renderHistory();
-      checkSharedParams();
+      checkSharedUrl();
     })();
   </script>
 </body>
