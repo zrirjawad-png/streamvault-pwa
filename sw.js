@@ -1,5 +1,5 @@
-// StreamVault PWA Service Worker v3
-const CACHE_NAME = 'streamvault-pwa-v3';
+// StreamVault PWA Service Worker v3.1
+const CACHE_NAME = 'streamvault-pwa-v3.1';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

@@ -1,5 +1,4 @@
-# Production Dockerfile for StreamVault Video Proxy (Render.com / Railway / Docker)
-# Includes Node.js 20, Python 3, ffmpeg (for audio/video muxing), and the latest yt-dlp binary
+# StreamVault v3.0 Production Dockerfile (Render / Railway / Fly.io)
 FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

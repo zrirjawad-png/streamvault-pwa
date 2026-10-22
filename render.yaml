@@ -1,8 +1,7 @@
 services:
   - type: web
-    name: streamvault-video-downloader
+    name: streamvault-pwa
     env: docker
     plan: free
-    region: oregon
     dockerfilePath: ./Dockerfile
     healthCheckPath: /healthz

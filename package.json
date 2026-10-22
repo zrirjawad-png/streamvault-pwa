@@ -1,7 +1,7 @@
 {
-  "name": "streamvault-proxy",
-  "version": "1.1.0",
-  "description": "StreamVault Video Downloader PWA + yt-dlp Audio/Video Muxing Backend",
+  "name": "streamvault-video-downloader",
+  "version": "3.1.0",
+  "description": "StreamVault v3.1 Public Video Downloader (YouTube, Instagram, TikTok, X, Facebook)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
