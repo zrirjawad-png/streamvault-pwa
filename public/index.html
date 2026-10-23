@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0f19">
-  <title>StreamVault — Free Online Video Downloader</title>
+  <title>StreamVault v3.5 — Free Online Video Downloader</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +41,7 @@
         rgba(255, 255, 255, 0.2) 25%,
         transparent 25%,
         transparent 50%,
-        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 20%) 50%,
         rgba(255, 255, 255, 0.2) 75%,
         transparent 75%,
         transparent
@@ -72,7 +72,7 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">StreamVault</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">HD Downloader</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v3.5 HD</span>
           </div>
           <p class="text-xs text-slate-400 hidden sm:block">Free Online Video &amp; Audio Saver</p>
         </div>
@@ -334,7 +334,7 @@
 
   <!-- Footer -->
   <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500">
-    <p>StreamVault v3.4 — Fast, Free &amp; Unlimited Video Downloader</p>
+    <p>StreamVault v3.5 — Fast, Free &amp; Unlimited Video Downloader</p>
   </footer>
 
   <!-- PWA INSTALL MODAL -->
@@ -365,18 +365,16 @@
 
   <script>
     (function () {
-      // Automatically clear old service worker caches on load
+      // Automatically UNREGISTER any old Service Workers and wipe old caches so updates apply immediately!
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           if (window.caches) {
             caches.keys().then((keys) => {
-              keys.forEach((k) => {
-                if (k !== 'streamvault-pwa-v3.4') caches.delete(k);
-              });
+              keys.forEach((k) => caches.delete(k));
             }).catch(() => {});
           }
-          navigator.serviceWorker.register('/sw.js').then((reg) => {
-            reg.update();
+          navigator.serviceWorker.getRegistrations().then((regs) => {
+            regs.forEach((r) => r.unregister());
           }).catch(() => {});
         });
       }
@@ -920,13 +918,26 @@
           const apiBase = getApiBase();
 
           // FAST PATH FOR TIKTOK: Resolve directly in browser first (uses user's residential IP, zero rate limit),
-          // then stream through /api/proxy-file for native Content-Disposition file download!
+          // then fetch as Blob directly in browser or stream via /api/proxy-file!
           if (platform.name === 'tiktok') {
             downloadStatusTitle.textContent = 'Resolving HD watermark-free TikTok stream...';
             const tikResolved = await resolveTikTokClientSide(rawUrl, isAudio);
             if (tikResolved && tikResolved.url) {
               const ext = isAudio ? '.mp3' : '.mp4';
               const finalName = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '') + ext;
+              // Try direct browser blob download first (works even if backend isn't updated yet!)
+              try {
+                const mediaRes = await fetch(tikResolved.url, { signal: activeAbortController.signal });
+                if (mediaRes.ok) {
+                  const mediaBlob = await mediaRes.blob();
+                  if (mediaBlob && mediaBlob.size > 5000) {
+                    const blobUrl = URL.createObjectURL(mediaBlob);
+                    completeDownloadUI(blobUrl, finalName, formatBytes(mediaBlob.size), rawUrl, platform.label);
+                    return;
+                  }
+                }
+              } catch (e) {}
+
               const proxyDownloadUrl =
                 apiBase +
                 '/api/proxy-file?url=' +
@@ -944,7 +955,7 @@
             }
           }
 
-          // TIER 1: /api/prepare on v3.4 backend (handles YouTube cloud converters, Instagram, Facebook, X, TikTok)
+          // TIER 1: /api/prepare on v3.5 backend (handles YouTube cloud converters, Instagram, Facebook, X, TikTok)
           const prepUrl =
             apiBase +
             '/api/prepare?url=' +
@@ -978,13 +989,7 @@
               downloadStatusTitle.textContent = 'Bypassing region lock via cloud converter...';
               const clientYtUrl = await resolveYouTubeClientFallback(rawUrl, ytId, selectedQuality, isAudio);
               if (clientYtUrl) {
-                const proxyUrl =
-                  apiBase +
-                  '/api/proxy-file?url=' +
-                  encodeURIComponent(clientYtUrl) +
-                  '&filename=' +
-                  encodeURIComponent(desiredFilename);
-                completeDownloadUI(proxyUrl, desiredFilename, 'HD Stream', rawUrl, platform.label);
+                completeDownloadUI(clientYtUrl, desiredFilename, 'HD Stream', rawUrl, platform.label);
                 return;
               }
             }

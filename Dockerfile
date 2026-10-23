@@ -1,13 +1,14 @@
-# StreamVault v3.0 Production Dockerfile (Render / Railway / Fly.io)
+# StreamVault v3.5 Production Dockerfile (Render / Railway / Fly.io)
 FROM node:20-bookworm-slim
 
+# Install Python 3, pip, ffmpeg, curl, and yt-dlp with curl-cffi (fixes TikTok TLS fingerprint)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
+    python3-pip \
     ffmpeg \
     curl \
     ca-certificates \
-  && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
-  && chmod a+rx /usr/local/bin/yt-dlp \
+  && pip3 install --no-cache-dir --break-system-packages "yt-dlp[default,curl-cffi]" \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

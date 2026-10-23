@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0f19">
-  <title>StreamVault — Free Online Video Downloader</title>
+  <title>StreamVault v3.5 — Free Online Video Downloader</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +41,7 @@
         rgba(255, 255, 255, 0.2) 25%,
         transparent 25%,
         transparent 50%,
-        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 20%) 50%,
         rgba(255, 255, 255, 0.2) 75%,
         transparent 75%,
         transparent
@@ -72,7 +72,7 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">StreamVault</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">HD Downloader</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v3.5 HD</span>
           </div>
           <p class="text-xs text-slate-400 hidden sm:block">Free Online Video &amp; Audio Saver</p>
         </div>
@@ -334,7 +334,7 @@
 
   <!-- Footer -->
   <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500">
-    <p>StreamVault v3.3 — Fast, Free &amp; Unlimited Video Downloader</p>
+    <p>StreamVault v3.5 — Fast, Free &amp; Unlimited Video Downloader</p>
   </footer>
 
   <!-- PWA INSTALL MODAL -->
@@ -365,18 +365,16 @@
 
   <script>
     (function () {
-      // Automatically clear old service worker caches on load
+      // Automatically UNREGISTER any old Service Workers and wipe old caches so updates apply immediately!
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           if (window.caches) {
             caches.keys().then((keys) => {
-              keys.forEach((k) => {
-                if (k !== 'streamvault-pwa-v3.3') caches.delete(k);
-              });
+              keys.forEach((k) => caches.delete(k));
             }).catch(() => {});
           }
-          navigator.serviceWorker.register('/sw.js').then((reg) => {
-            reg.update();
+          navigator.serviceWorker.getRegistrations().then((regs) => {
+            regs.forEach((r) => r.unregister());
           }).catch(() => {});
         });
       }
@@ -537,7 +535,7 @@
 
       function makeCleanFilename(title, url, quality) {
         const ext = quality === 'audio' ? '.m4a' : '.mp4';
-        if (title && title !== 'Checking video details...' && title !== 'Video Stream Ready') {
+        if (title && title !== 'Checking video details...' && title !== 'Video Stream Ready' && !title.endsWith('Video Ready to Download')) {
           const cleaned = title
             .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
             .replace(/\s+/g, ' ')
@@ -634,6 +632,14 @@
         });
       });
 
+      function normalizeTikWmUrl(u) {
+        if (!u || typeof u !== 'string') return '';
+        if (u.startsWith('http://') || u.startsWith('https://')) return u;
+        if (u.startsWith('//')) return 'https:' + u;
+        if (u.startsWith('/')) return 'https://www.tikwm.com' + u;
+        return 'https://www.tikwm.com/' + u;
+      }
+
       // Fetch real video metadata
       async function inspectVideoMetadata(rawUrl) {
         const platform = detectPlatform(rawUrl);
@@ -656,27 +662,57 @@
         }
 
         let gotClientMeta = false;
-        try {
-          const noembedRes = await fetch('https://noembed.com/embed?url=' + encodeURIComponent(rawUrl));
-          if (noembedRes.ok) {
-            const data = await noembedRes.json();
-            if (data && data.title) {
-              gotClientMeta = true;
-              currentVideoTitle = data.title;
-              previewVideoTitle.textContent = data.title;
-              customFilenameInput.value = makeCleanFilename(data.title, rawUrl, selectedQuality);
-              if (data.thumbnail_url) {
-                previewThumbnailImg.src = data.thumbnail_url;
-                previewThumbnailImg.classList.remove('hidden');
-                videoFallbackThumbnail.classList.add('hidden');
-              }
-              if (data.author_name) {
-                previewUploaderBadge.textContent = data.author_name;
-                previewUploaderBadge.classList.remove('hidden');
+
+        // If TikTok, try TikWM directly from browser for instant cover + title
+        if (platform.name === 'tiktok') {
+          try {
+            const tikRes = await fetch('https://www.tikwm.com/api/?url=' + encodeURIComponent(rawUrl) + '&hd=1');
+            if (tikRes.ok) {
+              const tikJson = await tikRes.json();
+              if (tikJson && tikJson.code === 0 && tikJson.data) {
+                gotClientMeta = true;
+                const tTitle = tikJson.data.title || 'TikTok Video';
+                currentVideoTitle = tTitle;
+                previewVideoTitle.textContent = tTitle;
+                customFilenameInput.value = makeCleanFilename(tTitle, rawUrl, selectedQuality);
+                const coverUrl = normalizeTikWmUrl(tikJson.data.cover || tikJson.data.origin_cover);
+                if (coverUrl) {
+                  previewThumbnailImg.src = coverUrl;
+                  previewThumbnailImg.classList.remove('hidden');
+                  videoFallbackThumbnail.classList.add('hidden');
+                }
+                if (tikJson.data.author && tikJson.data.author.nickname) {
+                  previewUploaderBadge.textContent = tikJson.data.author.nickname;
+                  previewUploaderBadge.classList.remove('hidden');
+                }
               }
             }
-          }
-        } catch (e) {}
+          } catch (e) {}
+        }
+
+        if (!gotClientMeta) {
+          try {
+            const noembedRes = await fetch('https://noembed.com/embed?url=' + encodeURIComponent(rawUrl));
+            if (noembedRes.ok) {
+              const data = await noembedRes.json();
+              if (data && data.title) {
+                gotClientMeta = true;
+                currentVideoTitle = data.title;
+                previewVideoTitle.textContent = data.title;
+                customFilenameInput.value = makeCleanFilename(data.title, rawUrl, selectedQuality);
+                if (data.thumbnail_url) {
+                  previewThumbnailImg.src = data.thumbnail_url;
+                  previewThumbnailImg.classList.remove('hidden');
+                  videoFallbackThumbnail.classList.add('hidden');
+                }
+                if (data.author_name) {
+                  previewUploaderBadge.textContent = data.author_name;
+                  previewUploaderBadge.classList.remove('hidden');
+                }
+              }
+            }
+          } catch (e) {}
+        }
 
         if (!gotClientMeta) {
           try {
@@ -717,58 +753,119 @@
         setTimeout(() => a.remove(), 4000);
       }
 
-      // Client-side YouTube stream resolver fallback (Piped / Invidious public APIs)
-      async function resolveYouTubeClientFallback(ytId, isAudio) {
-        const pipedApis = [
-          'https://pipedapi.kavin.rocks',
-          'https://pipedapi.adminforge.de',
-          'https://api.piped.private.coffee',
-          'https://pipedapi.drgns.space'
-        ];
-        for (const base of pipedApis) {
-          try {
-            const r = await fetch(base + '/streams/' + encodeURIComponent(ytId));
-            if (!r.ok) continue;
-            const d = await r.json();
-            if (isAudio && Array.isArray(d.audioStreams) && d.audioStreams.length > 0) {
-              const bestA = d.audioStreams.find((s) => s.mimeType && s.mimeType.includes('mp4')) || d.audioStreams[0];
-              if (bestA && bestA.url) return bestA.url;
+      // Client-side TikTok direct resolver (runs on user's residential IP to avoid datacenter blocks)
+      async function resolveTikTokClientSide(rawUrl, isAudio) {
+        try {
+          const r = await fetch('https://www.tikwm.com/api/?url=' + encodeURIComponent(rawUrl) + '&hd=1');
+          if (r.ok) {
+            const j = await r.json();
+            if (j && j.code === 0 && j.data) {
+              const rawMedia = isAudio
+                ? (j.data.music || j.data.play || j.data.wmplay)
+                : (j.data.hdplay || j.data.play || j.data.wmplay);
+              const mediaUrl = normalizeTikWmUrl(rawMedia);
+              if (mediaUrl) {
+                return {
+                  url: mediaUrl,
+                  size: j.data.hd_size || j.data.size || 0,
+                  title: j.data.title || ''
+                };
+              }
             }
-            if (Array.isArray(d.videoStreams) && d.videoStreams.length > 0) {
-              // Prefer muxed video+audio stream (videoOnly === false)
-              const muxed = d.videoStreams.filter((s) => s.videoOnly === false && s.url);
-              if (muxed.length > 0) return muxed[0].url;
-            }
-          } catch (e) {}
-        }
+          }
+        } catch (e) {}
 
-        const invidiousApis = [
-          'https://inv.tux.pizza',
-          'https://invidious.nerdvpn.de',
-          'https://invidious.jing.rocks'
-        ];
-        for (const base of invidiousApis) {
-          try {
-            const r = await fetch(base + '/api/v1/videos/' + encodeURIComponent(ytId));
-            if (!r.ok) continue;
-            const d = await r.json();
-            if (!isAudio && Array.isArray(d.formatStreams) && d.formatStreams.length > 0) {
-              const s = d.formatStreams[d.formatStreams.length - 1];
-              if (s && s.url) return s.url;
+        // Fallback 2: TiklyDown API
+        try {
+          const r2 = await fetch('https://api.tiklydown.eu.org/api/download?url=' + encodeURIComponent(rawUrl));
+          if (r2.ok) {
+            const j2 = await r2.json();
+            const mediaUrl = isAudio
+              ? (j2.music && j2.music.play_url)
+              : ((j2.video && (j2.video.noWatermark || j2.video.watermark)) || '');
+            if (mediaUrl && mediaUrl.startsWith('http')) {
+              return { url: mediaUrl, size: 0, title: j2.title || '' };
             }
-            if (isAudio && Array.isArray(d.adaptiveFormats)) {
-              const a = d.adaptiveFormats.find((f) => f.type && f.type.startsWith('audio/mp4')) || d.adaptiveFormats.find((f) => f.type && f.type.startsWith('audio/'));
-              if (a && a.url) return a.url;
+          }
+        } catch (e) {}
+
+        return null;
+      }
+
+      // Client-side YouTube stream resolver fallback (OceanSaver / SaveNow + Invidious local=true)
+      async function resolveYouTubeClientFallback(rawUrl, ytId, quality, isAudio) {
+        // Method 1: OceanSaver / SaveNow Cloud Converter
+        try {
+          const fmt = isAudio ? 'mp3' : (quality === '480p' ? '480' : quality === '720p' ? '720' : '1080');
+          const initUrl = 'https://p.savenow.to/ajax/download.php?button=1&start=1&end=1&format=' + fmt + '&iframe_source=https://allinonedownloader.com/&url=' + encodeURIComponent(rawUrl);
+          const r = await fetch(initUrl);
+          if (r.ok) {
+            const j = await r.json();
+            if (j && j.id) {
+              const progBase = j.progress_url || ('https://p.oceansaver.in/ajax/progress.php?id=' + encodeURIComponent(j.id));
+              for (let i = 0; i < 20; i++) {
+                await new Promise((res) => setTimeout(res, 1400));
+                const pr = await fetch(progBase);
+                if (!pr.ok) continue;
+                const pj = await pr.json();
+                if (pj && pj.download_url && pj.download_url.startsWith('http')) {
+                  return pj.download_url;
+                }
+                if (pj && (pj.text === 'Error' || pj.error)) break;
+              }
             }
-          } catch (e) {}
+          }
+        } catch (e) {}
+
+        // Method 2: Invidious local=true proxied stream
+        if (ytId) {
+          const invidiousApis = [
+            'https://inv.tux.pizza',
+            'https://invidious.nerdvpn.de',
+            'https://invidious.jing.rocks',
+            'https://yewtu.be'
+          ];
+          for (const base of invidiousApis) {
+            try {
+              const r = await fetch(base + '/api/v1/videos/' + encodeURIComponent(ytId));
+              if (!r.ok) continue;
+              const d = await r.json();
+              if (!isAudio && Array.isArray(d.formatStreams) && d.formatStreams.length > 0) {
+                return base + '/latest_version?id=' + encodeURIComponent(ytId) + '&itag=18&local=true';
+              }
+            } catch (e) {}
+          }
         }
         return null;
       }
 
-      // Main Download Handler with 3-tier resilience:
-      // Tier 1: /api/prepare (v3.1 server muxing)
-      // Tier 2: /api/stream (legacy server.js compatibility with >0 byte verification)
-      // Tier 3: Client-side public stream resolver
+      function completeDownloadUI(finalDownloadUrl, finalFilename, formattedSize, rawUrl, platformLabel) {
+        if (progressInterval) clearInterval(progressInterval);
+        progressBarFill.style.width = '100%';
+        downloadPercentText.textContent = '100%';
+        downloadStatusTitle.textContent = 'Starting download...';
+
+        directDownloadLinkBtn.href = finalDownloadUrl;
+        directDownloadLinkBtn.setAttribute('download', finalFilename);
+        readyFileDetails.textContent = finalFilename + (formattedSize ? ' (' + formattedSize + ')' : '');
+        readyDownloadBanner.classList.remove('hidden');
+
+        triggerBrowserSave(finalDownloadUrl, finalFilename);
+
+        downloadHistory.unshift({
+          id: 'dl-' + Date.now(),
+          url: rawUrl,
+          filename: finalFilename,
+          size: formattedSize || 'HD',
+          platform: platformLabel
+        });
+        if (downloadHistory.length > 15) downloadHistory.pop();
+        saveHistory();
+
+        showToast('Download started: ' + finalFilename, 'success');
+      }
+
+      // Main Download Handler with Multi-Engine Resilience:
       async function executeDownload() {
         const rawUrl = urlInput.value.trim();
         if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
@@ -783,6 +880,7 @@
         }
 
         const platform = detectPlatform(rawUrl);
+        const isAudio = selectedQuality === 'audio';
         const desiredFilename = (customFilenameInput.value || makeCleanFilename(currentVideoTitle, rawUrl, selectedQuality)).trim();
         const titleWithoutExt = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '');
 
@@ -818,6 +916,46 @@
 
         try {
           const apiBase = getApiBase();
+
+          // FAST PATH FOR TIKTOK: Resolve directly in browser first (uses user's residential IP, zero rate limit),
+          // then fetch as Blob directly in browser or stream via /api/proxy-file!
+          if (platform.name === 'tiktok') {
+            downloadStatusTitle.textContent = 'Resolving HD watermark-free TikTok stream...';
+            const tikResolved = await resolveTikTokClientSide(rawUrl, isAudio);
+            if (tikResolved && tikResolved.url) {
+              const ext = isAudio ? '.mp3' : '.mp4';
+              const finalName = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '') + ext;
+              // Try direct browser blob download first (works even if backend isn't updated yet!)
+              try {
+                const mediaRes = await fetch(tikResolved.url, { signal: activeAbortController.signal });
+                if (mediaRes.ok) {
+                  const mediaBlob = await mediaRes.blob();
+                  if (mediaBlob && mediaBlob.size > 5000) {
+                    const blobUrl = URL.createObjectURL(mediaBlob);
+                    completeDownloadUI(blobUrl, finalName, formatBytes(mediaBlob.size), rawUrl, platform.label);
+                    return;
+                  }
+                }
+              } catch (e) {}
+
+              const proxyDownloadUrl =
+                apiBase +
+                '/api/proxy-file?url=' +
+                encodeURIComponent(tikResolved.url) +
+                '&filename=' +
+                encodeURIComponent(finalName);
+              completeDownloadUI(
+                proxyDownloadUrl,
+                finalName,
+                tikResolved.size ? formatBytes(tikResolved.size) : 'HD MP4',
+                rawUrl,
+                platform.label
+              );
+              return;
+            }
+          }
+
+          // TIER 1: /api/prepare on v3.5 backend (handles YouTube cloud converters, Instagram, Facebook, X, TikTok)
           const prepUrl =
             apiBase +
             '/api/prepare?url=' +
@@ -829,7 +967,6 @@
 
           const response = await fetch(prepUrl, { signal: activeAbortController.signal });
 
-          // TIER 1: /api/prepare exists on v3.1 server
           if (response.status !== 404) {
             let data = null;
             try {
@@ -838,47 +975,29 @@
               throw new Error('Server returned invalid response (HTTP ' + response.status + ').');
             }
 
-            if (!response.ok || !data || !data.ok) {
-              throw new Error((data && data.error) || 'Could not extract video stream.');
+            if (response.ok && data && data.ok && data.size > 0) {
+              const fullDownloadUrl = data.downloadUrl.startsWith('http') ? data.downloadUrl : (apiBase + data.downloadUrl);
+              const finalFilename = data.filename || desiredFilename;
+              const formattedSize = formatBytes(data.size);
+              completeDownloadUI(fullDownloadUrl, finalFilename, formattedSize, rawUrl, platform.label);
+              return;
             }
 
-            if (!data.size || data.size <= 0) {
-              throw new Error('The extracted video was empty (0 bytes).');
+            // If backend /api/prepare failed on YouTube (e.g. geo-restriction or datacenter block), try client-side cloud resolver!
+            const ytId = extractYouTubeId(rawUrl);
+            if (ytId) {
+              downloadStatusTitle.textContent = 'Bypassing region lock via cloud converter...';
+              const clientYtUrl = await resolveYouTubeClientFallback(rawUrl, ytId, selectedQuality, isAudio);
+              if (clientYtUrl) {
+                completeDownloadUI(clientYtUrl, desiredFilename, 'HD Stream', rawUrl, platform.label);
+                return;
+              }
             }
 
-            if (progressInterval) clearInterval(progressInterval);
-            progressBarFill.style.width = '100%';
-            downloadPercentText.textContent = '100%';
-            downloadStatusTitle.textContent = 'Starting download...';
-
-            const fullDownloadUrl = data.downloadUrl.startsWith('http') ? data.downloadUrl : (apiBase + data.downloadUrl);
-            const finalFilename = data.filename || desiredFilename;
-            const formattedSize = formatBytes(data.size);
-
-            directDownloadLinkBtn.href = fullDownloadUrl;
-            directDownloadLinkBtn.setAttribute('download', finalFilename);
-            readyFileDetails.textContent = finalFilename + (formattedSize ? ' (' + formattedSize + ')' : '');
-            readyDownloadBanner.classList.remove('hidden');
-
-            triggerBrowserSave(fullDownloadUrl, finalFilename);
-
-            downloadHistory.unshift({
-              id: 'dl-' + Date.now(),
-              url: rawUrl,
-              filename: finalFilename,
-              size: formattedSize || 'HD',
-              platform: platform.label
-            });
-            if (downloadHistory.length > 15) downloadHistory.pop();
-            saveHistory();
-
-            showToast('Download started: ' + finalFilename, 'success');
-            return;
+            throw new Error((data && data.error) || 'Could not extract video stream.');
           }
 
-          // TIER 2: /api/prepare returned 404 (meaning root server.js on GitHub is still the old v1 server.js!)
-          // Automatically try /api/stream (which exists in old server.js) and validate bytes > 0!
-          downloadStatusTitle.textContent = 'Streaming via legacy endpoint (/api/stream)...';
+          // TIER 2: Legacy /api/stream fallback
           const streamUrl =
             apiBase +
             '/api/stream?url=' +
@@ -890,57 +1009,13 @@
           if (streamRes.ok) {
             const blob = await streamRes.blob();
             if (blob && blob.size > 1024) {
-              if (progressInterval) clearInterval(progressInterval);
-              progressBarFill.style.width = '100%';
-              downloadPercentText.textContent = '100%';
-
               const blobUrl = URL.createObjectURL(blob);
-              directDownloadLinkBtn.href = blobUrl;
-              directDownloadLinkBtn.setAttribute('download', desiredFilename);
-              readyFileDetails.textContent = desiredFilename + ' (' + formatBytes(blob.size) + ')';
-              readyDownloadBanner.classList.remove('hidden');
-
-              triggerBrowserSave(blobUrl, desiredFilename);
-
-              downloadHistory.unshift({
-                id: 'dl-' + Date.now(),
-                url: rawUrl,
-                filename: desiredFilename,
-                size: formatBytes(blob.size),
-                platform: platform.label
-              });
-              if (downloadHistory.length > 15) downloadHistory.pop();
-              saveHistory();
-
-              showToast('Download complete: ' + desiredFilename, 'success');
+              completeDownloadUI(blobUrl, desiredFilename, formatBytes(blob.size), rawUrl, platform.label);
               return;
             }
           }
 
-          // TIER 3: If YouTube returned 0 bytes on legacy /api/stream, use client-side YouTube stream resolver!
-          const ytId = extractYouTubeId(rawUrl);
-          if (ytId) {
-            downloadStatusTitle.textContent = 'Resolving YouTube stream via backup mirror...';
-            const fallbackStreamUrl = await resolveYouTubeClientFallback(ytId, selectedQuality === 'audio');
-            if (fallbackStreamUrl) {
-              if (progressInterval) clearInterval(progressInterval);
-              progressBarFill.style.width = '100%';
-              downloadPercentText.textContent = '100%';
-
-              directDownloadLinkBtn.href = fallbackStreamUrl;
-              directDownloadLinkBtn.setAttribute('download', desiredFilename);
-              readyFileDetails.textContent = desiredFilename + ' (Direct Stream Ready)';
-              readyDownloadBanner.classList.remove('hidden');
-
-              triggerBrowserSave(fallbackStreamUrl, desiredFilename);
-              showToast('Stream resolved! Click "Save File to Device" if it opens in a new tab.', 'success');
-              return;
-            }
-          }
-
-          throw new Error(
-            'Your frontend (public/index.html) is updated, but the root server.js file on GitHub is still the old version (HTTP 404 on /api/prepare). Please replace server.js in the main root folder of your GitHub repository.'
-          );
+          throw new Error('Could not extract video stream. Please check the link and try again.');
         } catch (err) {
           if (activeAbortController && activeAbortController.signal.aborted) {
             showToast('Download canceled.', 'warn');
