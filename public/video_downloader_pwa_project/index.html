@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0f19">
+  <title>StreamVault v3.5 — Free Online Video Downloader</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #070b14;
+      background-image: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.16), transparent 55%);
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .progress-stripe {
+      background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 20%) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 1.25rem 1.25rem;
+      animation: progress-move 0.9s linear infinite;
+    }
+    @keyframes progress-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 1.25rem 0; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- Toast Notifications -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Public Navigation Header -->
+  <header class="sticky top-0 z-30 glass-card border-b border-slate-800/80">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">StreamVault</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v3.5 HD</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Free Online Video &amp; Audio Saver</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="installPwaBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3M5 20h14"/>
+          </svg>
+          <span id="installPwaText">Install App</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+
+    <!-- HERO DOWNLOADER CARD -->
+    <section class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Download Videos &amp; Audio in Seconds
+        </h1>
+        <p class="text-sm sm:text-base text-slate-400">
+          Paste any link from YouTube, Instagram, TikTok, Facebook, or X to save high-definition MP4 video or MP3/M4A audio directly to your device.
+        </p>
+
+        <!-- Supported Platform Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
+          <span class="px-2.5 py-1 rounded-full bg-red-500/10 text-red-300 border border-red-500/20 font-medium">YouTube &amp; Shorts</span>
+          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 border border-pink-500/20 font-medium">Instagram Reels</span>
+          <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-medium">TikTok</span>
+          <span class="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 font-medium">Facebook</span>
+          <span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">X / Twitter</span>
+        </div>
+      </div>
+
+      <!-- URL Input Form -->
+      <div class="mt-8 max-w-2xl mx-auto space-y-4">
+        <div class="relative flex items-center">
+          <!-- Detected Platform Badge -->
+          <div id="platformIconContainer" class="absolute left-3.5 flex items-center justify-center w-8 h-8 rounded-xl bg-slate-800/90 text-slate-400">
+            <svg id="defaultIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+            </svg>
+            <span id="platformTextBadge" class="hidden text-[10px] font-bold uppercase px-2 py-1 rounded-lg"></span>
+          </div>
+
+          <input
+            id="urlInput"
+            type="url"
+            autocomplete="off"
+            placeholder="Paste video link here (https://...)"
+            class="w-full pl-14 pr-28 py-4 sm:py-4.5 rounded-2xl bg-slate-950/95 border border-slate-700/80 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/25 transition shadow-inner"
+          />
+
+          <div class="absolute right-2.5 flex items-center gap-1.5">
+            <button id="clearInputBtn" type="button" class="hidden p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition" title="Clear link">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+            <button id="pasteBtn" type="button" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              <span>Paste</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Format & Quality Pills -->
+        <div class="flex flex-wrap items-center justify-center sm:justify-between gap-2 pt-1">
+          <div class="flex flex-wrap items-center justify-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 w-full sm:w-auto">
+            <button type="button" data-quality="1080p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition">
+              🎬 MP4 1080p
+            </button>
+            <button type="button" data-quality="720p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
+              📺 MP4 720p
+            </button>
+            <button type="button" data-quality="480p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
+              📱 MP4 480p
+            </button>
+            <button type="button" data-quality="audio" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
+              🎵 Audio (MP3/M4A)
+            </button>
+          </div>
+
+          <div class="hidden sm:flex items-center gap-1.5 text-xs text-slate-400">
+            <span id="engineStatusDot" class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="engineStatusLabel">Auto HD Audio + Video Merge</span>
+          </div>
+        </div>
+
+        <!-- Primary Download Button -->
+        <div class="pt-1">
+          <button id="startDownloadBtn" type="button" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:scale-[0.99] text-white font-bold text-base shadow-xl shadow-indigo-600/25 transition flex items-center justify-center gap-2.5">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span id="downloadBtnText">Download Now</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO METADATA PREVIEW CARD (Appears when link is pasted) -->
+    <section id="previewCard" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-slate-800">
+      <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
+        <!-- Video Thumbnail -->
+        <div class="w-full sm:w-52 shrink-0 aspect-video rounded-xl bg-slate-950 border border-slate-800 overflow-hidden relative flex items-center justify-center">
+          <img id="previewThumbnailImg" src="" alt="Video Thumbnail" class="hidden w-full h-full object-cover" />
+          <div id="videoFallbackThumbnail" class="flex flex-col items-center justify-center p-3 text-center">
+            <svg class="w-8 h-8 text-indigo-400 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span id="previewThumbStatus" class="text-xs text-slate-400 font-medium">Link Ready</span>
+          </div>
+        </div>
+
+        <!-- Video Title & Filename -->
+        <div class="flex-1 space-y-2.5 w-full">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="previewPlatformBadge" class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Video</span>
+            <span id="previewResolutionBadge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300">1080p MP4</span>
+            <span id="previewUploaderBadge" class="hidden text-[11px] font-medium px-2.5 py-0.5 rounded-md bg-slate-800/80 text-slate-400"></span>
+          </div>
+
+          <h3 id="previewVideoTitle" class="text-sm sm:text-base font-bold text-white line-clamp-2">
+            Checking video details...
+          </h3>
+
+          <div>
+            <label for="customFilenameInput" class="block text-xs text-slate-400 mb-1">Save file as:</label>
+            <input
+              id="customFilenameInput"
+              type="text"
+              value="video.mp4"
+              class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-white font-medium focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE EXTRACTION & DOWNLOAD PROGRESS CARD -->
+    <section id="downloadProgressSection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-500/40 space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <div>
+            <h2 id="downloadStatusTitle" class="text-sm sm:text-base font-bold text-white">Extracting HD video &amp; audio...</h2>
+            <p id="downloadBytesText" class="text-xs text-slate-400">Please wait while we merge the highest quality stream (usually 5–15 seconds)...</p>
+          </div>
+        </div>
+        <span id="downloadPercentText" class="text-base sm:text-lg font-extrabold text-indigo-400">Processing</span>
+      </div>
+
+      <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
+        <div id="progressBarFill" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full progress-stripe transition-all duration-300" style="width: 35%;"></div>
+      </div>
+
+      <div class="flex justify-end">
+        <button id="cancelStreamBtn" type="button" class="text-xs text-rose-400 hover:text-rose-300 font-semibold px-2.5 py-1 rounded-lg hover:bg-rose-950/40 transition">
+          Cancel
+        </button>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD READY / DIRECT SAVE BANNER -->
+    <section id="readyDownloadBanner" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-emerald-500/40 bg-emerald-950/15">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Your Video is Ready!</h3>
+            <p id="readyFileDetails" class="text-xs text-emerald-300 font-medium mt-0.5">Download started automatically.</p>
+          </div>
+        </div>
+        <a
+          id="directDownloadLinkBtn"
+          href="#readyDownloadBanner"
+          download
+          target="_blank"
+          rel="noopener"
+          class="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm text-center shadow-lg shadow-emerald-500/20 transition"
+        >
+          Save File to Device
+        </a>
+      </div>
+    </section>
+
+    <!-- ERROR MESSAGE BANNER -->
+    <section id="errorBanner" class="hidden glass-card rounded-2xl p-5 border border-rose-500/40 bg-rose-950/20">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-sm font-bold text-rose-200">Could not download this video</h3>
+          <p id="errorBannerText" class="text-xs text-rose-300/90 mt-1 leading-relaxed"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECENT DOWNLOADS SECTION (Shown once user downloads a video) -->
+    <section id="historySection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-base font-bold text-white">Your Recent Downloads</h2>
+          <span id="historyCountBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">0</span>
+        </div>
+        <button id="clearHistoryBtn" type="button" class="text-xs text-slate-400 hover:text-rose-300 transition">
+          Clear History
+        </button>
+      </div>
+      <div id="historyListContainer" class="space-y-2"></div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION FOR PUBLIC VISITORS -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+      <div class="glass-card rounded-2xl p-5 space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold text-sm flex items-center justify-center">1</div>
+        <h3 class="text-sm font-bold text-white">Copy Video Link</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Copy the link to any public video, Short, or Reel from YouTube, Instagram, TikTok, Facebook, or X.
+        </p>
+      </div>
+      <div class="glass-card rounded-2xl p-5 space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 font-bold text-sm flex items-center justify-center">2</div>
+        <h3 class="text-sm font-bold text-white">Select Quality</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Paste the link above and choose 1080p Full HD, 720p HD, 480p, or M4A/MP3 audio-only format.
+        </p>
+      </div>
+      <div class="glass-card rounded-2xl p-5 space-y-2">
+        <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 font-bold text-sm flex items-center justify-center">3</div>
+        <h3 class="text-sm font-bold text-white">Save Instantly</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Click Download Now. Video and audio tracks are merged automatically and saved straight to your device.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+    <p>StreamVault v3.5 — Fast, Free &amp; Unlimited Video Downloader</p>
+  </footer>
+
+  <!-- PWA INSTALL MODAL -->
+  <div id="installModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 border border-slate-700 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white">Install StreamVault App</h3>
+        <button id="closeInstallModalBtn" type="button" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        Add StreamVault to your phone or computer home screen for instant 1-tap access anytime.
+      </p>
+      <div class="space-y-2 text-xs text-slate-300 bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+        <div><strong class="text-white">Android / Chrome / Edge:</strong> Tap the browser menu (⋮) and choose <em>Install App</em> or <em>Add to Home Screen</em>.</div>
+        <div><strong class="text-white">iPhone / iPad (Safari):</strong> Tap the <em>Share</em> icon at the bottom and select <em>Add to Home Screen</em>.</div>
+      </div>
+      <div class="flex justify-end">
+        <button id="ackInstallModalBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">
+          Got It
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Automatically UNREGISTER any old Service Workers and wipe old caches so updates apply immediately!
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          if (window.caches) {
+            caches.keys().then((keys) => {
+              keys.forEach((k) => caches.delete(k));
+            }).catch(() => {});
+          }
+          navigator.serviceWorker.getRegistrations().then((regs) => {
+            regs.forEach((r) => r.unregister());
+          }).catch(() => {});
+        });
+      }
+
+      // State
+      let selectedQuality = '1080p';
+      let currentVideoTitle = '';
+      let activeAbortController = null;
+      let progressInterval = null;
+      let deferredInstallPrompt = null;
+      let downloadHistory = [];
+      let infoDebounceTimer = null;
+
+      function getApiBase() {
+        const host = window.location.hostname;
+        if (!host || host.includes('googleusercontent.com') || host.includes('sandbox') || window.location.protocol === 'file:') {
+          return 'https://streamvault-pwa.onrender.com';
+        }
+        return '';
+      }
+
+      function loadPersistedData() {
+        try {
+          const rawHistory = localStorage.getItem('streamvault_history_v3');
+          if (rawHistory) {
+            downloadHistory = JSON.parse(rawHistory);
+          }
+        } catch (e) {}
+        if (!Array.isArray(downloadHistory)) {
+          downloadHistory = [];
+        }
+      }
+
+      function saveHistory() {
+        try {
+          localStorage.setItem('streamvault_history_v3', JSON.stringify(downloadHistory));
+        } catch (e) {}
+        renderHistory();
+      }
+
+      // DOM Elements
+      const urlInput = document.getElementById('urlInput');
+      const clearInputBtn = document.getElementById('clearInputBtn');
+      const pasteBtn = document.getElementById('pasteBtn');
+      const startDownloadBtn = document.getElementById('startDownloadBtn');
+      const downloadBtnText = document.getElementById('downloadBtnText');
+      const platformIconContainer = document.getElementById('platformIconContainer');
+      const defaultIcon = document.getElementById('defaultIcon');
+      const platformTextBadge = document.getElementById('platformTextBadge');
+
+      const previewCard = document.getElementById('previewCard');
+      const previewThumbnailImg = document.getElementById('previewThumbnailImg');
+      const videoFallbackThumbnail = document.getElementById('videoFallbackThumbnail');
+      const previewThumbStatus = document.getElementById('previewThumbStatus');
+      const previewPlatformBadge = document.getElementById('previewPlatformBadge');
+      const previewResolutionBadge = document.getElementById('previewResolutionBadge');
+      const previewUploaderBadge = document.getElementById('previewUploaderBadge');
+      const previewVideoTitle = document.getElementById('previewVideoTitle');
+      const customFilenameInput = document.getElementById('customFilenameInput');
+
+      const downloadProgressSection = document.getElementById('downloadProgressSection');
+      const downloadStatusTitle = document.getElementById('downloadStatusTitle');
+      const downloadPercentText = document.getElementById('downloadPercentText');
+      const progressBarFill = document.getElementById('progressBarFill');
+      const downloadBytesText = document.getElementById('downloadBytesText');
+      const cancelStreamBtn = document.getElementById('cancelStreamBtn');
+
+      const readyDownloadBanner = document.getElementById('readyDownloadBanner');
+      const readyFileDetails = document.getElementById('readyFileDetails');
+      const directDownloadLinkBtn = document.getElementById('directDownloadLinkBtn');
+
+      const errorBanner = document.getElementById('errorBanner');
+      const errorBannerText = document.getElementById('errorBannerText');
+
+      const historySection = document.getElementById('historySection');
+      const historyCountBadge = document.getElementById('historyCountBadge');
+      const historyListContainer = document.getElementById('historyListContainer');
+      const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+      const installPwaBtn = document.getElementById('installPwaBtn');
+      const installModal = document.getElementById('installModal');
+      const closeInstallModalBtn = document.getElementById('closeInstallModalBtn');
+      const ackInstallModalBtn = document.getElementById('ackInstallModalBtn');
+
+      function showToast(message, type) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        const colors =
+          type === 'error'
+            ? 'border-rose-500/40 bg-rose-950/95 text-rose-200'
+            : type === 'warn'
+            ? 'border-amber-500/40 bg-amber-950/95 text-amber-200'
+            : 'border-emerald-500/40 bg-slate-900/95 text-emerald-200';
+        toast.className =
+          'pointer-events-auto px-4 py-3 rounded-xl border text-xs font-semibold shadow-2xl transition-all duration-200 flex items-center justify-between gap-3 ' +
+          colors;
+        toast.innerHTML = '<span>' + escapeHtml(message) + '</span>';
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 250);
+        }, 4500);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function formatBytes(bytes) {
+        if (!bytes || isNaN(bytes)) return '';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+
+      function detectPlatform(url) {
+        if (!url) return { name: 'generic', label: 'Link', color: 'bg-slate-800 text-slate-300' };
+        const lower = url.toLowerCase();
+        if (lower.includes('youtube.com') || lower.includes('youtu.be')) {
+          return { name: 'youtube', label: 'YouTube', color: 'bg-red-600 text-white' };
+        }
+        if (lower.includes('instagram.com')) {
+          return { name: 'instagram', label: 'Instagram', color: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' };
+        }
+        if (lower.includes('tiktok.com')) {
+          return { name: 'tiktok', label: 'TikTok', color: 'bg-cyan-500 text-slate-950' };
+        }
+        if (lower.includes('facebook.com') || lower.includes('fb.watch')) {
+          return { name: 'facebook', label: 'Facebook', color: 'bg-blue-600 text-white' };
+        }
+        if (lower.includes('twitter.com') || lower.includes('x.com')) {
+          return { name: 'twitter', label: 'X', color: 'bg-slate-700 text-white' };
+        }
+        if (/\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(url)) {
+          return { name: 'direct', label: 'MP4', color: 'bg-emerald-500 text-slate-950' };
+        }
+        return { name: 'generic', label: 'Video', color: 'bg-indigo-600 text-white' };
+      }
+
+      function extractYouTubeId(url) {
+        try {
+          const u = new URL(url);
+          if (u.hostname.includes('youtu.be')) {
+            return u.pathname.split('/').filter(Boolean)[0] || null;
+          }
+          if (u.searchParams.get('v')) {
+            return u.searchParams.get('v');
+          }
+          const parts = u.pathname.split('/').filter(Boolean);
+          const idx = parts.findIndex((p) => p === 'shorts' || p === 'embed' || p === 'v');
+          if (idx !== -1 && parts[idx + 1]) return parts[idx + 1];
+        } catch (e) {}
+        return null;
+      }
+
+      function makeCleanFilename(title, url, quality) {
+        const ext = quality === 'audio' ? '.m4a' : '.mp4';
+        if (title && title !== 'Checking video details...' && title !== 'Video Stream Ready' && !title.endsWith('Video Ready to Download')) {
+          const cleaned = title
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 80);
+          if (cleaned) return cleaned + ext;
+        }
+        try {
+          const parsed = new URL(url);
+          const platform = detectPlatform(url);
+          if (platform.name === 'youtube') {
+            const vId = extractYouTubeId(url) || 'video';
+            return 'youtube-' + vId + ext;
+          }
+          if (platform.name === 'instagram') {
+            const seg = parsed.pathname.split('/').filter(Boolean).pop() || 'reel';
+            return 'instagram-' + seg + ext;
+          }
+          return platform.name + '-video' + ext;
+        } catch (e) {
+          return 'video' + ext;
+        }
+      }
+
+      function updatePlatformBadge() {
+        const url = urlInput.value.trim();
+        clearInputBtn.classList.toggle('hidden', !url);
+        errorBanner.classList.add('hidden');
+
+        if (!url) {
+          defaultIcon.classList.remove('hidden');
+          platformTextBadge.classList.add('hidden');
+          platformIconContainer.className = 'absolute left-3.5 flex items-center justify-center w-8 h-8 rounded-xl bg-slate-800/90 text-slate-400';
+          previewCard.classList.add('hidden');
+          return;
+        }
+
+        const platform = detectPlatform(url);
+        defaultIcon.classList.add('hidden');
+        platformTextBadge.classList.remove('hidden');
+        platformTextBadge.textContent = platform.label;
+        platformTextBadge.className = 'text-[10px] font-bold uppercase px-2 py-1 rounded-lg ' + platform.color;
+        platformIconContainer.className = 'absolute left-3 flex items-center justify-center w-auto h-8';
+
+        if (infoDebounceTimer) clearTimeout(infoDebounceTimer);
+        infoDebounceTimer = setTimeout(() => {
+          if (/^https?:\/\//i.test(url)) {
+            inspectVideoMetadata(url);
+          }
+        }, 250);
+      }
+
+      urlInput.addEventListener('input', updatePlatformBadge);
+
+      clearInputBtn.addEventListener('click', () => {
+        urlInput.value = '';
+        currentVideoTitle = '';
+        updatePlatformBadge();
+        readyDownloadBanner.classList.add('hidden');
+        errorBanner.classList.add('hidden');
+        urlInput.focus();
+      });
+
+      pasteBtn.addEventListener('click', async () => {
+        try {
+          if (navigator.clipboard && navigator.clipboard.readText) {
+            const text = await navigator.clipboard.readText();
+            if (text && text.trim()) {
+              urlInput.value = text.trim();
+              updatePlatformBadge();
+              return;
+            }
+          }
+        } catch (err) {}
+        urlInput.focus();
+        showToast('Long-press or press Ctrl+V to paste your link.', 'warn');
+      });
+
+      // Quality selector pills
+      document.querySelectorAll('.quality-pill').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          selectedQuality = btn.getAttribute('data-quality');
+          document.querySelectorAll('.quality-pill').forEach((b) => {
+            if (b.getAttribute('data-quality') === selectedQuality) {
+              b.className = 'quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition';
+            } else {
+              b.className = 'quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition';
+            }
+          });
+          previewResolutionBadge.textContent = selectedQuality === 'audio' ? 'Audio M4A/MP3' : selectedQuality.toUpperCase() + ' MP4';
+          if (urlInput.value.trim()) {
+            customFilenameInput.value = makeCleanFilename(currentVideoTitle, urlInput.value.trim(), selectedQuality);
+          }
+        });
+      });
+
+      function normalizeTikWmUrl(u) {
+        if (!u || typeof u !== 'string') return '';
+        if (u.startsWith('http://') || u.startsWith('https://')) return u;
+        if (u.startsWith('//')) return 'https:' + u;
+        if (u.startsWith('/')) return 'https://www.tikwm.com' + u;
+        return 'https://www.tikwm.com/' + u;
+      }
+
+      // Fetch real video metadata
+      async function inspectVideoMetadata(rawUrl) {
+        const platform = detectPlatform(rawUrl);
+        previewCard.classList.remove('hidden');
+        previewPlatformBadge.textContent = platform.label;
+        previewResolutionBadge.textContent = selectedQuality === 'audio' ? 'Audio M4A/MP3' : selectedQuality.toUpperCase() + ' MP4';
+        previewVideoTitle.textContent = 'Fetching video info...';
+        previewUploaderBadge.classList.add('hidden');
+        previewThumbnailImg.classList.add('hidden');
+        videoFallbackThumbnail.classList.remove('hidden');
+        previewThumbStatus.textContent = platform.label + ' Stream';
+        customFilenameInput.value = makeCleanFilename('', rawUrl, selectedQuality);
+
+        // If YouTube, we can immediately show the HQ thumbnail from i.ytimg.com!
+        const ytId = extractYouTubeId(rawUrl);
+        if (ytId) {
+          previewThumbnailImg.src = 'https://i.ytimg.com/vi/' + ytId + '/hqdefault.jpg';
+          previewThumbnailImg.classList.remove('hidden');
+          videoFallbackThumbnail.classList.add('hidden');
+        }
+
+        let gotClientMeta = false;
+
+        // If TikTok, try TikWM directly from browser for instant cover + title
+        if (platform.name === 'tiktok') {
+          try {
+            const tikRes = await fetch('https://www.tikwm.com/api/?url=' + encodeURIComponent(rawUrl) + '&hd=1');
+            if (tikRes.ok) {
+              const tikJson = await tikRes.json();
+              if (tikJson && tikJson.code === 0 && tikJson.data) {
+                gotClientMeta = true;
+                const tTitle = tikJson.data.title || 'TikTok Video';
+                currentVideoTitle = tTitle;
+                previewVideoTitle.textContent = tTitle;
+                customFilenameInput.value = makeCleanFilename(tTitle, rawUrl, selectedQuality);
+                const coverUrl = normalizeTikWmUrl(tikJson.data.cover || tikJson.data.origin_cover);
+                if (coverUrl) {
+                  previewThumbnailImg.src = coverUrl;
+                  previewThumbnailImg.classList.remove('hidden');
+                  videoFallbackThumbnail.classList.add('hidden');
+                }
+                if (tikJson.data.author && tikJson.data.author.nickname) {
+                  previewUploaderBadge.textContent = tikJson.data.author.nickname;
+                  previewUploaderBadge.classList.remove('hidden');
+                }
+              }
+            }
+          } catch (e) {}
+        }
+
+        if (!gotClientMeta) {
+          try {
+            const noembedRes = await fetch('https://noembed.com/embed?url=' + encodeURIComponent(rawUrl));
+            if (noembedRes.ok) {
+              const data = await noembedRes.json();
+              if (data && data.title) {
+                gotClientMeta = true;
+                currentVideoTitle = data.title;
+                previewVideoTitle.textContent = data.title;
+                customFilenameInput.value = makeCleanFilename(data.title, rawUrl, selectedQuality);
+                if (data.thumbnail_url) {
+                  previewThumbnailImg.src = data.thumbnail_url;
+                  previewThumbnailImg.classList.remove('hidden');
+                  videoFallbackThumbnail.classList.add('hidden');
+                }
+                if (data.author_name) {
+                  previewUploaderBadge.textContent = data.author_name;
+                  previewUploaderBadge.classList.remove('hidden');
+                }
+              }
+            }
+          } catch (e) {}
+        }
+
+        if (!gotClientMeta) {
+          try {
+            const apiBase = getApiBase();
+            const infoRes = await fetch(apiBase + '/api/info?url=' + encodeURIComponent(rawUrl));
+            if (infoRes.ok) {
+              const info = await infoRes.json();
+              if (info && info.ok && info.title) {
+                currentVideoTitle = info.title;
+                previewVideoTitle.textContent = info.title;
+                customFilenameInput.value = makeCleanFilename(info.title, rawUrl, selectedQuality);
+                if (info.thumbnail) {
+                  previewThumbnailImg.src = info.thumbnail;
+                  previewThumbnailImg.classList.remove('hidden');
+                  videoFallbackThumbnail.classList.add('hidden');
+                }
+                if (info.uploader) {
+                  previewUploaderBadge.textContent = info.uploader;
+                  previewUploaderBadge.classList.remove('hidden');
+                }
+              }
+            }
+          } catch (e) {}
+        }
+
+        if (previewVideoTitle.textContent === 'Fetching video info...') {
+          previewVideoTitle.textContent = platform.label + ' Video Ready to Download';
+        }
+      }
+
+      function triggerBrowserSave(downloadUrl, filename) {
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        if (filename) a.setAttribute('download', filename);
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => a.remove(), 4000);
+      }
+
+      // Client-side TikTok direct resolver (runs on user's residential IP to avoid datacenter blocks)
+      async function resolveTikTokClientSide(rawUrl, isAudio) {
+        try {
+          const r = await fetch('https://www.tikwm.com/api/?url=' + encodeURIComponent(rawUrl) + '&hd=1');
+          if (r.ok) {
+            const j = await r.json();
+            if (j && j.code === 0 && j.data) {
+              const rawMedia = isAudio
+                ? (j.data.music || j.data.play || j.data.wmplay)
+                : (j.data.hdplay || j.data.play || j.data.wmplay);
+              const mediaUrl = normalizeTikWmUrl(rawMedia);
+              if (mediaUrl) {
+                return {
+                  url: mediaUrl,
+                  size: j.data.hd_size || j.data.size || 0,
+                  title: j.data.title || ''
+                };
+              }
+            }
+          }
+        } catch (e) {}
+
+        // Fallback 2: TiklyDown API
+        try {
+          const r2 = await fetch('https://api.tiklydown.eu.org/api/download?url=' + encodeURIComponent(rawUrl));
+          if (r2.ok) {
+            const j2 = await r2.json();
+            const mediaUrl = isAudio
+              ? (j2.music && j2.music.play_url)
+              : ((j2.video && (j2.video.noWatermark || j2.video.watermark)) || '');
+            if (mediaUrl && mediaUrl.startsWith('http')) {
+              return { url: mediaUrl, size: 0, title: j2.title || '' };
+            }
+          }
+        } catch (e) {}
+
+        return null;
+      }
+
+      // Client-side YouTube stream resolver fallback (OceanSaver / SaveNow + Invidious local=true)
+      async function resolveYouTubeClientFallback(rawUrl, ytId, quality, isAudio) {
+        // Method 1: OceanSaver / SaveNow Cloud Converter
+        try {
+          const fmt = isAudio ? 'mp3' : (quality === '480p' ? '480' : quality === '720p' ? '720' : '1080');
+          const initUrl = 'https://p.savenow.to/ajax/download.php?button=1&start=1&end=1&format=' + fmt + '&iframe_source=https://allinonedownloader.com/&url=' + encodeURIComponent(rawUrl);
+          const r = await fetch(initUrl);
+          if (r.ok) {
+            const j = await r.json();
+            if (j && j.id) {
+              const progBase = j.progress_url || ('https://p.oceansaver.in/ajax/progress.php?id=' + encodeURIComponent(j.id));
+              for (let i = 0; i < 20; i++) {
+                await new Promise((res) => setTimeout(res, 1400));
+                const pr = await fetch(progBase);
+                if (!pr.ok) continue;
+                const pj = await pr.json();
+                if (pj && pj.download_url && pj.download_url.startsWith('http')) {
+                  return pj.download_url;
+                }
+                if (pj && (pj.text === 'Error' || pj.error)) break;
+              }
+            }
+          }
+        } catch (e) {}
+
+        // Method 2: Invidious local=true proxied stream
+        if (ytId) {
+          const invidiousApis = [
+            'https://inv.tux.pizza',
+            'https://invidious.nerdvpn.de',
+            'https://invidious.jing.rocks',
+            'https://yewtu.be'
+          ];
+          for (const base of invidiousApis) {
+            try {
+              const r = await fetch(base + '/api/v1/videos/' + encodeURIComponent(ytId));
+              if (!r.ok) continue;
+              const d = await r.json();
+              if (!isAudio && Array.isArray(d.formatStreams) && d.formatStreams.length > 0) {
+                return base + '/latest_version?id=' + encodeURIComponent(ytId) + '&itag=18&local=true';
+              }
+            } catch (e) {}
+          }
+        }
+        return null;
+      }
+
+      function completeDownloadUI(finalDownloadUrl, finalFilename, formattedSize, rawUrl, platformLabel) {
+        if (progressInterval) clearInterval(progressInterval);
+        progressBarFill.style.width = '100%';
+        downloadPercentText.textContent = '100%';
+        downloadStatusTitle.textContent = 'Starting download...';
+
+        directDownloadLinkBtn.href = finalDownloadUrl;
+        directDownloadLinkBtn.setAttribute('download', finalFilename);
+        readyFileDetails.textContent = finalFilename + (formattedSize ? ' (' + formattedSize + ')' : '');
+        readyDownloadBanner.classList.remove('hidden');
+
+        triggerBrowserSave(finalDownloadUrl, finalFilename);
+
+        downloadHistory.unshift({
+          id: 'dl-' + Date.now(),
+          url: rawUrl,
+          filename: finalFilename,
+          size: formattedSize || 'HD',
+          platform: platformLabel
+        });
+        if (downloadHistory.length > 15) downloadHistory.pop();
+        saveHistory();
+
+        showToast('Download started: ' + finalFilename, 'success');
+      }
+
+      // Main Download Handler with Multi-Engine Resilience:
+      async function executeDownload() {
+        const rawUrl = urlInput.value.trim();
+        if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
+          showToast('Please paste a valid video link starting with http:// or https://', 'error');
+          urlInput.focus();
+          return;
+        }
+
+        if (activeAbortController) {
+          showToast('A video is currently being processed. Please wait.', 'warn');
+          return;
+        }
+
+        const platform = detectPlatform(rawUrl);
+        const isAudio = selectedQuality === 'audio';
+        const desiredFilename = (customFilenameInput.value || makeCleanFilename(currentVideoTitle, rawUrl, selectedQuality)).trim();
+        const titleWithoutExt = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '');
+
+        readyDownloadBanner.classList.add('hidden');
+        errorBanner.classList.add('hidden');
+        downloadProgressSection.classList.remove('hidden');
+
+        activeAbortController = new AbortController();
+        startDownloadBtn.disabled = true;
+        startDownloadBtn.classList.add('opacity-60');
+        downloadBtnText.textContent = 'Processing Video...';
+
+        let stepPct = 15;
+        progressBarFill.style.width = stepPct + '%';
+        downloadStatusTitle.textContent = 'Extracting ' + platform.label + ' video & audio streams...';
+        downloadBytesText.textContent = 'Connecting to media server and merging HD tracks...';
+        downloadPercentText.textContent = '15%';
+
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(() => {
+          if (stepPct < 88) {
+            stepPct += Math.floor(Math.random() * 6) + 2;
+            if (stepPct > 88) stepPct = 88;
+            progressBarFill.style.width = stepPct + '%';
+            downloadPercentText.textContent = stepPct + '%';
+            if (stepPct > 45 && stepPct <= 70) {
+              downloadStatusTitle.textContent = 'Merging HD video and audio into MP4...';
+            } else if (stepPct > 70) {
+              downloadStatusTitle.textContent = 'Finalizing media file for your device...';
+            }
+          }
+        }, 1100);
+
+        try {
+          const apiBase = getApiBase();
+
+          // FAST PATH FOR TIKTOK: Resolve directly in browser first (uses user's residential IP, zero rate limit),
+          // then fetch as Blob directly in browser or stream via /api/proxy-file!
+          if (platform.name === 'tiktok') {
+            downloadStatusTitle.textContent = 'Resolving HD watermark-free TikTok stream...';
+            const tikResolved = await resolveTikTokClientSide(rawUrl, isAudio);
+            if (tikResolved && tikResolved.url) {
+              const ext = isAudio ? '.mp3' : '.mp4';
+              const finalName = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '') + ext;
+              // Try direct browser blob download first (works even if backend isn't updated yet!)
+              try {
+                const mediaRes = await fetch(tikResolved.url, { signal: activeAbortController.signal });
+                if (mediaRes.ok) {
+                  const mediaBlob = await mediaRes.blob();
+                  if (mediaBlob && mediaBlob.size > 5000) {
+                    const blobUrl = URL.createObjectURL(mediaBlob);
+                    completeDownloadUI(blobUrl, finalName, formatBytes(mediaBlob.size), rawUrl, platform.label);
+                    return;
+                  }
+                }
+              } catch (e) {}
+
+              const proxyDownloadUrl =
+                apiBase +
+                '/api/proxy-file?url=' +
+                encodeURIComponent(tikResolved.url) +
+                '&filename=' +
+                encodeURIComponent(finalName);
+              completeDownloadUI(
+                proxyDownloadUrl,
+                finalName,
+                tikResolved.size ? formatBytes(tikResolved.size) : 'HD MP4',
+                rawUrl,
+                platform.label
+              );
+              return;
+            }
+          }
+
+          // TIER 1: /api/prepare on v3.5 backend (handles YouTube cloud converters, Instagram, Facebook, X, TikTok)
+          const prepUrl =
+            apiBase +
+            '/api/prepare?url=' +
+            encodeURIComponent(rawUrl) +
+            '&quality=' +
+            encodeURIComponent(selectedQuality) +
+            '&title=' +
+            encodeURIComponent(titleWithoutExt);
+
+          const response = await fetch(prepUrl, { signal: activeAbortController.signal });
+
+          if (response.status !== 404) {
+            let data = null;
+            try {
+              data = await response.json();
+            } catch (e) {
+              throw new Error('Server returned invalid response (HTTP ' + response.status + ').');
+            }
+
+            if (response.ok && data && data.ok && data.size > 0) {
+              const fullDownloadUrl = data.downloadUrl.startsWith('http') ? data.downloadUrl : (apiBase + data.downloadUrl);
+              const finalFilename = data.filename || desiredFilename;
+              const formattedSize = formatBytes(data.size);
+              completeDownloadUI(fullDownloadUrl, finalFilename, formattedSize, rawUrl, platform.label);
+              return;
+            }
+
+            // If backend /api/prepare failed on YouTube (e.g. geo-restriction or datacenter block), try client-side cloud resolver!
+            const ytId = extractYouTubeId(rawUrl);
+            if (ytId) {
+              downloadStatusTitle.textContent = 'Bypassing region lock via cloud converter...';
+              const clientYtUrl = await resolveYouTubeClientFallback(rawUrl, ytId, selectedQuality, isAudio);
+              if (clientYtUrl) {
+                completeDownloadUI(clientYtUrl, desiredFilename, 'HD Stream', rawUrl, platform.label);
+                return;
+              }
+            }
+
+            throw new Error((data && data.error) || 'Could not extract video stream.');
+          }
+
+          // TIER 2: Legacy /api/stream fallback
+          const streamUrl =
+            apiBase +
+            '/api/stream?url=' +
+            encodeURIComponent(rawUrl) +
+            '&quality=' +
+            encodeURIComponent(selectedQuality);
+
+          const streamRes = await fetch(streamUrl, { signal: activeAbortController.signal });
+          if (streamRes.ok) {
+            const blob = await streamRes.blob();
+            if (blob && blob.size > 1024) {
+              const blobUrl = URL.createObjectURL(blob);
+              completeDownloadUI(blobUrl, desiredFilename, formatBytes(blob.size), rawUrl, platform.label);
+              return;
+            }
+          }
+
+          throw new Error('Could not extract video stream. Please check the link and try again.');
+        } catch (err) {
+          if (activeAbortController && activeAbortController.signal.aborted) {
+            showToast('Download canceled.', 'warn');
+          } else {
+            const msg = err.message || 'Failed to download video.';
+            errorBannerText.textContent = msg;
+            errorBanner.classList.remove('hidden');
+            showToast(msg, 'error');
+          }
+        } finally {
+          if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+          }
+          activeAbortController = null;
+          startDownloadBtn.disabled = false;
+          startDownloadBtn.classList.remove('opacity-60');
+          downloadBtnText.textContent = 'Download Now';
+          downloadProgressSection.classList.add('hidden');
+        }
+      }
+
+      startDownloadBtn.addEventListener('click', executeDownload);
+
+      urlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          executeDownload();
+        }
+      });
+
+      cancelStreamBtn.addEventListener('click', () => {
+        if (activeAbortController) {
+          activeAbortController.abort();
+        }
+      });
+
+      function renderHistory() {
+        if (!downloadHistory || downloadHistory.length === 0) {
+          historySection.classList.add('hidden');
+          return;
+        }
+
+        historySection.classList.remove('hidden');
+        historyCountBadge.textContent = String(downloadHistory.length);
+        historyListContainer.innerHTML = '';
+
+        downloadHistory.forEach((item) => {
+          const row = document.createElement('div');
+          row.className =
+            'flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700 transition';
+          row.innerHTML = `
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">${escapeHtml(item.platform || 'Video')}</span>
+                <span class="font-semibold text-xs sm:text-sm text-white truncate">${escapeHtml(item.filename)}</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-medium">${escapeHtml(item.size)}</span>
+              </div>
+              <p class="text-[11px] text-slate-400 truncate mt-0.5">${escapeHtml(item.url)}</p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" data-action="redownload" data-url="${escapeHtml(item.url)}" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 font-semibold text-xs transition">
+                Download Again
+              </button>
+              <button type="button" data-action="delete" data-id="${escapeHtml(item.id)}" class="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition" title="Remove">
+                ✕
+              </button>
+            </div>
+          `;
+          historyListContainer.appendChild(row);
+        });
+      }
+
+      historyListContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        if (action === 'redownload') {
+          const u = btn.getAttribute('data-url');
+          urlInput.value = u;
+          updatePlatformBadge();
+          executeDownload();
+        } else if (action === 'delete') {
+          const id = btn.getAttribute('data-id');
+          downloadHistory = downloadHistory.filter((h) => h.id !== id);
+          saveHistory();
+        }
+      });
+
+      clearHistoryBtn.addEventListener('click', () => {
+        downloadHistory = [];
+        saveHistory();
+        showToast('History cleared.', 'success');
+      });
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+      });
+
+      installPwaBtn.addEventListener('click', async () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+        } else {
+          installModal.classList.remove('hidden');
+        }
+      });
+
+      closeInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
+      ackInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
+
+      function checkSharedUrl() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const shared = params.get('url') || params.get('text');
+          if (shared && /^https?:\/\//i.test(shared.trim())) {
+            urlInput.value = shared.trim();
+            updatePlatformBadge();
+          }
+        } catch (e) {}
+      }
+
+      loadPersistedData();
+      renderHistory();
+      checkSharedUrl();
+    })();
+  </script>
+</body>
+</html>
