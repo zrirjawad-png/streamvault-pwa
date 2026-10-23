@@ -1,5 +1,6 @@
-// StreamVault v3.1 — Production Public Video Downloader Server
-// Supports YouTube, Instagram, TikTok, Facebook, X/Twitter, and direct streams
+// StreamVault v3.2 — Production Multi-Engine Video Downloader Server
+// Solves YouTube bot check & TikTok webpage request errors with multi-provider fallbacks
+// Supports YouTube, TikTok, Instagram, Facebook, X/Twitter, and direct streams
 
 const express = require('express');
 const cors = require('cors');
@@ -9,6 +10,7 @@ const fs = require('fs');
 const os = require('os');
 const crypto = require('crypto');
 const https = require('https');
+const http = require('http');
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -33,7 +35,9 @@ function downloadFileFollowRedirects(url, destPath) {
   return new Promise((resolve, reject) => {
     const request = (currentUrl, redirectsLeft) => {
       if (redirectsLeft <= 0) return reject(new Error('Too many redirects'));
-      https.get(currentUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+      const parsed = new URL(currentUrl);
+      const client = parsed.protocol === 'http:' ? http : https;
+      client.get(currentUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           res.resume();
           const nextUrl = new URL(res.headers.location, currentUrl).toString();
@@ -90,7 +94,7 @@ async function ensureYtDlp() {
   return resolvedYtDlpPath;
 }
 
-// Serve v3.1 UI
+// Serve v3 UI
 app.get(['/', '/index.html'], (req, res) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
@@ -103,11 +107,11 @@ app.get(['/', '/index.html'], (req, res) => {
   try {
     if (fs.existsSync(rootIndex)) {
       const c = fs.readFileSync(rootIndex, 'utf-8');
-      if (c.includes('StreamVault v3.1')) return res.send(c);
+      if (c.includes('StreamVault')) return res.send(c);
     }
     if (fs.existsSync(publicIndex)) {
       const c = fs.readFileSync(publicIndex, 'utf-8');
-      if (c.includes('StreamVault v3.1')) return res.send(c);
+      if (c.includes('StreamVault')) return res.send(c);
     }
   } catch (e) {}
 
@@ -120,7 +124,7 @@ app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.get('/healthz', (req, res) => {
   res.status(200).json({
     status: 'ok',
-    version: '3.1.0',
+    version: '3.2.0',
     ffmpeg: Boolean(getFfmpegPath()),
     timestamp: new Date().toISOString()
   });
@@ -128,7 +132,9 @@ app.get('/healthz', (req, res) => {
 
 function fetchJson(url, timeoutMs = 6000) {
   return new Promise((resolve, reject) => {
-    const req = https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: timeoutMs }, (res) => {
+    const parsed = new URL(url);
+    const client = parsed.protocol === 'http:' ? http : https;
+    const req = client.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, timeout: timeoutMs }, (res) => {
       if (res.statusCode < 200 || res.statusCode >= 300) {
         res.resume();
         return reject(new Error('HTTP ' + res.statusCode));
@@ -144,6 +150,37 @@ function fetchJson(url, timeoutMs = 6000) {
   });
 }
 
+function postJson(url, postBody, timeoutMs = 6000, extraHeaders = {}) {
+  return new Promise((resolve, reject) => {
+    const parsed = new URL(url);
+    const client = parsed.protocol === 'http:' ? http : https;
+    const req = client.request(url, {
+      method: 'POST',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postBody),
+        ...extraHeaders
+      },
+      timeout: timeoutMs
+    }, (res) => {
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        res.resume();
+        return reject(new Error('HTTP ' + res.statusCode));
+      }
+      let data = '';
+      res.on('data', (c) => { data += c; });
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); } catch (e) { reject(e); }
+      });
+    });
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
+    req.write(postBody);
+    req.end();
+  });
+}
+
 function extractYouTubeId(url) {
   try {
     const u = new URL(url);
@@ -156,10 +193,43 @@ function extractYouTubeId(url) {
   return null;
 }
 
+function getCookiesFlag() {
+  const cookiePath = path.join(__dirname, 'cookies.txt');
+  if (fs.existsSync(cookiePath)) {
+    return ['--cookies', cookiePath];
+  }
+  const envCookies = process.env.YOUTUBE_COOKIES;
+  if (envCookies && envCookies.trim()) {
+    const tmpCookies = path.join(os.tmpdir(), 'yt_cookies.txt');
+    try {
+      fs.writeFileSync(tmpCookies, envCookies.trim());
+      return ['--cookies', tmpCookies];
+    } catch (e) {}
+  }
+  return [];
+}
+
 app.get('/api/info', async (req, res) => {
   const videoUrl = (req.query.url || '').trim();
   if (!videoUrl) return res.status(400).json({ ok: false, error: 'Missing url parameter' });
 
+  // 1. TikTok fast metadata
+  if (videoUrl.includes('tiktok.com')) {
+    try {
+      const tikData = await fetchJson('https://www.tikwm.com/api/?url=' + encodeURIComponent(videoUrl), 4000);
+      if (tikData && tikData.code === 0 && tikData.data) {
+        return res.json({
+          ok: true,
+          title: tikData.data.title || 'TikTok Video',
+          thumbnail: tikData.data.cover || '',
+          uploader: (tikData.data.author && tikData.data.author.nickname) || 'TikTok Creator',
+          duration: tikData.data.duration || 0
+        });
+      }
+    } catch (e) {}
+  }
+
+  // 2. oEmbed metadata
   try {
     const oembed = await fetchJson('https://noembed.com/embed?url=' + encodeURIComponent(videoUrl), 3500);
     if (oembed && oembed.title) {
@@ -228,56 +298,165 @@ function findOutputFile(jobDir) {
   return null;
 }
 
-// Server-side Piped/Invidious fallback if YouTube blocks datacenter IP
-async function fallbackYouTubeDownload(ytId, isAudio, jobDir) {
-  const pipedMirrors = [
-    'https://pipedapi.kavin.rocks',
-    'https://pipedapi.adminforge.de',
-    'https://api.piped.private.coffee',
-    'https://pipedapi.drgns.space'
-  ];
-
-  let streamUrl = null;
-  const ext = isAudio ? 'm4a' : 'mp4';
-
-  for (const base of pipedMirrors) {
-    try {
-      const data = await fetchJson(`${base}/streams/${encodeURIComponent(ytId)}`, 5000);
-      if (isAudio && Array.isArray(data.audioStreams) && data.audioStreams.length > 0) {
-        const s = data.audioStreams.find((x) => x.mimeType && x.mimeType.includes('mp4')) || data.audioStreams[0];
-        if (s && s.url) { streamUrl = s.url; break; }
-      } else if (Array.isArray(data.videoStreams) && data.videoStreams.length > 0) {
-        const muxed = data.videoStreams.filter((x) => x.videoOnly === false && x.url);
-        if (muxed.length > 0) { streamUrl = muxed[0].url; break; }
+// 1. Dedicated TikTok Extraction Engine (Solves TikTok webpage error on datacenter IPs)
+async function resolveTikTok(url, isAudio, jobDir) {
+  // Strategy A: TikWM API (Fast, reliable, watermark-free direct MP4)
+  try {
+    const res = await fetchJson('https://www.tikwm.com/api/?url=' + encodeURIComponent(url), 6000);
+    if (res && res.code === 0 && res.data) {
+      const playUrl = isAudio ? (res.data.music || res.data.play) : (res.data.play || res.data.wmplay);
+      if (playUrl) {
+        const ext = isAudio ? 'mp3' : 'mp4';
+        const dest = path.join(jobDir, `media.${ext}`);
+        await downloadFileFollowRedirects(playUrl, dest);
+        const f = findOutputFile(jobDir);
+        if (f) return f;
       }
-    } catch (e) {}
+    }
+  } catch (e) {
+    console.warn('[TikTok TikWM]:', e.message);
   }
 
-  if (!streamUrl) {
-    const invMirrors = [
-      'https://inv.tux.pizza',
-      'https://invidious.nerdvpn.de',
-      'https://invidious.jing.rocks'
+  // Strategy B: LoveTik API
+  try {
+    const postData = 'query=' + encodeURIComponent(url);
+    const res = await postJson('https://lovetik.com/api/ajax/search', postData, 6000);
+    if (res && res.links && res.links.length > 0) {
+      const link = isAudio
+        ? res.links.find(l => l.t === 'mp3') || res.links[0]
+        : res.links.find(l => l.t === 'nowm') || res.links[0];
+      if (link && link.a) {
+        const ext = isAudio ? 'mp3' : 'mp4';
+        const dest = path.join(jobDir, `media.${ext}`);
+        await downloadFileFollowRedirects(link.a, dest);
+        const f = findOutputFile(jobDir);
+        if (f) return f;
+      }
+    }
+  } catch (e) {
+    console.warn('[TikTok LoveTik]:', e.message);
+  }
+
+  return null;
+}
+
+// 2. Dedicated YouTube Extraction Engine (Bypasses "Sign in to confirm you're not a bot")
+async function resolveYouTube(videoUrl, quality, isAudio, jobDir, baseFlags, ytdlpBin) {
+  const ytId = extractYouTubeId(videoUrl);
+  const cookiesFlag = getCookiesFlag();
+  const outputTemplate = path.join(jobDir, 'media.%(ext)s');
+  const ffmpegPath = getFfmpegPath();
+
+  // Strategy A: yt-dlp with android_vr & tv_embedded & ios clients (no bot challenge on cloud IPs!)
+  try {
+    const args = [
+      ...baseFlags,
+      ...cookiesFlag,
+      '--extractor-args', 'youtube:player_client=android_vr,tv_embedded,ios,mweb',
+      '-f', isAudio ? 'bestaudio[ext=m4a]/bestaudio/best' : (ffmpegPath ? 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/22/18/best[ext=mp4]/best' : '22/18/best[ext=mp4]/best'),
+      ...(isAudio ? [] : (ffmpegPath ? ['--merge-output-format', 'mp4'] : [])),
+      '-o', outputTemplate,
+      videoUrl
     ];
-    for (const base of invMirrors) {
+    await runYtDlpAttempt(ytdlpBin, args);
+    const found = findOutputFile(jobDir);
+    if (found) return found;
+  } catch (e) {}
+
+  // Strategy B: Piped API Network (Distributed proxies with token solver)
+  if (ytId) {
+    const pipedMirrors = [
+      'https://pipedapi.kavin.rocks',
+      'https://pipedapi.adminforge.de',
+      'https://api.piped.private.coffee',
+      'https://pipedapi.drgns.space',
+      'https://piped-api.lunar.icu'
+    ];
+    for (const mirror of pipedMirrors) {
       try {
-        const data = await fetchJson(`${base}/api/v1/videos/${encodeURIComponent(ytId)}`, 5000);
-        if (!isAudio && Array.isArray(data.formatStreams) && data.formatStreams.length > 0) {
-          const s = data.formatStreams[data.formatStreams.length - 1];
-          if (s && s.url) { streamUrl = s.url; break; }
-        } else if (isAudio && Array.isArray(data.adaptiveFormats)) {
-          const a = data.adaptiveFormats.find((f) => f.type && f.type.startsWith('audio/mp4')) || data.adaptiveFormats.find((f) => f.type && f.type.startsWith('audio/'));
-          if (a && a.url) { streamUrl = a.url; break; }
+        const data = await fetchJson(`${mirror}/streams/${encodeURIComponent(ytId)}`, 5000);
+        if (data) {
+          let streamUrl = null;
+          const ext = isAudio ? 'm4a' : 'mp4';
+          if (isAudio && Array.isArray(data.audioStreams) && data.audioStreams.length > 0) {
+            const best = data.audioStreams.find(s => s.mimeType && s.mimeType.includes('mp4')) || data.audioStreams[0];
+            if (best && best.url) streamUrl = best.url;
+          } else if (Array.isArray(data.videoStreams) && data.videoStreams.length > 0) {
+            const muxed = data.videoStreams.filter(s => s.videoOnly === false && s.url);
+            if (muxed.length > 0) streamUrl = muxed[0].url;
+          }
+          if (streamUrl) {
+            const dest = path.join(jobDir, `media.${ext}`);
+            await downloadFileFollowRedirects(streamUrl, dest);
+            const found = findOutputFile(jobDir);
+            if (found) return found;
+          }
         }
       } catch (e) {}
     }
   }
 
-  if (!streamUrl) return null;
+  // Strategy C: Invidious API Network
+  if (ytId) {
+    const invidiousMirrors = [
+      'https://inv.tux.pizza',
+      'https://invidious.nerdvpn.de',
+      'https://invidious.jing.rocks',
+      'https://vid.priv.au'
+    ];
+    for (const mirror of invidiousMirrors) {
+      try {
+        const data = await fetchJson(`${mirror}/api/v1/videos/${encodeURIComponent(ytId)}`, 5000);
+        if (data) {
+          let streamUrl = null;
+          const ext = isAudio ? 'm4a' : 'mp4';
+          if (!isAudio && Array.isArray(data.formatStreams) && data.formatStreams.length > 0) {
+            const s = data.formatStreams[data.formatStreams.length - 1];
+            if (s && s.url) streamUrl = s.url;
+          } else if (isAudio && Array.isArray(data.adaptiveFormats)) {
+            const a = data.adaptiveFormats.find(f => f.type && f.type.startsWith('audio/mp4')) || data.adaptiveFormats.find(f => f.type && f.type.startsWith('audio/'));
+            if (a && a.url) streamUrl = a.url;
+          }
+          if (streamUrl) {
+            const dest = path.join(jobDir, `media.${ext}`);
+            await downloadFileFollowRedirects(streamUrl, dest);
+            const found = findOutputFile(jobDir);
+            if (found) return found;
+          }
+        }
+      } catch (e) {}
+    }
+  }
 
-  const destFile = path.join(jobDir, `media.${ext}`);
-  await downloadFileFollowRedirects(streamUrl, destFile);
-  return findOutputFile(jobDir);
+  // Strategy D: Cobalt API instance
+  if (ytId) {
+    const cobaltInstances = [
+      'https://api.cobalt.tools/api/json',
+      'https://cobalt-api.kwiatekm.pl/api/json'
+    ];
+    for (const cApi of cobaltInstances) {
+      try {
+        const body = JSON.stringify({
+          url: videoUrl,
+          videoQuality: quality === '480p' ? '480' : quality === '720p' ? '720' : '1080',
+          isAudioOnly: isAudio
+        });
+        const res = await postJson(cApi, body, 6000, { 'Content-Type': 'application/json', 'Accept': 'application/json' });
+        if (res && (res.url || res.picker)) {
+          const directUrl = res.url || (res.picker && res.picker[0] && res.picker[0].url);
+          if (directUrl) {
+            const ext = isAudio ? 'mp3' : 'mp4';
+            const dest = path.join(jobDir, `media.${ext}`);
+            await downloadFileFollowRedirects(directUrl, dest);
+            const found = findOutputFile(jobDir);
+            if (found) return found;
+          }
+        }
+      } catch (e) {}
+    }
+  }
+
+  return null;
 }
 
 function sanitizeFilename(name, ext) {
@@ -301,23 +480,6 @@ async function prepareVideoDownload(videoUrl, quality) {
   const isAudio = quality === 'audio';
   const outputTemplate = path.join(jobDir, 'media.%(ext)s');
 
-  let primaryFormat;
-  if (isAudio) {
-    primaryFormat = 'bestaudio[ext=m4a]/bestaudio/best';
-  } else if (quality === '480p') {
-    primaryFormat = ffmpegPath
-      ? 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]/18/best'
-      : '18/best[height<=480][ext=mp4]/best';
-  } else if (quality === '720p') {
-    primaryFormat = ffmpegPath
-      ? 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/22/best[height<=720][ext=mp4]/18/best'
-      : '22/18/best[height<=720][ext=mp4]/best';
-  } else {
-    primaryFormat = ffmpegPath
-      ? 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/22/18/best[ext=mp4]/best'
-      : '22/18/best[ext=mp4]/best';
-  }
-
   const baseFlags = [
     '--no-playlist',
     '--no-warnings',
@@ -329,60 +491,42 @@ async function prepareVideoDownload(videoUrl, quality) {
     baseFlags.push('--ffmpeg-location', ffmpegPath);
   }
 
-  // Attempt 1: android_vr + tv_embedded + ios clients (best for bypassing YouTube datacenter bot check)
-  const args1 = [
-    ...baseFlags,
-    '--extractor-args', 'youtube:player_client=android_vr,tv_embedded,ios,mweb',
-    '-f', primaryFormat,
-    ...(isAudio ? [] : (ffmpegPath ? ['--merge-output-format', 'mp4'] : [])),
-    '-o', outputTemplate,
-    videoUrl
-  ];
+  let found = null;
 
-  let res1 = await runYtDlpAttempt(ytdlpBin, args1);
-  let found = findOutputFile(jobDir);
+  // 1. Handle TikTok with dedicated fallback engines first
+  if (videoUrl.includes('tiktok.com')) {
+    found = await resolveTikTok(videoUrl, isAudio, jobDir);
+  }
 
-  // Attempt 2: Progressive format with alternate clients
+  // 2. Handle YouTube with multi-client & mirror fallback
+  if (!found && (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be'))) {
+    found = await resolveYouTube(videoUrl, quality, isAudio, jobDir, baseFlags, ytdlpBin);
+  }
+
+  // 3. General yt-dlp (Instagram, Facebook, X/Twitter, or direct links)
   if (!found) {
-    const args2 = [
+    const cookiesFlag = getCookiesFlag();
+    const primaryFormat = isAudio
+      ? 'bestaudio[ext=m4a]/bestaudio/best'
+      : (ffmpegPath ? 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' : 'best[ext=mp4]/best');
+
+    const args = [
       ...baseFlags,
-      '--extractor-args', 'youtube:player_client=tv,ios,android,web_embedded',
-      '-f', isAudio ? 'bestaudio/best' : '18/22/best[ext=mp4]/best',
+      ...cookiesFlag,
+      '-f', primaryFormat,
       ...(isAudio ? [] : (ffmpegPath ? ['--merge-output-format', 'mp4'] : [])),
       '-o', outputTemplate,
       videoUrl
     ];
-    res1 = await runYtDlpAttempt(ytdlpBin, args2);
-    found = findOutputFile(jobDir);
-  }
 
-  // Attempt 3: Standard extractor (Instagram, TikTok, Facebook, X)
-  if (!found) {
-    const args3 = [
-      ...baseFlags,
-      '-f', isAudio ? 'bestaudio/best' : 'best[ext=mp4]/best',
-      ...(isAudio ? [] : (ffmpegPath ? ['--merge-output-format', 'mp4'] : [])),
-      '-o', outputTemplate,
-      videoUrl
-    ];
-    res1 = await runYtDlpAttempt(ytdlpBin, args3);
+    const res = await runYtDlpAttempt(ytdlpBin, args);
     found = findOutputFile(jobDir);
-  }
 
-  // Attempt 4: Server-side Piped/Invidious fallback for YouTube if datacenter IP is blocked
-  if (!found) {
-    const ytId = extractYouTubeId(videoUrl);
-    if (ytId) {
-      try {
-        found = await fallbackYouTubeDownload(ytId, isAudio, jobDir);
-      } catch (e) {}
+    if (!found) {
+      try { fs.rmSync(jobDir, { recursive: true, force: true }); } catch (e) {}
+      const cleanErr = (res.stderr || 'Extraction failed').split('\n').filter(Boolean).slice(-2).join(' | ');
+      throw new Error(cleanErr || 'Could not extract video stream.');
     }
-  }
-
-  if (!found) {
-    try { fs.rmSync(jobDir, { recursive: true, force: true }); } catch (e) {}
-    const cleanErr = (res1.stderr || 'Extraction failed').split('\n').filter(Boolean).slice(-2).join(' | ');
-    throw new Error(cleanErr || 'Could not extract video stream. Make sure the video is public.');
   }
 
   const actualExt = path.extname(found.name).replace(/^\./, '') || (isAudio ? 'm4a' : 'mp4');
@@ -506,5 +650,5 @@ ensureYtDlp().catch((err) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`StreamVault v3.1 Public Video Downloader listening on port ${PORT}`);
+  console.log(`StreamVault v3.2 Multi-Engine Video Downloader listening on port ${PORT}`);
 });
