@@ -3,9 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0f19">
-  <title>StreamVault v3.5 — Free Online Video Downloader</title>
+  <meta name="theme-color" content="#4f46e5">
+  <title>VidSource (anyvid.app) — Free 4K &amp; 1080p Online Video Downloader (YouTube, TikTok, Instagram, Facebook, X)</title>
+  <meta name="description" content="Download HD 1080p MP4 videos and MP3/M4A audio for free with VidSource (anyvid.app). Save YouTube &amp; Shorts, watermark-free TikTok videos, Instagram Reels, Facebook, and X clips directly to your device.">
+  <meta name="keywords" content="video downloader, anyvid.app, vidsource, youtube video downloader, tiktok downloader without watermark, instagram reels downloader, facebook video downloader, twitter video downloader, Kostenloser Video Downloader, Téléchargeur de vidéos gratuit, Descargador de videos gratis">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://anyvid.app/">
+
+  <!-- Multilingual hreflang SEO alternates -->
+  <link rel="alternate" hreflang="en" href="https://anyvid.app/?lang=en">
+  <link rel="alternate" hreflang="de" href="https://anyvid.app/?lang=de">
+  <link rel="alternate" hreflang="fr" href="https://anyvid.app/?lang=fr">
+  <link rel="alternate" hreflang="es" href="https://anyvid.app/?lang=es">
+  <link rel="alternate" hreflang="x-default" href="https://anyvid.app/">
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VidSource (anyvid.app)">
+  <meta property="og:title" content="VidSource (anyvid.app) — Free 1080p Video &amp; MP3 Audio Downloader">
+  <meta property="og:description" content="Save HD MP4 videos and MP3 audio from YouTube, TikTok (No Watermark), Instagram Reels, Facebook, and X in one click.">
+  <meta property="og:url" content="https://anyvid.app/">
+  <meta property="og:image" content="https://anyvid.app/og-banner.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VidSource (anyvid.app) — Free Online Video Downloader">
+  <meta name="twitter:description" content="Fast, ad-free 1080p MP4 &amp; MP3 downloader for YouTube, TikTok, Instagram, Facebook, and X.">
+  <meta name="twitter:image" content="https://anyvid.app/og-banner.svg">
+
+  <!-- PWA App Icons & Manifest -->
   <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VidSource">
+
+  <!-- Structured Data (JSON-LD) for Google Rich Results & AI Search (GEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://anyvid.app/#webapp",
+        "name": "VidSource",
+        "alternateName": "anyvid.app",
+        "url": "https://anyvid.app/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript and modern HTML5 browser",
+        "inLanguage": ["en", "de", "fr", "es"],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "1080p Full HD MP4 Video Download",
+          "Watermark-Free TikTok Video Saver",
+          "YouTube & YouTube Shorts Video + Audio Auto-Muxing",
+          "Instagram Reels & Stories MP4 Download",
+          "Facebook & X (Twitter) HD Video Download",
+          "High-Bitrate MP3 & M4A Audio Extraction",
+          "1-Click HD Video Thumbnail Downloader"
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://anyvid.app/#howto",
+        "name": "How to Download Online Videos in 1080p MP4 or MP3 with VidSource",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Copy Video Link",
+            "text": "Copy the public link to any video, Short, or Reel from YouTube, TikTok, Instagram, Facebook, or X."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Paste & Choose Format",
+            "text": "Paste the URL into VidSource (anyvid.app) and select MP4 1080p, MP4 720p, MP4 480p, or Audio (MP3/M4A)."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Save Instantly to Device",
+            "text": "Click Download Now. VidSource automatically merges HD video and audio tracks and saves the file directly to your phone or computer."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://anyvid.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How can I download TikTok videos without a watermark in HD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Paste any TikTok video link into VidSource (anyvid.app), select MP4 1080p, and click Download Now. VidSource extracts the original unwatermarked Full HD MP4 stream directly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do YouTube 1080p downloads have full audio on VidSource?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "YouTube separates 1080p video and audio into distinct streams. VidSource automatically merges the highest quality video and audio tracks in the cloud using FFmpeg before delivering a single playable MP4 file."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is VidSource (anyvid.app) free and safe to use on iPhone, Android, and PC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. VidSource is 100% free, requires no registration or extensions, and works natively on iOS Safari, Android Chrome, Windows, macOS, and Linux as an installable Progressive Web App (PWA)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,26 +144,33 @@
     };
   </script>
   <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background-color: #070b14;
-      background-image: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.16), transparent 55%);
+      background-color: #060913;
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.20), transparent 55%),
+        radial-gradient(circle at 85% 20%, rgba(236, 72, 153, 0.10), transparent 45%);
       color: #f8fafc;
       overflow-x: hidden;
     }
     .glass-card {
       background: rgba(15, 23, 42, 0.82);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .progress-stripe {
       background-image: linear-gradient(
         45deg,
-        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.22) 25%,
         transparent 25%,
         transparent 50%,
-        rgba(255, 255, 255, 20%) 50%,
-        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0.22) 50%,
+        rgba(255, 255, 255, 0.22) 75%,
         transparent 75%,
         transparent
       );
@@ -53,6 +181,12 @@
       0% { background-position: 0 0; }
       100% { background-position: 1.25rem 0; }
     }
+    details > summary {
+      list-style: none;
+    }
+    details > summary::-webkit-details-marker {
+      display: none;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
@@ -60,27 +194,43 @@
   <!-- Toast Notifications -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
-  <!-- Public Navigation Header -->
-  <header class="sticky top-0 z-30 glass-card border-b border-slate-800/80">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+  <!-- Public Navigation Header (Mobile-First, Zero Overflow) -->
+  <header class="sticky top-0 z-30 glass-card border-b border-slate-800/80 w-full">
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-3">
+      <!-- Brand Logo & Trusted Downloader Shield Icon -->
+      <a href="/" class="flex items-center gap-2 sm:gap-3 group focus:outline-none min-w-0 shrink-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-900 via-indigo-700 to-sky-600 p-0.5 flex items-center justify-center shadow-lg shadow-indigo-500/30 border border-indigo-400/40 group-hover:scale-105 transition shrink-0">
+          <!-- Custom Trusted Shield + Video Play + Download Arrow Vector Emblem -->
+          <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 6L52 13V29C52 42.5 43.2 51.5 32 56C20.8 51.5 12 42.5 12 29V13L32 6Z" fill="#1e1b4b" fill-opacity="0.7" stroke="#818cf8" stroke-width="2.5" stroke-linejoin="round"/>
+            <rect x="20" y="15" width="24" height="15" rx="4" fill="#0f172a" stroke="#ffffff" stroke-width="2.4"/>
+            <path d="M29.5 19L36 22.5L29.5 26V19Z" fill="#ffffff"/>
+            <path d="M29.5 33H34.5V39H39L32 46L25 39H29.5V33Z" fill="#ffffff"/>
+            <path d="M20 44V48C20 49.1 20.9 50 22 50H42C43.1 50 44 49.1 44 48V44" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white">StreamVault</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v3.5 HD</span>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-base sm:text-xl tracking-tight text-white leading-none">VidSource</span>
+            <span class="hidden sm:inline-block text-[10px] font-bold lowercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">anyvid.app</span>
           </div>
-          <p class="text-xs text-slate-400 hidden sm:block">Free Online Video &amp; Audio Saver</p>
+          <span class="block sm:hidden text-[10px] font-semibold text-cyan-400 leading-tight mt-0.5">anyvid.app</span>
+          <p id="headerTagline" class="text-xs text-slate-400 hidden sm:block mt-0.5">Free 4K &amp; 1080p Video &amp; Audio Downloader</p>
         </div>
-      </div>
+      </a>
 
-      <div class="flex items-center gap-2">
-        <button id="installPwaBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <!-- Language Switcher + PWA Install Button -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <!-- Language Pill Selector (EN / DE / FR / ES) -->
+        <div class="flex items-center bg-slate-900/95 border border-slate-700/80 rounded-xl p-0.5 sm:p-1 text-[11px] sm:text-xs font-semibold" role="group" aria-label="Language Selector">
+          <button type="button" data-lang="en" class="lang-btn px-1.5 sm:px-2 py-1 rounded-lg bg-indigo-600 text-white transition">EN</button>
+          <button type="button" data-lang="de" class="lang-btn px-1.5 sm:px-2 py-1 rounded-lg text-slate-400 hover:text-white transition">DE</button>
+          <button type="button" data-lang="fr" class="lang-btn px-1.5 sm:px-2 py-1 rounded-lg text-slate-400 hover:text-white transition">FR</button>
+          <button type="button" data-lang="es" class="lang-btn px-1.5 sm:px-2 py-1 rounded-lg text-slate-400 hover:text-white transition">ES</button>
+        </div>
+
+        <button id="installPwaBtn" type="button" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition flex items-center gap-1 whitespace-nowrap shrink-0">
+          <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3M5 20h14"/>
           </svg>
           <span id="installPwaText">Install App</span>
@@ -89,82 +239,101 @@
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+  <!-- Main Content (Mobile-First Container) -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-10 space-y-6 sm:space-y-10">
 
-    <!-- HERO DOWNLOADER CARD -->
-    <section class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-      <div class="text-center max-w-2xl mx-auto space-y-3">
-        <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+    <!-- HERO DOWNLOADER STUDIO -->
+    <section class="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-10 shadow-2xl relative overflow-hidden">
+      <div class="text-center max-w-2xl mx-auto space-y-2.5 sm:space-y-3">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-300 text-[11px] sm:text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+          <span id="heroBadgeText" class="truncate">Ad-Free • No Watermark • 1080p HD</span>
+        </div>
+
+        <h1 id="heroTitle" class="text-xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug sm:leading-tight px-1">
           Download Videos &amp; Audio in Seconds
         </h1>
-        <p class="text-sm sm:text-base text-slate-400">
-          Paste any link from YouTube, Instagram, TikTok, Facebook, or X to save high-definition MP4 video or MP3/M4A audio directly to your device.
+        <p id="heroSubtitle" class="text-xs sm:text-base text-slate-400 leading-relaxed px-1">
+          Paste any link from YouTube, TikTok, Instagram, Facebook, or X to save high-definition MP4 video or MP3/M4A audio directly to your device.
         </p>
 
-        <!-- Supported Platform Pills -->
-        <div class="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
-          <span class="px-2.5 py-1 rounded-full bg-red-500/10 text-red-300 border border-red-500/20 font-medium">YouTube &amp; Shorts</span>
-          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 border border-pink-500/20 font-medium">Instagram Reels</span>
-          <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-medium">TikTok</span>
-          <span class="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 font-medium">Facebook</span>
-          <span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">X / Twitter</span>
+        <!-- Interactive Platform Switcher Tabs (2x3 Symmetrical Grid on Mobile, Pill Row on Desktop) -->
+        <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-2 text-xs" role="tablist">
+          <button type="button" data-platform-tab="all" class="platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-indigo-600 text-white font-semibold shadow transition flex items-center justify-center gap-1.5 truncate">
+            <span>🌐</span> <span id="tabAllLabel" class="truncate">All Platforms</span>
+          </button>
+          <button type="button" data-platform-tab="youtube" class="platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-red-500/10 text-red-300 border border-red-500/25 hover:bg-red-500/20 font-medium transition flex items-center justify-center gap-1.5 truncate">
+            <span>▶</span> <span class="truncate">YouTube &amp; Shorts</span>
+          </button>
+          <button type="button" data-platform-tab="tiktok" class="platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/25 hover:bg-cyan-500/20 font-medium transition flex items-center justify-center gap-1 truncate">
+            <span>♪</span> <span class="truncate">TikTok</span> <span id="tabTikTokNoWm" class="text-[10px] opacity-80 hidden sm:inline">(No Watermark)</span>
+          </button>
+          <button type="button" data-platform-tab="instagram" class="platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-pink-500/10 text-pink-300 border border-pink-500/25 hover:bg-pink-500/20 font-medium transition flex items-center justify-center gap-1.5 truncate">
+            <span>◎</span> <span class="truncate">Instagram Reels</span>
+          </button>
+          <button type="button" data-platform-tab="facebook" class="platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/25 hover:bg-blue-500/20 font-medium transition flex items-center justify-center gap-1.5 truncate">
+            <span>f</span> <span class="truncate">Facebook</span>
+          </button>
+          <button type="button" data-platform-tab="twitter" class="platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 font-medium transition flex items-center justify-center gap-1.5 truncate">
+            <span>𝕏</span> <span class="truncate">Twitter / X</span>
+          </button>
         </div>
       </div>
 
       <!-- URL Input Form -->
-      <div class="mt-8 max-w-2xl mx-auto space-y-4">
-        <div class="relative flex items-center">
+      <div class="mt-5 sm:mt-7 max-w-2xl mx-auto space-y-3 sm:space-y-4">
+        <div id="inputWrapper" class="relative flex items-center rounded-2xl transition-all duration-200">
           <!-- Detected Platform Badge -->
-          <div id="platformIconContainer" class="absolute left-3.5 flex items-center justify-center w-8 h-8 rounded-xl bg-slate-800/90 text-slate-400">
+          <div id="platformIconContainer" class="absolute left-3 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-slate-800/90 text-slate-400 z-10">
             <svg id="defaultIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
             </svg>
-            <span id="platformTextBadge" class="hidden text-[10px] font-bold uppercase px-2 py-1 rounded-lg"></span>
+            <span id="platformTextBadge" class="hidden text-[10px] font-bold uppercase px-2 py-0.5 rounded-lg"></span>
           </div>
 
           <input
             id="urlInput"
             type="url"
             autocomplete="off"
+            aria-label="Video URL"
             placeholder="Paste video link here (https://...)"
-            class="w-full pl-14 pr-28 py-4 sm:py-4.5 rounded-2xl bg-slate-950/95 border border-slate-700/80 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/25 transition shadow-inner"
+            class="w-full pl-12 sm:pl-14 pr-24 sm:pr-28 py-3.5 sm:py-4 rounded-2xl bg-slate-950/95 border border-slate-700/80 text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/25 transition shadow-inner"
           />
 
-          <div class="absolute right-2.5 flex items-center gap-1.5">
-            <button id="clearInputBtn" type="button" class="hidden p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition" title="Clear link">
+          <div class="absolute right-2 flex items-center gap-1">
+            <button id="clearInputBtn" type="button" class="hidden p-1.5 sm:p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition" title="Clear link">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
-            <button id="pasteBtn" type="button" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <button id="pasteBtn" type="button" class="px-2.5 sm:px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-indigo-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
               </svg>
-              <span>Paste</span>
+              <span id="pasteBtnLabel">Paste</span>
             </button>
           </div>
         </div>
 
-        <!-- Format & Quality Pills -->
-        <div class="flex flex-wrap items-center justify-center sm:justify-between gap-2 pt-1">
-          <div class="flex flex-wrap items-center justify-center gap-1.5 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 w-full sm:w-auto">
-            <button type="button" data-quality="1080p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition">
-              🎬 MP4 1080p
+        <!-- Format & Quality Pills (2x2 Symmetrical Grid on Mobile, Single Row on Desktop) -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 pt-0.5">
+          <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-1.5 bg-slate-950/90 p-1.5 rounded-2xl border border-slate-800 w-full sm:w-auto">
+            <button type="button" data-quality="1080p" class="quality-pill w-full sm:w-auto px-3 py-2.5 sm:py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition whitespace-nowrap flex items-center justify-center gap-1.5">
+              <span>🎬</span> <span>MP4 1080p</span>
             </button>
-            <button type="button" data-quality="720p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
-              📺 MP4 720p
+            <button type="button" data-quality="720p" class="quality-pill w-full sm:w-auto px-3 py-2.5 sm:py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center justify-center gap-1.5">
+              <span>📺</span> <span>MP4 720p</span>
             </button>
-            <button type="button" data-quality="480p" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
-              📱 MP4 480p
+            <button type="button" data-quality="480p" class="quality-pill w-full sm:w-auto px-3 py-2.5 sm:py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center justify-center gap-1.5">
+              <span>📱</span> <span>MP4 480p</span>
             </button>
-            <button type="button" data-quality="audio" class="quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
-              🎵 Audio (MP3/M4A)
+            <button type="button" data-quality="audio" class="quality-pill w-full sm:w-auto px-3 py-2.5 sm:py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center justify-center gap-1.5">
+              <span>🎵</span> <span id="audioPillLabel">Audio (MP3)</span>
             </button>
           </div>
 
           <div class="hidden sm:flex items-center gap-1.5 text-xs text-slate-400">
-            <span id="engineStatusDot" class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
             <span id="engineStatusLabel">Auto HD Audio + Video Merge</span>
           </div>
         </div>
@@ -172,7 +341,7 @@
         <!-- Primary Download Button -->
         <div class="pt-1">
           <button id="startDownloadBtn" type="button" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:scale-[0.99] text-white font-bold text-base shadow-xl shadow-indigo-600/25 transition flex items-center justify-center gap-2.5">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-white shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
             <span id="downloadBtnText">Download Now</span>
@@ -181,22 +350,30 @@
       </div>
     </section>
 
-    <!-- VIDEO METADATA PREVIEW CARD (Appears when link is pasted) -->
+    <!-- RICH VIDEO METADATA & THUMBNAIL STUDIO CARD -->
     <section id="previewCard" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-slate-800">
-      <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start">
-        <!-- Video Thumbnail -->
-        <div class="w-full sm:w-52 shrink-0 aspect-video rounded-xl bg-slate-950 border border-slate-800 overflow-hidden relative flex items-center justify-center">
-          <img id="previewThumbnailImg" src="" alt="Video Thumbnail" class="hidden w-full h-full object-cover" />
-          <div id="videoFallbackThumbnail" class="flex flex-col items-center justify-center p-3 text-center">
-            <svg class="w-8 h-8 text-indigo-400 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span id="previewThumbStatus" class="text-xs text-slate-400 font-medium">Link Ready</span>
+      <div class="flex flex-col sm:flex-row gap-5 items-center sm:items-start">
+        <!-- Video Thumbnail + Save Cover Action -->
+        <div class="w-full sm:w-56 shrink-0 space-y-2">
+          <div class="aspect-video rounded-xl bg-slate-950 border border-slate-800 overflow-hidden relative flex items-center justify-center">
+            <img id="previewThumbnailImg" src="" alt="Video Thumbnail" class="hidden w-full h-full object-cover" />
+            <div id="videoFallbackThumbnail" class="flex flex-col items-center justify-center p-3 text-center">
+              <svg class="w-8 h-8 text-indigo-400 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span id="previewThumbStatus" class="text-xs text-slate-400 font-medium">Link Ready</span>
+            </div>
           </div>
+          <button id="saveThumbnailBtn" type="button" class="hidden w-full py-1.5 px-3 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-[11px] font-semibold text-slate-200 border border-slate-700 transition flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span id="saveThumbBtnText">Save HD Thumbnail (.jpg)</span>
+          </button>
         </div>
 
-        <!-- Video Title & Filename -->
+        <!-- Video Title & Custom Filename -->
         <div class="flex-1 space-y-2.5 w-full">
           <div class="flex flex-wrap items-center gap-2">
             <span id="previewPlatformBadge" class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Video</span>
@@ -209,7 +386,7 @@
           </h3>
 
           <div>
-            <label for="customFilenameInput" class="block text-xs text-slate-400 mb-1">Save file as:</label>
+            <label id="saveFileAsLabel" for="customFilenameInput" class="block text-xs text-slate-400 mb-1">Save file as:</label>
             <input
               id="customFilenameInput"
               type="text"
@@ -221,7 +398,7 @@
       </div>
     </section>
 
-    <!-- ACTIVE EXTRACTION & DOWNLOAD PROGRESS CARD -->
+    <!-- 4-STAGE EXTRACTION & DOWNLOAD PROGRESS STEPPER -->
     <section id="downloadProgressSection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-500/40 space-y-4">
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -232,14 +409,22 @@
           </div>
           <div>
             <h2 id="downloadStatusTitle" class="text-sm sm:text-base font-bold text-white">Extracting HD video &amp; audio...</h2>
-            <p id="downloadBytesText" class="text-xs text-slate-400">Please wait while we merge the highest quality stream (usually 5–15 seconds)...</p>
+            <p id="downloadBytesText" class="text-xs text-slate-400">Merging highest quality stream...</p>
           </div>
         </div>
-        <span id="downloadPercentText" class="text-base sm:text-lg font-extrabold text-indigo-400">Processing</span>
+        <span id="downloadPercentText" class="text-base sm:text-lg font-extrabold text-indigo-400">15%</span>
+      </div>
+
+      <!-- 4-Step Pipeline Visual Indicators -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-semibold pt-1">
+        <div id="stepIndicator1" class="px-2.5 py-1.5 rounded-lg bg-indigo-500/20 border border-indigo-500/40 text-indigo-200 text-center truncate">1. Link Verified</div>
+        <div id="stepIndicator2" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-center truncate">2. Stream Extracted</div>
+        <div id="stepIndicator3" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-center truncate">3. HD Muxing</div>
+        <div id="stepIndicator4" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-center truncate">4. Saving File</div>
       </div>
 
       <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
-        <div id="progressBarFill" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full progress-stripe transition-all duration-300" style="width: 35%;"></div>
+        <div id="progressBarFill" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full progress-stripe transition-all duration-300" style="width: 25%;"></div>
       </div>
 
       <div class="flex justify-end">
@@ -249,7 +434,7 @@
       </div>
     </section>
 
-    <!-- DOWNLOAD READY / DIRECT SAVE BANNER -->
+    <!-- DOWNLOAD READY / DIRECT SAVE & MOBILE SHARE BANNER -->
     <section id="readyDownloadBanner" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl border border-emerald-500/40 bg-emerald-950/15">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3.5">
@@ -259,20 +444,32 @@
             </svg>
           </div>
           <div>
-            <h3 class="text-base font-bold text-white">Your Video is Ready!</h3>
+            <h3 id="readyBannerHeading" class="text-base font-bold text-white">Your Video is Ready!</h3>
             <p id="readyFileDetails" class="text-xs text-emerald-300 font-medium mt-0.5">Download started automatically.</p>
           </div>
         </div>
-        <a
-          id="directDownloadLinkBtn"
-          href="#readyDownloadBanner"
-          download
-          target="_blank"
-          rel="noopener"
-          class="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm text-center shadow-lg shadow-emerald-500/20 transition"
-        >
-          Save File to Device
-        </a>
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <a
+            id="directDownloadLinkBtn"
+            href="#readyDownloadBanner"
+            download
+            target="_blank"
+            rel="noopener"
+            class="flex-1 sm:flex-initial px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm text-center shadow-lg shadow-emerald-500/20 transition"
+          >
+            Save File to Device
+          </a>
+          <button
+            id="shareDownloadBtn"
+            type="button"
+            class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-700 transition flex items-center justify-center gap-1.5"
+          >
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+            </svg>
+            <span id="shareBtnLabel">Share</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -285,17 +482,17 @@
           </svg>
         </div>
         <div class="flex-1">
-          <h3 class="text-sm font-bold text-rose-200">Could not download this video</h3>
+          <h3 id="errorBannerHeading" class="text-sm font-bold text-rose-200">Could not download this video</h3>
           <p id="errorBannerText" class="text-xs text-rose-300/90 mt-1 leading-relaxed"></p>
         </div>
       </div>
     </section>
 
-    <!-- RECENT DOWNLOADS SECTION (Shown once user downloads a video) -->
+    <!-- RECENT DOWNLOADS SECTION -->
     <section id="historySection" class="hidden glass-card rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center gap-2">
-          <h2 class="text-base font-bold text-white">Your Recent Downloads</h2>
+          <h2 id="historyTitle" class="text-base font-bold text-white">Your Recent Downloads</h2>
           <span id="historyCountBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">0</span>
         </div>
         <button id="clearHistoryBtn" type="button" class="text-xs text-slate-400 hover:text-rose-300 transition">
@@ -305,51 +502,209 @@
       <div id="historyListContainer" class="space-y-2"></div>
     </section>
 
-    <!-- HOW IT WORKS SECTION FOR PUBLIC VISITORS -->
-    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-      <div class="glass-card rounded-2xl p-5 space-y-2">
-        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold text-sm flex items-center justify-center">1</div>
-        <h3 class="text-sm font-bold text-white">Copy Video Link</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Copy the link to any public video, Short, or Reel from YouTube, Instagram, TikTok, Facebook, or X.
-        </p>
+    <!-- 3-STEP HOW IT WORKS SECTION -->
+    <section class="space-y-4">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 id="howItWorksHeading" class="text-lg sm:text-2xl font-bold text-white">How to Download Any Video in 3 Steps</h2>
+        <p id="howItWorksSub" class="text-xs sm:text-sm text-slate-400 mt-1">No account, no browser extensions, and no watermarks.</p>
       </div>
-      <div class="glass-card rounded-2xl p-5 space-y-2">
-        <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 font-bold text-sm flex items-center justify-center">2</div>
-        <h3 class="text-sm font-bold text-white">Select Quality</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Paste the link above and choose 1080p Full HD, 720p HD, 480p, or M4A/MP3 audio-only format.
-        </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="glass-card rounded-2xl p-5 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold text-sm flex items-center justify-center">1</div>
+          <h3 id="step1Title" class="text-sm font-bold text-white">Copy Video Link</h3>
+          <p id="step1Desc" class="text-xs text-slate-400 leading-relaxed">
+            Copy the link to any public video, Short, or Reel from YouTube, TikTok, Instagram, Facebook, or X.
+          </p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 font-bold text-sm flex items-center justify-center">2</div>
+          <h3 id="step2Title" class="text-sm font-bold text-white">Select Format &amp; Quality</h3>
+          <p id="step2Desc" class="text-xs text-slate-400 leading-relaxed">
+            Paste the link into VidSource and choose 1080p Full HD, 720p HD, 480p MP4, or MP3/M4A audio.
+          </p>
+        </div>
+        <div class="glass-card rounded-2xl p-5 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 font-bold text-sm flex items-center justify-center">3</div>
+          <h3 id="step3Title" class="text-sm font-bold text-white">Save Instantly</h3>
+          <p id="step3Desc" class="text-xs text-slate-400 leading-relaxed">
+            Click Download Now. Video and audio tracks are merged automatically and saved straight to your device.
+          </p>
+        </div>
       </div>
-      <div class="glass-card rounded-2xl p-5 space-y-2">
-        <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 font-bold text-sm flex items-center justify-center">3</div>
-        <h3 class="text-sm font-bold text-white">Save Instantly</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Click Download Now. Video and audio tracks are merged automatically and saved straight to your device.
-        </p>
+    </section>
+
+    <!-- GEO & AI SEARCH OPTIMIZATION: SUPPORTED PLATFORMS & TECHNICAL SPECS TABLE -->
+    <section class="glass-card rounded-2xl p-6 sm:p-8 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 id="matrixHeading" class="text-lg sm:text-xl font-bold text-white">Supported Platforms &amp; Quality Specifications</h2>
+          <p id="matrixSub" class="text-xs text-slate-400 mt-0.5">VidSource (anyvid.app) processes streams using multi-region cloud muxing for full audio/video sync.</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 w-fit">100% Free &amp; Unlimited</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400">
+              <th class="py-3 pr-4 font-semibold">Platform</th>
+              <th class="py-3 px-4 font-semibold">Supported Links</th>
+              <th class="py-3 px-4 font-semibold">Video Quality</th>
+              <th class="py-3 pl-4 font-semibold">Special Features</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 text-slate-200">
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">YouTube &amp; Shorts</td>
+              <td class="py-3 px-4 text-slate-400">youtube.com, youtu.be, /shorts/</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-red-500/15 text-red-300 text-xs font-medium">1080p / 720p / 480p MP4</span></td>
+              <td class="py-3 pl-4 text-slate-300">Auto FFmpeg Video+Audio Merge &amp; MP3</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">TikTok</td>
+              <td class="py-3 px-4 text-slate-400">tiktok.com, vm.tiktok.com, vt.tiktok.com</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-xs font-medium">Original HD MP4</span></td>
+              <td class="py-3 pl-4 text-emerald-300 font-medium">Watermark-Free HD Video &amp; Original MP3</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">Instagram</td>
+              <td class="py-3 px-4 text-slate-400">instagram.com/reel/, /p/, /tv/</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-pink-500/15 text-pink-300 text-xs font-medium">1080p Full HD MP4</span></td>
+              <td class="py-3 pl-4 text-slate-300">Reels, Video Posts &amp; Cover Thumbnail</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">Facebook</td>
+              <td class="py-3 px-4 text-slate-400">facebook.com/watch, fb.watch, /reel/</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 text-xs font-medium">1080p / 720p HD MP4</span></td>
+              <td class="py-3 pl-4 text-slate-300">Public Watch Videos &amp; Facebook Reels</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">X (Twitter)</td>
+              <td class="py-3 px-4 text-slate-400">x.com, twitter.com/status/</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-xs font-medium">Highest Bitrate MP4</span></td>
+              <td class="py-3 pl-4 text-slate-300">Direct Tweet Video &amp; GIF to MP4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEO & GEO ACCORDION FAQ SECTION -->
+    <section class="space-y-4">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 id="faqHeading" class="text-lg sm:text-2xl font-bold text-white">Frequently Asked Questions</h2>
+        <p id="faqSub" class="text-xs sm:text-sm text-slate-400 mt-1">Everything you need to know about saving videos with VidSource (anyvid.app).</p>
+      </div>
+
+      <div class="space-y-2.5 max-w-3xl mx-auto">
+        <details class="glass-card rounded-2xl p-4 sm:p-5 group">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm sm:text-base text-white">
+            <span id="faqQ1">How do I download TikTok videos without a watermark?</span>
+            <span class="text-indigo-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p id="faqA1" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+            Copy the link to any public TikTok video, paste it into the input box on VidSource (anyvid.app), and click Download Now. Our engine automatically fetches the clean, unwatermarked Full HD MP4 file directly to your phone or computer.
+          </p>
+        </details>
+
+        <details class="glass-card rounded-2xl p-4 sm:p-5 group">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm sm:text-base text-white">
+            <span id="faqQ2">Why does VidSource include sound on 1080p YouTube downloads when other sites are muted?</span>
+            <span class="text-indigo-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p id="faqA2" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+            YouTube stores 1080p video and audio in separate streams. Unlike basic downloaders that only grab the silent video track, VidSource merges the 1080p video stream with the high-bitrate audio track in real time before sending the completed MP4 to your device.
+          </p>
+        </details>
+
+        <details class="glass-card rounded-2xl p-4 sm:p-5 group">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm sm:text-base text-white">
+            <span id="faqQ3">Can I install VidSource as an app on iPhone, Android, or Windows?</span>
+            <span class="text-indigo-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p id="faqA3" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+            Yes! VidSource is a Progressive Web App (PWA). Tap the "Install App" button in the top navigation bar (or select "Add to Home Screen" in Safari on iOS) to install VidSource with its custom app icon on your home screen or desktop.
+          </p>
+        </details>
+
+        <details class="glass-card rounded-2xl p-4 sm:p-5 group">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm sm:text-base text-white">
+            <span id="faqQ4">Is VidSource completely free and private?</span>
+            <span class="text-indigo-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p id="faqA4" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+            Yes. VidSource (anyvid.app) is 100% free with no download limits, no account sign-up, and no tracking cookies. Your recent download list is stored only in your own browser's local storage and can be cleared anytime.
+          </p>
+        </details>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500">
-    <p>StreamVault v3.5 — Fast, Free &amp; Unlimited Video Downloader</p>
+  <!-- SEO Footer with Crawlable Platform & Language Links -->
+  <footer class="border-t border-slate-900/90 bg-slate-950/60 py-8 mt-8 text-xs text-slate-400">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-sm text-white">VidSource</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">anyvid.app</span>
+          </div>
+          <p id="footerAboutText" class="text-slate-500 leading-relaxed">
+            Fast, free, and ad-free online video &amp; audio downloader for YouTube, TikTok, Instagram, Facebook, and X.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Popular Downloaders</div>
+          <ul class="space-y-1.5 text-slate-400">
+            <li><a href="/youtube-video-downloader" class="hover:text-indigo-400 transition">YouTube Video &amp; Shorts Downloader</a></li>
+            <li><a href="/tiktok-video-downloader" class="hover:text-indigo-400 transition">TikTok Downloader (No Watermark)</a></li>
+            <li><a href="/instagram-reels-downloader" class="hover:text-indigo-400 transition">Instagram Reels &amp; Video Downloader</a></li>
+            <li><a href="/facebook-video-downloader" class="hover:text-indigo-400 transition">Facebook HD Video Downloader</a></li>
+            <li><a href="/twitter-video-downloader" class="hover:text-indigo-400 transition">X / Twitter Video Downloader</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <div class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Languages &amp; AI Index</div>
+          <ul class="space-y-1.5 text-slate-400">
+            <li><a href="/?lang=en" data-lang-link="en" class="hover:text-indigo-400 transition">English — Free Online Video Downloader</a></li>
+            <li><a href="/?lang=de" data-lang-link="de" class="hover:text-indigo-400 transition">Deutsch — Kostenloser Video Downloader</a></li>
+            <li><a href="/?lang=fr" data-lang-link="fr" class="hover:text-indigo-400 transition">Français — Téléchargeur de Vidéos Gratuit</a></li>
+            <li><a href="/?lang=es" data-lang-link="es" class="hover:text-indigo-400 transition">Español — Descargador de Videos Gratis</a></li>
+            <li><a href="/llms.txt" class="hover:text-indigo-400 transition">AI Search Specification (/llms.txt)</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500">
+        <p>© 2026 VidSource (anyvid.app) v4.0 — Fast, Free &amp; Unlimited Video Downloader</p>
+        <div class="flex items-center gap-4">
+          <a href="/sitemap.xml" class="hover:text-slate-300 transition">Sitemap</a>
+          <a href="/robots.txt" class="hover:text-slate-300 transition">Robots.txt</a>
+          <a href="/healthz" class="hover:text-slate-300 transition">API Status</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <!-- PWA INSTALL MODAL -->
   <div id="installModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-md w-full p-6 border border-slate-700 shadow-2xl space-y-4">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-white">Install StreamVault App</h3>
+        <div class="flex items-center gap-2.5">
+          <img src="/icon.svg" alt="VidSource Icon" class="w-8 h-8 rounded-lg" />
+          <h3 id="installModalTitle" class="text-base font-bold text-white">Install VidSource App</h3>
+        </div>
         <button id="closeInstallModalBtn" type="button" class="p-1 text-slate-400 hover:text-white rounded-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        Add StreamVault to your phone or computer home screen for instant 1-tap access anytime.
+      <p id="installModalDesc" class="text-xs text-slate-300 leading-relaxed">
+        Add VidSource (anyvid.app) to your phone or computer home screen for instant 1-tap video downloads anytime.
       </p>
       <div class="space-y-2 text-xs text-slate-300 bg-slate-900 p-3.5 rounded-xl border border-slate-800">
         <div><strong class="text-white">Android / Chrome / Edge:</strong> Tap the browser menu (⋮) and choose <em>Install App</em> or <em>Add to Home Screen</em>.</div>
@@ -365,23 +720,236 @@
 
   <script>
     (function () {
-      // Automatically UNREGISTER any old Service Workers and wipe old caches so updates apply immediately!
+      // Unregister stale service workers and clear old caches so v4.0 updates apply immediately
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           if (window.caches) {
             caches.keys().then((keys) => {
-              keys.forEach((k) => caches.delete(k));
+              keys.forEach((k) => {
+                if (k !== 'vidsource-anyvid-v4.0') caches.delete(k);
+              });
             }).catch(() => {});
           }
-          navigator.serviceWorker.getRegistrations().then((regs) => {
-            regs.forEach((r) => r.unregister());
+          navigator.serviceWorker.register('/sw.js').then((reg) => {
+            reg.update();
           }).catch(() => {});
         });
       }
 
+      // Complete 4-Language Localization Dictionary (EN, DE, FR, ES)
+      const I18N = {
+        en: {
+          metaTitle: 'VidSource (anyvid.app) — Free 4K & 1080p Online Video Downloader',
+          metaDesc: 'Download HD 1080p MP4 videos and MP3 audio for free with VidSource (anyvid.app). Save YouTube, TikTok (No Watermark), Instagram Reels, Facebook, and X clips.',
+          headerTagline: 'Free 4K & 1080p Video & Audio Downloader',
+          installApp: 'Install App',
+          heroBadge: 'Ad-Free • No Watermark • 1080p HD Auto-Merge',
+          heroTitle: 'Download Videos & Audio in Seconds',
+          heroSubtitle: 'Paste any link from YouTube, TikTok, Instagram, Facebook, or X to save high-definition MP4 video or MP3/M4A audio directly to your device.',
+          tabAll: 'All Platforms',
+          tabTikTokNoWm: '(No Watermark)',
+          placeholderAll: 'Paste video link here (https://...)',
+          placeholderYoutube: 'Paste YouTube video or Shorts link here...',
+          placeholderTiktok: 'Paste TikTok link here (HD No Watermark)...',
+          placeholderInstagram: 'Paste Instagram Reel or post link here...',
+          placeholderFacebook: 'Paste Facebook video or Reel link here...',
+          placeholderTwitter: 'Paste X / Twitter video link here...',
+          pasteBtn: 'Paste',
+          audioPill: 'Audio (MP3)',
+          engineStatus: 'Auto HD Audio + Video Merge',
+          downloadNow: 'Download Now',
+          processingVideo: 'Processing Video...',
+          saveFileAs: 'Save file as:',
+          saveThumbBtn: 'Save HD Thumbnail (.jpg)',
+          readyHeading: 'Your Video is Ready!',
+          saveToDevice: 'Save File to Device',
+          shareBtn: 'Share',
+          errorHeading: 'Could not download this video',
+          historyTitle: 'Your Recent Downloads',
+          clearHistory: 'Clear History',
+          downloadAgain: 'Download Again',
+          howItWorksHeading: 'How to Download Any Video in 3 Steps',
+          howItWorksSub: 'No account, no browser extensions, and no watermarks.',
+          step1Title: 'Copy Video Link',
+          step1Desc: 'Copy the link to any public video, Short, or Reel from YouTube, TikTok, Instagram, Facebook, or X.',
+          step2Title: 'Select Format & Quality',
+          step2Desc: 'Paste the link into VidSource and choose 1080p Full HD, 720p HD, 480p MP4, or MP3/M4A audio.',
+          step3Title: 'Save Instantly',
+          step3Desc: 'Click Download Now. Video and audio tracks are merged automatically and saved straight to your device.',
+          matrixHeading: 'Supported Platforms & Quality Specifications',
+          matrixSub: 'VidSource (anyvid.app) processes streams using multi-region cloud muxing for full audio/video sync.',
+          faqHeading: 'Frequently Asked Questions',
+          faqSub: 'Everything you need to know about saving videos with VidSource (anyvid.app).',
+          faqQ1: 'How do I download TikTok videos without a watermark?',
+          faqA1: 'Copy the link to any public TikTok video, paste it into the input box on VidSource (anyvid.app), and click Download Now. Our engine automatically fetches the clean, unwatermarked Full HD MP4 file directly to your phone or computer.',
+          faqQ2: 'Why does VidSource include sound on 1080p YouTube downloads when other sites are muted?',
+          faqA2: 'YouTube stores 1080p video and audio in separate streams. Unlike basic downloaders that only grab the silent video track, VidSource merges the 1080p video stream with the high-bitrate audio track in real time before sending the completed MP4 to your device.',
+          faqQ3: 'Can I install VidSource as an app on iPhone, Android, or Windows?',
+          faqA3: 'Yes! VidSource is a Progressive Web App (PWA). Tap the "Install App" button in the top navigation bar (or select "Add to Home Screen" in Safari on iOS) to install VidSource with its custom app icon on your home screen or desktop.',
+          faqQ4: 'Is VidSource completely free and private?',
+          faqA4: 'Yes. VidSource (anyvid.app) is 100% free with no download limits, no account sign-up, and no tracking cookies.'
+        },
+        de: {
+          metaTitle: 'VidSource (anyvid.app) — Kostenloser 4K & 1080p Video Downloader (YouTube, TikTok, Instagram)',
+          metaDesc: 'Laden Sie kostenlos 1080p HD MP4-Videos und MP3-Audio mit VidSource (anyvid.app) herunter. YouTube, TikTok ohne Wasserzeichen, Instagram Reels, Facebook und X.',
+          headerTagline: 'Kostenloser 4K & 1080p Video & Audio Downloader',
+          installApp: 'App installieren',
+          heroBadge: 'Werbefrei • Ohne Wasserzeichen • 1080p HD Auto-Merge',
+          heroTitle: 'Videos & Audio in Sekunden herunterladen',
+          heroSubtitle: 'Fügen Sie einen Link von YouTube, TikTok, Instagram, Facebook oder X ein, um HD MP4-Videos oder MP3/M4A-Audio direkt auf Ihrem Gerät zu speichern.',
+          tabAll: 'Alle Plattformen',
+          tabTikTokNoWm: '(Ohne Wasserzeichen)',
+          placeholderAll: 'Videolink hier einfügen (https://...)',
+          placeholderYoutube: 'YouTube Video- oder Shorts-Link hier einfügen...',
+          placeholderTiktok: 'TikTok-Link hier einfügen (HD ohne Wasserzeichen)...',
+          placeholderInstagram: 'Instagram Reel- oder Beitragslink hier einfügen...',
+          placeholderFacebook: 'Facebook Video- oder Reel-Link hier einfügen...',
+          placeholderTwitter: 'X / Twitter Videolink hier einfügen...',
+          pasteBtn: 'Einfügen',
+          audioPill: 'Audio (MP3)',
+          engineStatus: 'Auto HD Audio + Video Zusammenführung',
+          downloadNow: 'Jetzt herunterladen',
+          processingVideo: 'Video wird verarbeitet...',
+          saveFileAs: 'Datei speichern unter:',
+          saveThumbBtn: 'HD Vorschaubild speichern (.jpg)',
+          readyHeading: 'Ihr Video ist bereit!',
+          saveToDevice: 'Datei auf Gerät speichern',
+          shareBtn: 'Teilen',
+          errorHeading: 'Dieses Video konnte nicht heruntergeladen werden',
+          historyTitle: 'Ihre letzten Downloads',
+          clearHistory: 'Verlauf löschen',
+          downloadAgain: 'Erneut laden',
+          howItWorksHeading: 'So laden Sie jedes Video in 3 Schritten herunter',
+          howItWorksSub: 'Kein Konto, keine Browser-Erweiterungen und keine Wasserzeichen.',
+          step1Title: 'Videolink kopieren',
+          step1Desc: 'Kopieren Sie den Link zu einem öffentlichen Video, Short oder Reel von YouTube, TikTok, Instagram, Facebook oder X.',
+          step2Title: 'Format & Qualität wählen',
+          step2Desc: 'Fügen Sie den Link in VidSource ein und wählen Sie 1080p Full HD, 720p HD, 480p MP4 oder MP3/M4A Audio.',
+          step3Title: 'Sofort speichern',
+          step3Desc: 'Klicken Sie auf Jetzt herunterladen. Video- und Audiospuren werden automatisch zusammengefügt und auf Ihrem Gerät gespeichert.',
+          matrixHeading: 'Unterstützte Plattformen & Qualitäts-Spezifikationen',
+          matrixSub: 'VidSource (anyvid.app) verarbeitet Streams über Cloud-Muxing für perfekte Audio-/Videosynchronisation.',
+          faqHeading: 'Häufig gestellte Fragen (FAQ)',
+          faqSub: 'Alles, was Sie über das Herunterladen von Videos mit VidSource (anyvid.app) wissen müssen.',
+          faqQ1: 'Wie lade ich TikTok-Videos ohne Wasserzeichen in HD herunter?',
+          faqA1: 'Kopieren Sie den Link eines TikTok-Videos, fügen Sie ihn bei VidSource (anyvid.app) ein und klicken Sie auf Jetzt herunterladen. Unser System lädt die Original-MP4-Datei in Full HD komplett ohne Wasserzeichen.',
+          faqQ2: 'Warum haben 1080p YouTube-Downloads bei VidSource vollen Ton?',
+          faqA2: 'YouTube speichert 1080p-Video und -Audio getrennt. VidSource führt die 1080p-Videospur und die hochwertige Audiospur automatisch in der Cloud zusammen, bevor die fertige MP4-Datei gespeichert wird.',
+          faqQ3: 'Kann ich VidSource als App auf dem iPhone, Android oder PC installieren?',
+          faqA3: 'Ja! Tippen Sie oben auf „App installieren“ (oder in Safari auf dem iPhone auf „Zum Home-Bildschirm“), um VidSource mit eigenem App-Symbol direkt zu installieren.',
+          faqQ4: 'Ist VidSource komplett kostenlos und sicher?',
+          faqA4: 'Ja. VidSource (anyvid.app) ist 100 % kostenlos, ohne Download-Limits, ohne Registrierung und ohne Tracking.'
+        },
+        fr: {
+          metaTitle: 'VidSource (anyvid.app) — Téléchargeur de Vidéos 4K & 1080p Gratuit (YouTube, TikTok, Instagram)',
+          metaDesc: 'Téléchargez gratuitement des vidéos MP4 1080p HD et audio MP3 avec VidSource (anyvid.app). YouTube, TikTok sans filigrane, Reels Instagram, Facebook et X.',
+          headerTagline: 'Téléchargeur Vidéo & Audio 4K / 1080p Gratuit',
+          installApp: 'Installer l’App',
+          heroBadge: 'Sans Publicité • Sans Filigrane • Fusion HD 1080p',
+          heroTitle: 'Téléchargez des Vidéos et Audios en Quelques Secondes',
+          heroSubtitle: 'Collez n’importe quel lien YouTube, TikTok, Instagram, Facebook ou X pour enregistrer des vidéos MP4 HD ou de l’audio MP3/M4A sur votre appareil.',
+          tabAll: 'Toutes Plateformes',
+          tabTikTokNoWm: '(Sans Filigrane)',
+          placeholderAll: 'Collez le lien vidéo ici (https://...)',
+          placeholderYoutube: 'Collez le lien YouTube ou Shorts ici...',
+          placeholderTiktok: 'Collez le lien TikTok ici (HD sans filigrane)...',
+          placeholderInstagram: 'Collez le lien Instagram Reel ou publication ici...',
+          placeholderFacebook: 'Collez le lien vidéo Facebook ici...',
+          placeholderTwitter: 'Collez le lien vidéo X / Twitter ici...',
+          pasteBtn: 'Coller',
+          audioPill: 'Audio (MP3)',
+          engineStatus: 'Fusion Auto Audio + Vidéo HD',
+          downloadNow: 'Télécharger Maintenant',
+          processingVideo: 'Traitement en cours...',
+          saveFileAs: 'Enregistrer sous :',
+          saveThumbBtn: 'Enregistrer la Miniature HD (.jpg)',
+          readyHeading: 'Votre Vidéo est Prête !',
+          saveToDevice: 'Enregistrer sur l’Appareil',
+          shareBtn: 'Partager',
+          errorHeading: 'Impossible de télécharger cette vidéo',
+          historyTitle: 'Vos Téléchargements Récents',
+          clearHistory: 'Effacer l’historique',
+          downloadAgain: 'Retélécharger',
+          howItWorksHeading: 'Comment Télécharger une Vidéo en 3 Étapes',
+          howItWorksSub: 'Sans inscription, sans extension et sans filigrane.',
+          step1Title: 'Copiez le Lien Vidéo',
+          step1Desc: 'Copiez le lien public de n’importe quelle vidéo, Short ou Reel depuis YouTube, TikTok, Instagram, Facebook ou X.',
+          step2Title: 'Choisissez la Qualité',
+          step2Desc: 'Collez le lien sur VidSource et sélectionnez MP4 1080p Full HD, 720p, 480p ou Audio MP3/M4A.',
+          step3Title: 'Enregistrez Instantanément',
+          step3Desc: 'Cliquez sur Télécharger. Les pistes audio et vidéo sont fusionnées automatiquement et enregistrées sur votre appareil.',
+          matrixHeading: 'Plateformes Supportées & Spécifications Qualité',
+          matrixSub: 'VidSource (anyvid.app) fusionne les flux dans le cloud pour une synchronisation audio/vidéo parfaite.',
+          faqHeading: 'Questions Fréquentes (FAQ)',
+          faqSub: 'Tout savoir sur le téléchargement de vidéos avec VidSource (anyvid.app).',
+          faqQ1: 'Comment télécharger des vidéos TikTok sans filigrane en HD ?',
+          faqA1: 'Collez le lien de n’importe quelle vidéo TikTok dans VidSource (anyvid.app) et cliquez sur Télécharger. Notre moteur extrait directement le fichier MP4 Full HD original sans filigrane.',
+          faqQ2: 'Pourquoi les vidéos YouTube 1080p ont-elles du son sur VidSource ?',
+          faqA2: 'YouTube sépare la vidéo 1080p et l’audio. VidSource fusionne automatiquement le flux vidéo 1080p et la piste audio haute qualité via FFmpeg avant de livrer le fichier MP4 complet.',
+          faqQ3: 'Puis-je installer l’application VidSource sur iPhone, Android ou PC ?',
+          faqA3: 'Oui ! Cliquez sur « Installer l’App » en haut de la page (ou « Sur l’écran d’accueil » dans Safari iOS) pour installer VidSource avec son icône dédiée.',
+          faqQ4: 'VidSource est-il entièrement gratuit et privé ?',
+          faqA4: 'Oui. VidSource (anyvid.app) est 100 % gratuit, illimité, sans création de compte et sans pistage.'
+        },
+        es: {
+          metaTitle: 'VidSource (anyvid.app) — Descargador de Videos 4K y 1080p Gratis (YouTube, TikTok, Instagram)',
+          metaDesc: 'Descarga gratis videos MP4 en 1080p HD y audio MP3 con VidSource (anyvid.app). Guarda videos de YouTube, TikTok sin marca de agua, Instagram Reels, Facebook y X.',
+          headerTagline: 'Descargador de Video y Audio 4K / 1080p Gratis',
+          installApp: 'Instalar App',
+          heroBadge: 'Sin Anuncios • Sin Marca de Agua • Fusión HD 1080p',
+          heroTitle: 'Descarga Videos y Audio en Segundos',
+          heroSubtitle: 'Pega cualquier enlace de YouTube, TikTok, Instagram, Facebook o X para guardar video MP4 en alta definición o audio MP3/M4A directamente en tu dispositivo.',
+          tabAll: 'Todas las Plataformas',
+          tabTikTokNoWm: '(Sin Marca de Agua)',
+          placeholderAll: 'Pega el enlace del video aquí (https://...)',
+          placeholderYoutube: 'Pega el enlace de YouTube o Shorts aquí...',
+          placeholderTiktok: 'Pega el enlace de TikTok aquí (HD sin marca de agua)...',
+          placeholderInstagram: 'Pega el enlace de Instagram Reel aquí...',
+          placeholderFacebook: 'Pega el enlace de Facebook aquí...',
+          placeholderTwitter: 'Pega el enlace de X / Twitter aquí...',
+          pasteBtn: 'Pegar',
+          audioPill: 'Audio (MP3)',
+          engineStatus: 'Fusión Auto de Audio + Video HD',
+          downloadNow: 'Descargar Ahora',
+          processingVideo: 'Procesando Video...',
+          saveFileAs: 'Guardar archivo como:',
+          saveThumbBtn: 'Guardar Miniatura HD (.jpg)',
+          readyHeading: '¡Tu Video está Listo!',
+          saveToDevice: 'Guardar en el Dispositivo',
+          shareBtn: 'Compartir',
+          errorHeading: 'No se pudo descargar este video',
+          historyTitle: 'Tus Descargas Recientes',
+          clearHistory: 'Borrar Historial',
+          downloadAgain: 'Descargar de Nuevo',
+          howItWorksHeading: 'Cómo Descargar Cualquier Video en 3 Pasos',
+          howItWorksSub: 'Sin cuenta, sin extensiones y sin marcas de agua.',
+          step1Title: 'Copia el Enlace del Video',
+          step1Desc: 'Copia el enlace público de cualquier video, Short o Reel de YouTube, TikTok, Instagram, Facebook o X.',
+          step2Title: 'Elige Formato y Calidad',
+          step2Desc: 'Pega el enlace en VidSource y selecciona MP4 1080p Full HD, 720p, 480p o audio MP3/M4A.',
+          step3Title: 'Guarda al Instante',
+          step3Desc: 'Haz clic en Descargar Ahora. El video y el audio se combinan automáticamente y se guardan en tu dispositivo.',
+          matrixHeading: 'Plataformas Compatibles y Especificaciones de Calidad',
+          matrixSub: 'VidSource (anyvid.app) procesa transmisiones en la nube para una sincronización perfecta de audio y video.',
+          faqHeading: 'Preguntas Frecuentes (FAQ)',
+          faqSub: 'Todo lo que necesitas saber sobre cómo guardar videos con VidSource (anyvid.app).',
+          faqQ1: '¿Cómo descargo videos de TikTok sin marca de agua en HD?',
+          faqA1: 'Pega el enlace de cualquier video de TikTok en VidSource (anyvid.app) y haz clic en Descargar Ahora. Nuestro motor obtiene directamente el archivo MP4 Full HD original sin marca de agua.',
+          faqQ2: '¿Por qué las descargas de YouTube en 1080p sí tienen sonido en VidSource?',
+          faqA2: 'YouTube separa el video 1080p del audio. VidSource combina automáticamente la pista de video 1080p con el audio de alta calidad mediante FFmpeg antes de entregar el archivo MP4.',
+          faqQ3: '¿Puedo instalar VidSource como aplicación en iPhone, Android o PC?',
+          faqA3: '¡Sí! Pulsa el botón «Instalar App» en la barra superior (o «Añadir a pantalla de inicio» en Safari para iOS) para instalar VidSource con su icono oficial.',
+          faqQ4: '¿Es VidSource totalmente gratis y privado?',
+          faqA4: 'Sí. VidSource (anyvid.app) es 100 % gratuito, sin límites de descarga, sin registro y sin rastreo.'
+        }
+      };
+
       // State
+      let currentLang = 'en';
+      let activePlatformTab = 'all';
       let selectedQuality = '1080p';
       let currentVideoTitle = '';
+      let currentThumbnailUrl = '';
       let activeAbortController = null;
       let progressInterval = null;
       let deferredInstallPrompt = null;
@@ -395,6 +963,171 @@
         }
         return '';
       }
+
+      // DOM Elements
+      const urlInput = document.getElementById('urlInput');
+      const clearInputBtn = document.getElementById('clearInputBtn');
+      const pasteBtn = document.getElementById('pasteBtn');
+      const pasteBtnLabel = document.getElementById('pasteBtnLabel');
+      const startDownloadBtn = document.getElementById('startDownloadBtn');
+      const downloadBtnText = document.getElementById('downloadBtnText');
+      const platformIconContainer = document.getElementById('platformIconContainer');
+      const defaultIcon = document.getElementById('defaultIcon');
+      const platformTextBadge = document.getElementById('platformTextBadge');
+
+      const previewCard = document.getElementById('previewCard');
+      const previewThumbnailImg = document.getElementById('previewThumbnailImg');
+      const videoFallbackThumbnail = document.getElementById('videoFallbackThumbnail');
+      const previewThumbStatus = document.getElementById('previewThumbStatus');
+      const saveThumbnailBtn = document.getElementById('saveThumbnailBtn');
+      const saveThumbBtnText = document.getElementById('saveThumbBtnText');
+      const previewPlatformBadge = document.getElementById('previewPlatformBadge');
+      const previewResolutionBadge = document.getElementById('previewResolutionBadge');
+      const previewUploaderBadge = document.getElementById('previewUploaderBadge');
+      const previewVideoTitle = document.getElementById('previewVideoTitle');
+      const customFilenameInput = document.getElementById('customFilenameInput');
+
+      const downloadProgressSection = document.getElementById('downloadProgressSection');
+      const downloadStatusTitle = document.getElementById('downloadStatusTitle');
+      const downloadPercentText = document.getElementById('downloadPercentText');
+      const progressBarFill = document.getElementById('progressBarFill');
+      const downloadBytesText = document.getElementById('downloadBytesText');
+      const cancelStreamBtn = document.getElementById('cancelStreamBtn');
+      const stepIndicator1 = document.getElementById('stepIndicator1');
+      const stepIndicator2 = document.getElementById('stepIndicator2');
+      const stepIndicator3 = document.getElementById('stepIndicator3');
+      const stepIndicator4 = document.getElementById('stepIndicator4');
+
+      const readyDownloadBanner = document.getElementById('readyDownloadBanner');
+      const readyFileDetails = document.getElementById('readyFileDetails');
+      const directDownloadLinkBtn = document.getElementById('directDownloadLinkBtn');
+      const shareDownloadBtn = document.getElementById('shareDownloadBtn');
+
+      const errorBanner = document.getElementById('errorBanner');
+      const errorBannerText = document.getElementById('errorBannerText');
+
+      const historySection = document.getElementById('historySection');
+      const historyCountBadge = document.getElementById('historyCountBadge');
+      const historyListContainer = document.getElementById('historyListContainer');
+      const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+      const installPwaBtn = document.getElementById('installPwaBtn');
+      const installModal = document.getElementById('installModal');
+      const closeInstallModalBtn = document.getElementById('closeInstallModalBtn');
+      const ackInstallModalBtn = document.getElementById('ackInstallModalBtn');
+
+      function applyLanguage(langCode) {
+        const lang = I18N[langCode] ? langCode : 'en';
+        currentLang = lang;
+        const t = I18N[lang];
+        document.documentElement.lang = lang;
+        document.title = t.metaTitle;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+
+        try { localStorage.setItem('vidsource_lang', lang); } catch (e) {}
+
+        document.querySelectorAll('.lang-btn').forEach((btn) => {
+          if (btn.getAttribute('data-lang') === lang) {
+            btn.className = 'lang-btn px-1.5 sm:px-2 py-1 rounded-lg bg-indigo-600 text-white transition';
+          } else {
+            btn.className = 'lang-btn px-1.5 sm:px-2 py-1 rounded-lg text-slate-400 hover:text-white transition';
+          }
+        });
+
+        const setTxt = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && val) el.textContent = val;
+        };
+
+        setTxt('headerTagline', t.headerTagline);
+        setTxt('installPwaText', t.installApp);
+        setTxt('heroBadgeText', t.heroBadge);
+        setTxt('heroTitle', t.heroTitle);
+        setTxt('heroSubtitle', t.heroSubtitle);
+        setTxt('tabAllLabel', t.tabAll);
+        setTxt('tabTikTokNoWm', t.tabTikTokNoWm);
+        setTxt('pasteBtnLabel', t.pasteBtn);
+        setTxt('audioPillLabel', t.audioPill);
+        setTxt('engineStatusLabel', t.engineStatus);
+        if (!activeAbortController) setTxt('downloadBtnText', t.downloadNow);
+        setTxt('saveFileAsLabel', t.saveFileAs);
+        setTxt('saveThumbBtnText', t.saveThumbBtn);
+        setTxt('readyBannerHeading', t.readyHeading);
+        setTxt('directDownloadLinkBtn', t.saveToDevice);
+        setTxt('shareBtnLabel', t.shareBtn);
+        setTxt('errorBannerHeading', t.errorHeading);
+        setTxt('historyTitle', t.historyTitle);
+        setTxt('clearHistoryBtn', t.clearHistory);
+        setTxt('howItWorksHeading', t.howItWorksHeading);
+        setTxt('howItWorksSub', t.howItWorksSub);
+        setTxt('step1Title', t.step1Title);
+        setTxt('step1Desc', t.step1Desc);
+        setTxt('step2Title', t.step2Title);
+        setTxt('step2Desc', t.step2Desc);
+        setTxt('step3Title', t.step3Title);
+        setTxt('step3Desc', t.step3Desc);
+        setTxt('matrixHeading', t.matrixHeading);
+        setTxt('matrixSub', t.matrixSub);
+        setTxt('faqHeading', t.faqHeading);
+        setTxt('faqSub', t.faqSub);
+        setTxt('faqQ1', t.faqQ1);
+        setTxt('faqA1', t.faqA1);
+        setTxt('faqQ2', t.faqQ2);
+        setTxt('faqA2', t.faqA2);
+        setTxt('faqQ3', t.faqQ3);
+        setTxt('faqA3', t.faqA3);
+        setTxt('faqQ4', t.faqQ4);
+        setTxt('faqA4', t.faqA4);
+
+        updatePlaceholderForTab(activePlatformTab);
+        renderHistory();
+      }
+
+      function updatePlaceholderForTab(tab) {
+        const t = I18N[currentLang] || I18N.en;
+        const map = {
+          all: t.placeholderAll,
+          youtube: t.placeholderYoutube,
+          tiktok: t.placeholderTiktok,
+          instagram: t.placeholderInstagram,
+          facebook: t.placeholderFacebook,
+          twitter: t.placeholderTwitter
+        };
+        urlInput.placeholder = map[tab] || t.placeholderAll;
+      }
+
+      // Language Switcher Listeners
+      document.querySelectorAll('.lang-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyLanguage(btn.getAttribute('data-lang'));
+        });
+      });
+
+      document.querySelectorAll('[data-lang-link]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const l = link.getAttribute('data-lang-link');
+          applyLanguage(l);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+      // Interactive Platform Switcher Tabs
+      document.querySelectorAll('.platform-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activePlatformTab = btn.getAttribute('data-platform-tab') || 'all';
+          document.querySelectorAll('.platform-tab').forEach((b) => {
+            if (b.getAttribute('data-platform-tab') === activePlatformTab) {
+              b.className = 'platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-indigo-600 text-white font-semibold shadow transition flex items-center justify-center gap-1.5 truncate';
+            } else {
+              b.className = 'platform-tab w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-full bg-slate-900/90 text-slate-300 border border-slate-700/80 hover:bg-slate-800 font-medium transition flex items-center justify-center gap-1.5 truncate';
+            }
+          });
+          updatePlaceholderForTab(activePlatformTab);
+          urlInput.focus();
+        });
+      });
 
       function loadPersistedData() {
         try {
@@ -414,50 +1147,6 @@
         } catch (e) {}
         renderHistory();
       }
-
-      // DOM Elements
-      const urlInput = document.getElementById('urlInput');
-      const clearInputBtn = document.getElementById('clearInputBtn');
-      const pasteBtn = document.getElementById('pasteBtn');
-      const startDownloadBtn = document.getElementById('startDownloadBtn');
-      const downloadBtnText = document.getElementById('downloadBtnText');
-      const platformIconContainer = document.getElementById('platformIconContainer');
-      const defaultIcon = document.getElementById('defaultIcon');
-      const platformTextBadge = document.getElementById('platformTextBadge');
-
-      const previewCard = document.getElementById('previewCard');
-      const previewThumbnailImg = document.getElementById('previewThumbnailImg');
-      const videoFallbackThumbnail = document.getElementById('videoFallbackThumbnail');
-      const previewThumbStatus = document.getElementById('previewThumbStatus');
-      const previewPlatformBadge = document.getElementById('previewPlatformBadge');
-      const previewResolutionBadge = document.getElementById('previewResolutionBadge');
-      const previewUploaderBadge = document.getElementById('previewUploaderBadge');
-      const previewVideoTitle = document.getElementById('previewVideoTitle');
-      const customFilenameInput = document.getElementById('customFilenameInput');
-
-      const downloadProgressSection = document.getElementById('downloadProgressSection');
-      const downloadStatusTitle = document.getElementById('downloadStatusTitle');
-      const downloadPercentText = document.getElementById('downloadPercentText');
-      const progressBarFill = document.getElementById('progressBarFill');
-      const downloadBytesText = document.getElementById('downloadBytesText');
-      const cancelStreamBtn = document.getElementById('cancelStreamBtn');
-
-      const readyDownloadBanner = document.getElementById('readyDownloadBanner');
-      const readyFileDetails = document.getElementById('readyFileDetails');
-      const directDownloadLinkBtn = document.getElementById('directDownloadLinkBtn');
-
-      const errorBanner = document.getElementById('errorBanner');
-      const errorBannerText = document.getElementById('errorBannerText');
-
-      const historySection = document.getElementById('historySection');
-      const historyCountBadge = document.getElementById('historyCountBadge');
-      const historyListContainer = document.getElementById('historyListContainer');
-      const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-
-      const installPwaBtn = document.getElementById('installPwaBtn');
-      const installModal = document.getElementById('installModal');
-      const closeInstallModalBtn = document.getElementById('closeInstallModalBtn');
-      const ackInstallModalBtn = document.getElementById('ackInstallModalBtn');
 
       function showToast(message, type) {
         const container = document.getElementById('toastContainer');
@@ -548,15 +1237,15 @@
           const platform = detectPlatform(url);
           if (platform.name === 'youtube') {
             const vId = extractYouTubeId(url) || 'video';
-            return 'youtube-' + vId + ext;
+            return 'vidsource-youtube-' + vId + ext;
           }
           if (platform.name === 'instagram') {
             const seg = parsed.pathname.split('/').filter(Boolean).pop() || 'reel';
-            return 'instagram-' + seg + ext;
+            return 'vidsource-instagram-' + seg + ext;
           }
-          return platform.name + '-video' + ext;
+          return 'vidsource-' + platform.name + ext;
         } catch (e) {
-          return 'video' + ext;
+          return 'vidsource-video' + ext;
         }
       }
 
@@ -593,6 +1282,7 @@
       clearInputBtn.addEventListener('click', () => {
         urlInput.value = '';
         currentVideoTitle = '';
+        currentThumbnailUrl = '';
         updatePlatformBadge();
         readyDownloadBanner.classList.add('hidden');
         errorBanner.classList.add('hidden');
@@ -611,7 +1301,17 @@
           }
         } catch (err) {}
         urlInput.focus();
-        showToast('Long-press or press Ctrl+V to paste your link.', 'warn');
+        showToast('Press Ctrl+V (or long-press) to paste your video link.', 'warn');
+      });
+
+      // Save HD Thumbnail Button
+      saveThumbnailBtn.addEventListener('click', () => {
+        if (!currentThumbnailUrl) return;
+        const apiBase = getApiBase();
+        const thumbName = (customFilenameInput.value || 'vidsource-cover').replace(/\.[a-zA-Z0-9]{2,4}$/, '') + '-cover.jpg';
+        const proxyThumbUrl = apiBase + '/api/proxy-file?url=' + encodeURIComponent(currentThumbnailUrl) + '&filename=' + encodeURIComponent(thumbName);
+        triggerBrowserSave(proxyThumbUrl, thumbName);
+        showToast('Saving HD Thumbnail: ' + thumbName, 'success');
       });
 
       // Quality selector pills
@@ -620,9 +1320,9 @@
           selectedQuality = btn.getAttribute('data-quality');
           document.querySelectorAll('.quality-pill').forEach((b) => {
             if (b.getAttribute('data-quality') === selectedQuality) {
-              b.className = 'quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition';
+              b.className = 'quality-pill w-full sm:w-auto px-3 py-2.5 sm:py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white shadow transition whitespace-nowrap flex items-center justify-center gap-1.5';
             } else {
-              b.className = 'quality-pill flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition';
+              b.className = 'quality-pill w-full sm:w-auto px-3 py-2.5 sm:py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center justify-center gap-1.5';
             }
           });
           previewResolutionBadge.textContent = selectedQuality === 'audio' ? 'Audio M4A/MP3' : selectedQuality.toUpperCase() + ' MP4';
@@ -640,6 +1340,15 @@
         return 'https://www.tikwm.com/' + u;
       }
 
+      function showThumbnail(imgUrl) {
+        if (!imgUrl) return;
+        currentThumbnailUrl = imgUrl;
+        previewThumbnailImg.src = imgUrl;
+        previewThumbnailImg.classList.remove('hidden');
+        videoFallbackThumbnail.classList.add('hidden');
+        saveThumbnailBtn.classList.remove('hidden');
+      }
+
       // Fetch real video metadata
       async function inspectVideoMetadata(rawUrl) {
         const platform = detectPlatform(rawUrl);
@@ -649,21 +1358,19 @@
         previewVideoTitle.textContent = 'Fetching video info...';
         previewUploaderBadge.classList.add('hidden');
         previewThumbnailImg.classList.add('hidden');
+        saveThumbnailBtn.classList.add('hidden');
         videoFallbackThumbnail.classList.remove('hidden');
         previewThumbStatus.textContent = platform.label + ' Stream';
         customFilenameInput.value = makeCleanFilename('', rawUrl, selectedQuality);
+        currentThumbnailUrl = '';
 
-        // If YouTube, we can immediately show the HQ thumbnail from i.ytimg.com!
         const ytId = extractYouTubeId(rawUrl);
         if (ytId) {
-          previewThumbnailImg.src = 'https://i.ytimg.com/vi/' + ytId + '/hqdefault.jpg';
-          previewThumbnailImg.classList.remove('hidden');
-          videoFallbackThumbnail.classList.add('hidden');
+          showThumbnail('https://i.ytimg.com/vi/' + ytId + '/hqdefault.jpg');
         }
 
         let gotClientMeta = false;
 
-        // If TikTok, try TikWM directly from browser for instant cover + title
         if (platform.name === 'tiktok') {
           try {
             const tikRes = await fetch('https://www.tikwm.com/api/?url=' + encodeURIComponent(rawUrl) + '&hd=1');
@@ -676,11 +1383,7 @@
                 previewVideoTitle.textContent = tTitle;
                 customFilenameInput.value = makeCleanFilename(tTitle, rawUrl, selectedQuality);
                 const coverUrl = normalizeTikWmUrl(tikJson.data.cover || tikJson.data.origin_cover);
-                if (coverUrl) {
-                  previewThumbnailImg.src = coverUrl;
-                  previewThumbnailImg.classList.remove('hidden');
-                  videoFallbackThumbnail.classList.add('hidden');
-                }
+                if (coverUrl) showThumbnail(coverUrl);
                 if (tikJson.data.author && tikJson.data.author.nickname) {
                   previewUploaderBadge.textContent = tikJson.data.author.nickname;
                   previewUploaderBadge.classList.remove('hidden');
@@ -700,11 +1403,7 @@
                 currentVideoTitle = data.title;
                 previewVideoTitle.textContent = data.title;
                 customFilenameInput.value = makeCleanFilename(data.title, rawUrl, selectedQuality);
-                if (data.thumbnail_url) {
-                  previewThumbnailImg.src = data.thumbnail_url;
-                  previewThumbnailImg.classList.remove('hidden');
-                  videoFallbackThumbnail.classList.add('hidden');
-                }
+                if (data.thumbnail_url) showThumbnail(data.thumbnail_url);
                 if (data.author_name) {
                   previewUploaderBadge.textContent = data.author_name;
                   previewUploaderBadge.classList.remove('hidden');
@@ -724,11 +1423,7 @@
                 currentVideoTitle = info.title;
                 previewVideoTitle.textContent = info.title;
                 customFilenameInput.value = makeCleanFilename(info.title, rawUrl, selectedQuality);
-                if (info.thumbnail) {
-                  previewThumbnailImg.src = info.thumbnail;
-                  previewThumbnailImg.classList.remove('hidden');
-                  videoFallbackThumbnail.classList.add('hidden');
-                }
+                if (info.thumbnail) showThumbnail(info.thumbnail);
                 if (info.uploader) {
                   previewUploaderBadge.textContent = info.uploader;
                   previewUploaderBadge.classList.remove('hidden');
@@ -753,7 +1448,6 @@
         setTimeout(() => a.remove(), 4000);
       }
 
-      // Client-side TikTok direct resolver (runs on user's residential IP to avoid datacenter blocks)
       async function resolveTikTokClientSide(rawUrl, isAudio) {
         try {
           const r = await fetch('https://www.tikwm.com/api/?url=' + encodeURIComponent(rawUrl) + '&hd=1');
@@ -775,7 +1469,6 @@
           }
         } catch (e) {}
 
-        // Fallback 2: TiklyDown API
         try {
           const r2 = await fetch('https://api.tiklydown.eu.org/api/download?url=' + encodeURIComponent(rawUrl));
           if (r2.ok) {
@@ -792,9 +1485,7 @@
         return null;
       }
 
-      // Client-side YouTube stream resolver fallback (OceanSaver / SaveNow + Invidious local=true)
       async function resolveYouTubeClientFallback(rawUrl, ytId, quality, isAudio) {
-        // Method 1: OceanSaver / SaveNow Cloud Converter
         try {
           const fmt = isAudio ? 'mp3' : (quality === '480p' ? '480' : quality === '720p' ? '720' : '1080');
           const initUrl = 'https://p.savenow.to/ajax/download.php?button=1&start=1&end=1&format=' + fmt + '&iframe_source=https://allinonedownloader.com/&url=' + encodeURIComponent(rawUrl);
@@ -817,7 +1508,6 @@
           }
         } catch (e) {}
 
-        // Method 2: Invidious local=true proxied stream
         if (ytId) {
           const invidiousApis = [
             'https://inv.tux.pizza',
@@ -839,8 +1529,20 @@
         return null;
       }
 
+      function updateStepVisuals(stepNum) {
+        const activeClass = 'px-2.5 py-1.5 rounded-lg bg-indigo-500/20 border border-indigo-500/40 text-indigo-200 text-center truncate';
+        const doneClass = 'px-2.5 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-center truncate';
+        const idleClass = 'px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-center truncate';
+
+        stepIndicator1.className = stepNum > 1 ? doneClass : activeClass;
+        stepIndicator2.className = stepNum > 2 ? doneClass : stepNum === 2 ? activeClass : idleClass;
+        stepIndicator3.className = stepNum > 3 ? doneClass : stepNum === 3 ? activeClass : idleClass;
+        stepIndicator4.className = stepNum >= 4 ? doneClass : idleClass;
+      }
+
       function completeDownloadUI(finalDownloadUrl, finalFilename, formattedSize, rawUrl, platformLabel) {
         if (progressInterval) clearInterval(progressInterval);
+        updateStepVisuals(4);
         progressBarFill.style.width = '100%';
         downloadPercentText.textContent = '100%';
         downloadStatusTitle.textContent = 'Starting download...';
@@ -865,7 +1567,26 @@
         showToast('Download started: ' + finalFilename, 'success');
       }
 
-      // Main Download Handler with Multi-Engine Resilience:
+      // Share Button Handler
+      shareDownloadBtn.addEventListener('click', async () => {
+        const shareUrl = window.location.origin + '/?url=' + encodeURIComponent(urlInput.value.trim());
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: currentVideoTitle || 'VidSource Video Download',
+              text: 'Download this video in HD on VidSource (anyvid.app):',
+              url: shareUrl
+            });
+            return;
+          } catch (e) {}
+        }
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          showToast('Share link copied to clipboard!', 'success');
+        } catch (e) {}
+      });
+
+      // Main Download Handler with Multi-Engine Resilience
       async function executeDownload() {
         const rawUrl = urlInput.value.trim();
         if (!rawUrl || !/^https?:\/\//i.test(rawUrl)) {
@@ -879,6 +1600,7 @@
           return;
         }
 
+        const t = I18N[currentLang] || I18N.en;
         const platform = detectPlatform(rawUrl);
         const isAudio = selectedQuality === 'audio';
         const desiredFilename = (customFilenameInput.value || makeCleanFilename(currentVideoTitle, rawUrl, selectedQuality)).trim();
@@ -891,13 +1613,14 @@
         activeAbortController = new AbortController();
         startDownloadBtn.disabled = true;
         startDownloadBtn.classList.add('opacity-60');
-        downloadBtnText.textContent = 'Processing Video...';
+        downloadBtnText.textContent = t.processingVideo;
 
-        let stepPct = 15;
+        let stepPct = 18;
+        updateStepVisuals(1);
         progressBarFill.style.width = stepPct + '%';
         downloadStatusTitle.textContent = 'Extracting ' + platform.label + ' video & audio streams...';
-        downloadBytesText.textContent = 'Connecting to media server and merging HD tracks...';
-        downloadPercentText.textContent = '15%';
+        downloadBytesText.textContent = 'Connecting to multi-region media engine...';
+        downloadPercentText.textContent = stepPct + '%';
 
         if (progressInterval) clearInterval(progressInterval);
         progressInterval = setInterval(() => {
@@ -906,26 +1629,27 @@
             if (stepPct > 88) stepPct = 88;
             progressBarFill.style.width = stepPct + '%';
             downloadPercentText.textContent = stepPct + '%';
-            if (stepPct > 45 && stepPct <= 70) {
+            if (stepPct >= 30 && stepPct <= 58) {
+              updateStepVisuals(2);
+              downloadStatusTitle.textContent = 'Resolving highest bitrate HD stream...';
+            } else if (stepPct > 58) {
+              updateStepVisuals(3);
               downloadStatusTitle.textContent = 'Merging HD video and audio into MP4...';
-            } else if (stepPct > 70) {
-              downloadStatusTitle.textContent = 'Finalizing media file for your device...';
             }
           }
-        }, 1100);
+        }, 1000);
 
         try {
           const apiBase = getApiBase();
 
-          // FAST PATH FOR TIKTOK: Resolve directly in browser first (uses user's residential IP, zero rate limit),
-          // then fetch as Blob directly in browser or stream via /api/proxy-file!
+          // FAST PATH FOR TIKTOK: Resolve directly in browser first (residential IP), fetch as Blob or proxy
           if (platform.name === 'tiktok') {
+            updateStepVisuals(2);
             downloadStatusTitle.textContent = 'Resolving HD watermark-free TikTok stream...';
             const tikResolved = await resolveTikTokClientSide(rawUrl, isAudio);
             if (tikResolved && tikResolved.url) {
               const ext = isAudio ? '.mp3' : '.mp4';
               const finalName = desiredFilename.replace(/\.[a-zA-Z0-9]{2,4}$/, '') + ext;
-              // Try direct browser blob download first (works even if backend isn't updated yet!)
               try {
                 const mediaRes = await fetch(tikResolved.url, { signal: activeAbortController.signal });
                 if (mediaRes.ok) {
@@ -955,7 +1679,7 @@
             }
           }
 
-          // TIER 1: /api/prepare on v3.5 backend (handles YouTube cloud converters, Instagram, Facebook, X, TikTok)
+          // TIER 1: /api/prepare on v4.0 backend
           const prepUrl =
             apiBase +
             '/api/prepare?url=' +
@@ -983,7 +1707,6 @@
               return;
             }
 
-            // If backend /api/prepare failed on YouTube (e.g. geo-restriction or datacenter block), try client-side cloud resolver!
             const ytId = extractYouTubeId(rawUrl);
             if (ytId) {
               downloadStatusTitle.textContent = 'Bypassing region lock via cloud converter...';
@@ -1033,7 +1756,7 @@
           activeAbortController = null;
           startDownloadBtn.disabled = false;
           startDownloadBtn.classList.remove('opacity-60');
-          downloadBtnText.textContent = 'Download Now';
+          downloadBtnText.textContent = (I18N[currentLang] || I18N.en).downloadNow;
           downloadProgressSection.classList.add('hidden');
         }
       }
@@ -1059,6 +1782,7 @@
           return;
         }
 
+        const t = I18N[currentLang] || I18N.en;
         historySection.classList.remove('hidden');
         historyCountBadge.textContent = String(downloadHistory.length);
         historyListContainer.innerHTML = '';
@@ -1078,7 +1802,7 @@
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
               <button type="button" data-action="redownload" data-url="${escapeHtml(item.url)}" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 font-semibold text-xs transition">
-                Download Again
+                ${escapeHtml(t.downloadAgain)}
               </button>
               <button type="button" data-action="delete" data-id="${escapeHtml(item.id)}" class="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition" title="Remove">
                 ✕
@@ -1129,9 +1853,37 @@
       closeInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
       ackInstallModalBtn.addEventListener('click', () => installModal.classList.add('hidden'));
 
-      function checkSharedUrl() {
+      function initRouteAndLanguage() {
         try {
           const params = new URLSearchParams(window.location.search);
+          const urlLang = params.get('lang');
+          const savedLang = localStorage.getItem('vidsource_lang');
+          const browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+
+          if (urlLang && I18N[urlLang]) {
+            applyLanguage(urlLang);
+          } else if (savedLang && I18N[savedLang]) {
+            applyLanguage(savedLang);
+          } else if (I18N[browserLang]) {
+            applyLanguage(browserLang);
+          } else {
+            applyLanguage('en');
+          }
+
+          // Detect dedicated SEO route paths
+          const pathName = window.location.pathname.toLowerCase();
+          if (pathName.includes('youtube')) {
+            document.querySelector('[data-platform-tab="youtube"]')?.click();
+          } else if (pathName.includes('tiktok')) {
+            document.querySelector('[data-platform-tab="tiktok"]')?.click();
+          } else if (pathName.includes('instagram')) {
+            document.querySelector('[data-platform-tab="instagram"]')?.click();
+          } else if (pathName.includes('facebook')) {
+            document.querySelector('[data-platform-tab="facebook"]')?.click();
+          } else if (pathName.includes('twitter')) {
+            document.querySelector('[data-platform-tab="twitter"]')?.click();
+          }
+
           const shared = params.get('url') || params.get('text');
           if (shared && /^https?:\/\//i.test(shared.trim())) {
             urlInput.value = shared.trim();
@@ -1141,8 +1893,7 @@
       }
 
       loadPersistedData();
-      renderHistory();
-      checkSharedUrl();
+      initRouteAndLanguage();
     })();
   </script>
 </body>

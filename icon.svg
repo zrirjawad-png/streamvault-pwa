@@ -1,19 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4f46e5"/>
-      <stop offset="50%" stop-color="#9333ea"/>
-      <stop offset="100%" stop-color="#ec4899"/>
+    <linearGradient id="bgSquircle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="45%" stop-color="#3730a3"/>
+      <stop offset="80%" stop-color="#6d28d9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
     </linearGradient>
-    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    <radialGradient id="bottomGlow" cx="50%" cy="85%" r="55%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#00f2fe" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shieldFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.55"/>
     </linearGradient>
+    <linearGradient id="shieldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e7ff" stop-opacity="0.85"/>
+      <stop offset="50%" stop-color="#818cf8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="cyanTray" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <filter id="softShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.55"/>
+    </filter>
   </defs>
-  <rect width="512" height="512" rx="116" fill="url(#bgGrad)"/>
-  <rect width="512" height="256" rx="116" fill="url(#glowGrad)"/>
-  <circle cx="256" cy="256" r="176" fill="#090d16" fill-opacity="0.28" stroke="#ffffff" stroke-opacity="0.22" stroke-width="6"/>
-  <path d="M188 148 L296 210 L188 272 Z" fill="#ffffff" opacity="0.95"/>
-  <path d="M256 176 V342 M192 282 L256 346 L320 282" stroke="#ffffff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M168 394 H344" stroke="#38bdf8" stroke-width="28" stroke-linecap="round"/>
+
+  <!-- Outer Squircle Base -->
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="url(#bgSquircle)" stroke="#818cf8" stroke-opacity="0.45" stroke-width="6"/>
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="url(#bottomGlow)"/>
+
+  <!-- Inner Glass Frame -->
+  <rect x="36" y="36" width="440" height="440" rx="92" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="3"/>
+
+  <!-- Trust & Security Shield Emblem -->
+  <path d="M256 68 L412 122 V246 C412 348 344 418 256 452 C168 418 100 348 100 246 V122 Z"
+        fill="url(#shieldFill)" stroke="url(#shieldStroke)" stroke-width="10" stroke-linejoin="round" filter="url(#softShadow)"/>
+
+  <!-- Video Play Screen Badge (Upper Shield) -->
+  <rect x="166" y="132" width="180" height="116" rx="28" fill="#0f172a" fill-opacity="0.55" stroke="#ffffff" stroke-width="16"/>
+  <path d="M236 164 L288 190 L236 216 Z" fill="#ffffff" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Bold Symmetrical Download Arrow (Lower Shield) -->
+  <path d="M236 266 H276 V312 H310 L256 368 L202 312 H236 Z" fill="#ffffff" filter="url(#softShadow)"/>
+
+  <!-- Glowing Electric Cyan Download Tray -->
+  <path d="M168 352 V384 C168 395 177 404 188 404 H324 C335 404 344 395 344 384 V352"
+        fill="none" stroke="url(#cyanTray)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
