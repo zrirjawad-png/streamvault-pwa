@@ -8,7 +8,7 @@
   <meta name="description" content="Download HD 1080p MP4 videos and MP3/M4A audio for free with VidSource (anyvid.app). Save YouTube &amp; Shorts, watermark-free TikTok videos, Instagram Reels, Facebook, and X clips directly to your device.">
   <meta name="keywords" content="video downloader, anyvid.app, vidsource, youtube video downloader, tiktok downloader without watermark, instagram reels downloader, facebook video downloader, twitter video downloader, Kostenloser Video Downloader, Téléchargeur de vidéos gratuit, Descargador de videos gratis">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <link rel="canonical" href="https://anyvid.app/">
+  <link rel="canonical" id="canonicalLink" href="https://anyvid.app/">
 
   <!-- Multilingual hreflang SEO alternates -->
   <link rel="alternate" hreflang="en" href="https://anyvid.app/?lang=en">
@@ -584,6 +584,18 @@
               <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-xs font-medium">Highest Bitrate MP4</span></td>
               <td class="py-3 pl-4 text-slate-300">Direct Tweet Video &amp; GIF to MP4</td>
             </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">Reddit &amp; Pinterest</td>
+              <td class="py-3 px-4 text-slate-400">reddit.com, v.redd.it, pinterest.com, pin.it</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-orange-500/15 text-orange-300 text-xs font-medium">1080p / 720p HD MP4</span></td>
+              <td class="py-3 pl-4 text-slate-300">Auto Reddit Audio+Video Merge &amp; Pin Saver</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-white">Vimeo, Twitch &amp; SoundCloud</td>
+              <td class="py-3 px-4 text-slate-400">vimeo.com, clips.twitch.tv, soundcloud.com</td>
+              <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300 text-xs font-medium">1080p MP4 &amp; 320kbps MP3</span></td>
+              <td class="py-3 pl-4 text-slate-300">Full HD Clips &amp; High-Bitrate Audio Tracks</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -644,35 +656,65 @@
   <!-- SEO Footer with Crawlable Platform & Language Links -->
   <footer class="border-t border-slate-900/90 bg-slate-950/60 py-8 mt-8 text-xs text-slate-400">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="space-y-2">
           <div class="flex items-center gap-2">
             <span class="font-extrabold text-sm text-white">VidSource</span>
             <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">anyvid.app</span>
           </div>
           <p id="footerAboutText" class="text-slate-500 leading-relaxed">
-            Fast, free, and ad-free online video &amp; audio downloader for YouTube, TikTok, Instagram, Facebook, and X.
+            Fast, free, and ad-free online video &amp; audio downloader for YouTube, TikTok, Instagram, Facebook, X, Reddit, Pinterest, Vimeo, and SoundCloud.
           </p>
+          <div class="pt-2 space-y-1">
+            <div id="footerLangHeading" class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Supported Languages</div>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <a href="?lang=en" data-lang-link="en" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-indigo-500/40 text-slate-300 hover:text-white transition text-[11px]">English (EN)</a>
+              <a href="?lang=de" data-lang-link="de" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-indigo-500/40 text-slate-300 hover:text-white transition text-[11px]">Deutsch (DE)</a>
+              <a href="?lang=fr" data-lang-link="fr" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-indigo-500/40 text-slate-300 hover:text-white transition text-[11px]">Français (FR)</a>
+              <a href="?lang=es" data-lang-link="es" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-indigo-500/40 text-slate-300 hover:text-white transition text-[11px]">Español (ES)</a>
+            </div>
+          </div>
         </div>
 
         <div class="space-y-2">
-          <div class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Popular Downloaders</div>
+          <div class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">YouTube &amp; Audio Tools</div>
           <ul class="space-y-1.5 text-slate-400">
-            <li><a href="/youtube-video-downloader" class="hover:text-indigo-400 transition">YouTube Video &amp; Shorts Downloader</a></li>
-            <li><a href="/tiktok-video-downloader" class="hover:text-indigo-400 transition">TikTok Downloader (No Watermark)</a></li>
-            <li><a href="/instagram-reels-downloader" class="hover:text-indigo-400 transition">Instagram Reels &amp; Video Downloader</a></li>
-            <li><a href="/facebook-video-downloader" class="hover:text-indigo-400 transition">Facebook HD Video Downloader</a></li>
-            <li><a href="/twitter-video-downloader" class="hover:text-indigo-400 transition">X / Twitter Video Downloader</a></li>
+            <li><a href="/youtube-video-downloader" class="hover:text-indigo-400 transition">YouTube Video Downloader (1080p)</a></li>
+            <li><a href="/youtube-to-mp3" class="hover:text-indigo-400 transition">YouTube to MP3 Converter (320kbps)</a></li>
+            <li><a href="/youtube-shorts-downloader" class="hover:text-indigo-400 transition">YouTube Shorts Downloader</a></li>
+            <li><a href="/youtube-to-mp4" class="hover:text-indigo-400 transition">YouTube to MP4 HD Converter</a></li>
+            <li><a href="/youtube-4k-downloader" class="hover:text-indigo-400 transition">YouTube 4K &amp; 1080p60 Saver</a></li>
+            <li><a href="/youtube-thumbnail-downloader" class="hover:text-indigo-400 transition">YouTube HD Thumbnail Grabber</a></li>
+            <li><a href="/soundcloud-to-mp3" class="hover:text-indigo-400 transition">SoundCloud to MP3 Downloader</a></li>
           </ul>
         </div>
 
         <div class="space-y-2">
-          <div id="footerLangHeading" class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Supported Languages</div>
+          <div class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">TikTok &amp; Instagram Tools</div>
           <ul class="space-y-1.5 text-slate-400">
-            <li><a href="/?lang=en" data-lang-link="en" class="hover:text-indigo-400 transition">English — Free Online Video Downloader</a></li>
-            <li><a href="/?lang=de" data-lang-link="de" class="hover:text-indigo-400 transition">Deutsch — Kostenloser Video Downloader</a></li>
-            <li><a href="/?lang=fr" data-lang-link="fr" class="hover:text-indigo-400 transition">Français — Téléchargeur de Vidéos Gratuit</a></li>
-            <li><a href="/?lang=es" data-lang-link="es" class="hover:text-indigo-400 transition">Español — Descargador de Videos Gratis</a></li>
+            <li><a href="/tiktok-video-downloader" class="hover:text-indigo-400 transition">TikTok Downloader (No Watermark)</a></li>
+            <li><a href="/tiktok-to-mp3" class="hover:text-indigo-400 transition">TikTok to MP3 Sound Extractor</a></li>
+            <li><a href="/tiktok-story-downloader" class="hover:text-indigo-400 transition">TikTok Story &amp; Slideshow Saver</a></li>
+            <li><a href="/tiktok-mp4-downloader" class="hover:text-indigo-400 transition">TikTok HD MP4 Downloader</a></li>
+            <li><a href="/instagram-reels-downloader" class="hover:text-indigo-400 transition">Instagram Reels Downloader</a></li>
+            <li><a href="/instagram-video-downloader" class="hover:text-indigo-400 transition">Instagram Video &amp; Post Saver</a></li>
+            <li><a href="/instagram-story-downloader" class="hover:text-indigo-400 transition">Instagram Story Saver</a></li>
+            <li><a href="/instagram-to-mp3" class="hover:text-indigo-400 transition">Instagram to MP3 Audio</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <div class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Social &amp; Media Downloaders</div>
+          <ul class="space-y-1.5 text-slate-400">
+            <li><a href="/facebook-video-downloader" class="hover:text-indigo-400 transition">Facebook HD Video Downloader</a></li>
+            <li><a href="/facebook-reels-downloader" class="hover:text-indigo-400 transition">Facebook Reels &amp; Watch Saver</a></li>
+            <li><a href="/facebook-to-mp3" class="hover:text-indigo-400 transition">Facebook Video to MP3</a></li>
+            <li><a href="/twitter-video-downloader" class="hover:text-indigo-400 transition">X / Twitter Video Downloader</a></li>
+            <li><a href="/twitter-gif-downloader" class="hover:text-indigo-400 transition">Twitter / X GIF to MP4 Saver</a></li>
+            <li><a href="/reddit-video-downloader" class="hover:text-indigo-400 transition">Reddit Video Downloader (With Sound)</a></li>
+            <li><a href="/pinterest-video-downloader" class="hover:text-indigo-400 transition">Pinterest Video &amp; Pin Downloader</a></li>
+            <li><a href="/vimeo-video-downloader" class="hover:text-indigo-400 transition">Vimeo HD Video Downloader</a></li>
+            <li><a href="/twitch-clip-downloader" class="hover:text-indigo-400 transition">Twitch Clip MP4 Downloader</a></li>
           </ul>
         </div>
       </div>
@@ -1017,14 +1059,17 @@
       const closeInstallModalBtn = document.getElementById('closeInstallModalBtn');
       const ackInstallModalBtn = document.getElementById('ackInstallModalBtn');
 
-      function applyLanguage(langCode) {
+      function applyLanguage(langCode, forceOverwriteHero) {
         const lang = I18N[langCode] ? langCode : 'en';
         currentLang = lang;
         const t = I18N[lang];
+        const isProgrammaticSubpage = window.location.pathname && window.location.pathname !== '/' && window.location.pathname !== '/index.html';
         document.documentElement.lang = lang;
-        document.title = t.metaTitle;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+        if (!isProgrammaticSubpage || forceOverwriteHero) {
+          document.title = t.metaTitle;
+          const metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc) metaDesc.setAttribute('content', t.metaDesc);
+        }
 
         try { localStorage.setItem('vidsource_lang', lang); } catch (e) {}
 
@@ -1043,9 +1088,11 @@
 
         setTxt('headerTagline', t.headerTagline);
         setTxt('installPwaText', t.installApp);
-        setTxt('heroBadgeText', t.heroBadge);
-        setTxt('heroTitle', t.heroTitle);
-        setTxt('heroSubtitle', t.heroSubtitle);
+        if (!isProgrammaticSubpage || forceOverwriteHero) {
+          setTxt('heroBadgeText', t.heroBadge);
+          setTxt('heroTitle', t.heroTitle);
+          setTxt('heroSubtitle', t.heroSubtitle);
+        }
         setTxt('tabAllLabel', t.tabAll);
         setTxt('tabTikTokNoWm', t.tabTikTokNoWm);
         setTxt('pasteBtnLabel', t.pasteBtn);
@@ -1072,8 +1119,10 @@
         setTxt('matrixSub', t.matrixSub);
         setTxt('faqHeading', t.faqHeading);
         setTxt('faqSub', t.faqSub);
-        setTxt('faqQ1', t.faqQ1);
-        setTxt('faqA1', t.faqA1);
+        if (!isProgrammaticSubpage || forceOverwriteHero) {
+          setTxt('faqQ1', t.faqQ1);
+          setTxt('faqA1', t.faqA1);
+        }
         setTxt('faqQ2', t.faqQ2);
         setTxt('faqA2', t.faqA2);
         setTxt('faqQ3', t.faqQ3);
@@ -1098,18 +1147,30 @@
         urlInput.placeholder = map[tab] || t.placeholderAll;
       }
 
-      // Language Switcher Listeners
+      // Language Switcher Listeners (Supports both instant UI translation & Programmatic SEO route localization)
       document.querySelectorAll('.lang-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-          applyLanguage(btn.getAttribute('data-lang'));
+          const targetLang = btn.getAttribute('data-lang');
+          const p = window.location.pathname;
+          if (p && p !== '/' && p !== '/index.html') {
+            window.location.href = p + '?lang=' + encodeURIComponent(targetLang);
+            return;
+          }
+          applyLanguage(targetLang, true);
         });
       });
 
       document.querySelectorAll('[data-lang-link]').forEach((link) => {
         link.addEventListener('click', (e) => {
-          e.preventDefault();
           const l = link.getAttribute('data-lang-link');
-          applyLanguage(l);
+          const p = window.location.pathname;
+          if (p && p !== '/' && p !== '/index.html') {
+            e.preventDefault();
+            window.location.href = p + '?lang=' + encodeURIComponent(l);
+            return;
+          }
+          e.preventDefault();
+          applyLanguage(l, true);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       });
@@ -1200,6 +1261,21 @@
         }
         if (lower.includes('twitter.com') || lower.includes('x.com')) {
           return { name: 'twitter', label: 'X', color: 'bg-slate-700 text-white' };
+        }
+        if (lower.includes('reddit.com') || lower.includes('redd.it')) {
+          return { name: 'reddit', label: 'Reddit', color: 'bg-orange-600 text-white' };
+        }
+        if (lower.includes('pinterest.com') || lower.includes('pin.it')) {
+          return { name: 'pinterest', label: 'Pinterest', color: 'bg-rose-600 text-white' };
+        }
+        if (lower.includes('vimeo.com')) {
+          return { name: 'vimeo', label: 'Vimeo', color: 'bg-sky-600 text-white' };
+        }
+        if (lower.includes('twitch.tv')) {
+          return { name: 'twitch', label: 'Twitch', color: 'bg-purple-600 text-white' };
+        }
+        if (lower.includes('soundcloud.com')) {
+          return { name: 'soundcloud', label: 'SoundCloud', color: 'bg-amber-600 text-white' };
         }
         if (/\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(url)) {
           return { name: 'direct', label: 'MP4', color: 'bg-emerald-500 text-slate-950' };
@@ -1871,7 +1947,7 @@
             applyLanguage('en');
           }
 
-          // Detect dedicated SEO route paths
+          // Detect dedicated Programmatic SEO route paths & auto-select platform tab + format quality
           const pathName = window.location.pathname.toLowerCase();
           if (pathName.includes('youtube')) {
             document.querySelector('[data-platform-tab="youtube"]')?.click();
@@ -1881,8 +1957,11 @@
             document.querySelector('[data-platform-tab="instagram"]')?.click();
           } else if (pathName.includes('facebook')) {
             document.querySelector('[data-platform-tab="facebook"]')?.click();
-          } else if (pathName.includes('twitter')) {
+          } else if (pathName.includes('twitter') || pathName.includes('/x-')) {
             document.querySelector('[data-platform-tab="twitter"]')?.click();
+          }
+          if (pathName.includes('-to-mp3') || pathName.includes('audio')) {
+            document.querySelector('[data-quality="audio"]')?.click();
           }
 
           const shared = params.get('url') || params.get('text');
